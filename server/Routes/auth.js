@@ -1,9 +1,9 @@
  import express from 'express'
-import { showMessage } from '../Controllers/AuthController';
+import { Register  } from '../Controllers/AuthController';
 
  const router = express.Router()
 
 
-router.get("/:message", showMessage);
+router.post('/register', Register);
 
 module.exports = router; 
