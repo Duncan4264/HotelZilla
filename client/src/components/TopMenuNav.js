@@ -16,10 +16,18 @@ const TopMenuNav = () => {
   return (
     <div className=" nav bg-light d-flex justify-content-between">
       <Link className="nav-link" to="/">Home</Link>
+
+
+      {auth !== null &&
+      <Link className="nav-link" to="/dashboard">Dashboard</Link>
+      } 
+
+
     {auth === null && <>
       <Link className="nav-link" to="/login">Login</Link>
       <Link className="nav-link" to="/register">Register</Link></>}
       {auth !== null && (
+         // eslint-disable-next-line jsx-a11y/anchor-is-valid
          <a className="nav-link-porinter" to="/login" onClick={logout}>Logout</a>
       )} 
     </div>
