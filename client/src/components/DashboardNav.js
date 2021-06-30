@@ -5,11 +5,11 @@ const DashboardNav = () => {
     return (
         <ul className="nav nav-tabs">
             <li className="nav-item p-5">
-                <Link classname={`nav-link ${active === "/dasboard" && "active"}`} to="/dashboard"> Bookings </Link>
+                <Link className={`nav-link ${active === "/dasboard" && "active"}`} to="/dashboard"> Bookings </Link>
             </li>
             
             <li className="nav-item p-5">
-                <Link classname={`nav-link ${active === "/dasboard/seller" && "active"}`} to="/dashboard/seller"> Hotels </Link>
+                <Link className={`nav-link ${active === "/dasboard/seller" && "active"}`} to="/dashboard/seller"> Hotels </Link>
             </li>
         </ul>
     );
