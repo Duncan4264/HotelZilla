@@ -11,6 +11,8 @@ import rootReducer from './reducers';
 
 
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfKVxIHgitMA1YkVdBGNR4m-TLVa-aUZo&libraries=places"></script>
+
 
 const store = createStore(rootReducer, composeWithDevTools());
 

@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
 
+import ReactGoogleAutocomplete  from 'react-google-autocomplete'
 
 
-
+const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
 
 const NewHotel = () => {   
     const [values, setValues] = useState({
@@ -15,21 +16,29 @@ const NewHotel = () => {
         from: "",
         to: "",
         bed: "",
-    })
+    });
+
+const [preview, setPreview] = useState('https://via.placeholder.com/100x100.png')
 
 const {title, content, location, image, price, from, to, bed} = values;
 
 const handleSubmit = (e) => {
-    //
+
 }
 
 const handleImageChange = (e) => {
-
+  setPreview(URL.createObjectURL(e.target.files[0]));
+  setValues({...values, image: e.target.files[0]});
 }
 
 const handleChange = (e) => {
-
+    setValues({...values, [e.target.name]: e.target.value})
 }
+
+const setLocation = (e) => {
+  setValues({...values, location: e.target.value})
+}
+
 
 const hotelForm = () => (
     <form onSubmit={handleSubmit}>
@@ -61,6 +70,16 @@ const hotelForm = () => (
           className="form-control m-2"
           value={content}
         />
+
+        <ReactGoogleAutocomplete
+          className="form-control m-2"
+          placeholder="Location"
+          apiKey={config}
+          onPlaceSelected={(place) => {
+            setLocation(place.formatted_address);
+          }}
+          style={{ height: "50px" }}
+            />
 
         <input
           type="number"
@@ -99,7 +118,9 @@ const hotelForm = () => (
                     <br/>
                     {hotelForm()}
                 </div>
-            <div className="col-md-2">Image <pre>{JSON.stringify(values, null, 4)}</pre></div>
+            <div className="col-md-2">
+              <img src={preview} alt="preview_image" className="img img-fluid m-2"/>
+            <pre>{JSON.stringify(values, null, 4)}</pre></div>
             </div>
 
         </div>

@@ -2,6 +2,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
 const TopMenuNav = () => {
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfKVxIHgitMA1YkVdBGNR4m-TLVa-aUZo&libraries=places"></script>
   const dispatch = useDispatch();
   const {auth} = useSelector((state) => ({...state}));
   const history = useHistory();
