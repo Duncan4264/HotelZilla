@@ -10,6 +10,7 @@ import Dashboard from './user/Dashboard';
 import DashboardSeller from './user/DashboardSeller';
 import NewHotel from './hotel/NewHotel';
 import StripeCallback from './stripe/StrileCallback';
+import {useHistory} from "react-router-dom"
 function App() {
   return (
     <BrowserRouter>
