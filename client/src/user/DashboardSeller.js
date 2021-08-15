@@ -4,11 +4,29 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { HomeOutlined } from '@ant-design/icons';
 import { createConnectionAccount } from "../actions/stripe";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {toast} from 'react-toastify';
+
+import SmallCard from '../components/cards/SmallCard';
+
+import { sellerHotels } from "../actions/hotel";
+
+
 const DashboardSeller = () => {
     const {auth} = useSelector((state) => ({...state}));
     const [loading, setLoading] = useState(false);
+
+    const [hotels, setHotels] = useState([]);
+
+
+    useEffect(() => {
+        loadSellersHotels()
+    }, [])
+
+    const loadSellersHotels = async () => {
+        let {data}= await sellerHotels(auth.token)
+        setHotels(data);
+    }
 
     const clickHandler = async () => {
         setLoading(true)
@@ -29,9 +47,14 @@ const DashboardSeller = () => {
             <div className="col-md-10">
                 <h2>Hotels</h2>
             </div>
-        </div>
+
         <div className="col-md-2">
             <Link to="/hotels/new" className="btn btn-primary">Create Hotels</Link>
+        </div>
+        </div>
+
+        <div className="row">
+            {hotels.map(h => <SmallCard key={h._id} h={h} showViewMoreButton={false} owner={true}/>)}
         </div>
     </div>
     );

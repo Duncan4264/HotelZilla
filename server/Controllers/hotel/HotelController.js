@@ -9,6 +9,7 @@ export const create = async (req, res) => {
     let files = req.files;
 
     let hotel = new Hotel(fields);
+    hotel.postedBy = req.user._id;
     // handle image
     if (files.image) {
       hotel.image.data = fs.readFileSync(files.image.path);
@@ -47,3 +48,12 @@ export const readImage = async (req, res) => {
     return res.send(hotel.image.data);
   }
 };
+
+export const sellerHotels = async (req, res) => {
+  let sellerHotels = await Hotel.find({postedBy: req.user._id})
+  .select('-image.data')
+  .populate('postedBy', '_id name')
+  .exec();
+
+  res.send(sellerHotels);
+}

@@ -15,10 +15,11 @@ const Dashboard = () => {
                 <div className="row">
                     <div className="col-md-10">
                         <h2>Bookings</h2>
-                    </div>
+                    
                 </div>
                 <div className="col-md-2">
                     <Link to="/" className="btn btn-primary">Search Hotels</Link>
+                </div>
                 </div>
             </div>
         </>

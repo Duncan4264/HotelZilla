@@ -23,7 +23,7 @@ const Home = () => {
         <br />
         {/* <pre>{JSON.stringify(hotels, null, 4)}</pre> */}
         {hotels.map((h) => (
-          <SmallCard key={h._id} h={h} />
+          <SmallCard key={h._id} h={h}/>
         ))}
       </div>
     </>
