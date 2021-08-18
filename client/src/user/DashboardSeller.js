@@ -1,92 +1,130 @@
+import { useState, useEffect } from "react";
 import DashboardNav from "../components/DashboardNav";
-import NavConnect from "../components/Navconnect";
+import Navconnect from "../components/Navconnect";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined } from "@ant-design/icons";
 import { createConnectionAccount } from "../actions/stripe";
-import { useState, useEffect } from "react";
-import {toast} from 'react-toastify';
-
-import SmallCard from '../components/cards/SmallCard';
-
 import { sellerHotels } from "../actions/hotel";
+import { toast } from "react-toastify";
+import SmallCard from "../components/cards/SmallCard";
 
+import { deleteHotel } from "../actions/hotel";
 
 const DashboardSeller = () => {
-    const {auth} = useSelector((state) => ({...state}));
-    const [loading, setLoading] = useState(false);
+  const { auth } = useSelector((state) => ({ ...state }));
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const [hotels, setHotels] = useState([]);
+  useEffect(() => {
+    loadSellersHotels();
+  }, []);
 
+  const loadSellersHotels = async () => {
+    let { data } = await sellerHotels(auth.token);
+    setHotels(data);
+  };
 
-    useEffect(() => {
-        loadSellersHotels()
-    }, [])
-
-    const loadSellersHotels = async () => {
-        let {data}= await sellerHotels(auth.token)
-        setHotels(data);
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      let res = await createConnectionAccount(auth.token);
+      console.log(res); // get login link
+      window.location.href = res.data;
+    } catch (err) {
+      console.log(err);
+      toast.error("Stripe connect failed, Try again.");
+      setLoading(false);
     }
+  };
 
-    const clickHandler = async () => {
-        setLoading(true)
-        try {
-            let response = await createConnectionAccount(auth.token);
-            console.log(response);
-            window.location.href = response.data;
-        } catch (error) {
-            console.log(error);
-            toast.error("Stripe conenction failed, please try again.");
-            setLoading(false);
-        }
-    }
-    const connected = () => (
-        
-        <div className="container-fluid">
-        <div className="row">
-            <div className="col-md-10">
-                <h2>Hotels</h2>
-            </div>
+  const handleHotelDelete = async (hotelId) => {
+    if (!window.confirm("Are you sure?")) return;
+    console.log(hotelId);
+    deleteHotel(auth.token, hotelId).then((res) => {
+      toast.success("Hotel Deleted");
+      loadSellersHotels();
+    });
+  };
 
+
+  const connected = () => (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-10">
+          <h2>Your Hotels</h2>
+        </div>
         <div className="col-md-2">
-            <Link to="/hotels/new" className="btn btn-primary">Create Hotels</Link>
+          <Link to="/hotels/new" className="btn btn-primary">
+            + Add New
+          </Link>
         </div>
-        </div>
+      </div>
 
-        <div className="row">
-            {hotels.map(h => <SmallCard key={h._id} h={h} showViewMoreButton={false} owner={true}/>)}
-        </div>
+      <div className="row">
+        {hotels.map((h) => (
+          <SmallCard
+            key={h._id}
+            h={h}
+            showViewMoreButton={false}
+            owner={true}
+            handleHotelDelete={handleHotelDelete}
+          />
+        ))}
+      </div>
     </div>
-    );
-    const unConnected = () => (
-        <div className="container-fluid">
-        <div className="row">
-            <div className="col-md-6 offset-md-3 text-center">
-                <div className="p-5 pointer">
-                    <HomeOutlined className="h1"/>
-                    <h4>Setup checkout with stripe to create hotels</h4>
-                    <p className="lead">HotelZilla partners with stripe for collections.</p>
-                    <button disabled={loading} onClick={clickHandler} className="btn btn-primary mb-3">
-                        {loading ? 'Loading Stripe Connection' : 'Configure Payment'}
-                    </button>
-                    <p className="text-muted"><small>You will be redirected to Stripe for onboarding process.</small></p>
-                </div>
-            </div>
-    </div>
-    </div>
-    );
-    return (
-        <>
-            <div className="container-fluid bg-secondary p-5">
-                <NavConnect/>
-            </div>
+  );
 
-            <div className="container-fluid p-4">
-                <DashboardNav/>
-            </div>
-            { auth && auth.user && auth.user.stripe_seller && auth.user.stripe_seller.charges_enabled ? connected() : unConnected()}
-        </>
-    );
+  const notConnected = () => (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-6 offset-md-3 text-center">
+          <div className="p-5 pointer">
+            <HomeOutlined className="h1" />
+            <h4>Setup payouts to post hotel rooms</h4>
+            <p className="lead">
+              MERN partners with stripe to transfer earnings to your bank
+              account
+            </p>
+            <button
+              disabled={loading}
+              onClick={handleClick}
+              className="btn btn-primary mb-3"
+            >
+              {loading ? "Processing..." : "Setup Payouts"}
+            </button>
+            <p className="text-muted">
+              <small>
+                You'll be redirected to Stripe to complete the onboarding
+                process.
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <div className="container-fluid bg-secondary p-5">
+        <Navconnect />
+      </div>
+
+      <div className="container-fluid p-4">
+        <DashboardNav />
+      </div>
+
+      {auth &&
+      auth.user &&
+      auth.user.stripe_seller &&
+      auth.user.stripe_seller.charges_enabled
+        ? connected()
+        : notConnected()}
+
+      {/* <pre>{JSON.stringify(auth, null, 4)}</pre> */}
+    </>
+  );
 };
 
 export default DashboardSeller;

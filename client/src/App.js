@@ -10,6 +10,7 @@ import Dashboard from './user/Dashboard';
 import DashboardSeller from './user/DashboardSeller';
 import NewHotel from './hotel/NewHotel';
 import StripeCallback from './stripe/StrileCallback';
+import EditHotel from './hotel/EditHotel';
 import {useHistory} from "react-router-dom"
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
     <PrivateRoute exact path ="/dashboard/seller" component={DashboardSeller}/>
     <PrivateRoute exact path ="/hotels/new" component={NewHotel}/>
     <PrivateRoute exeact path ="/stripe/callback" component={StripeCallback}/>
+    <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel}/>
     </Switch>
     </BrowserRouter>
   );

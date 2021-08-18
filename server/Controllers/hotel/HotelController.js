@@ -1,5 +1,6 @@
 import Hotel from "../../Models/hotel"
 import fs from "fs";
+import { response } from "express";
 
 export const create = async (req, res) => {
   //   console.log("req.fields", req.fields);
@@ -56,4 +57,44 @@ export const sellerHotels = async (req, res) => {
   .exec();
 
   res.send(sellerHotels);
+}
+
+export const deleteHotel = async (req, res) => {
+let removed = await Hotel.findByIdAndDelete(req.params.hotelId).select("-image.data").exec();
+
+  res.json(removed);
+}
+
+export const readHotel = async (req, res) => {
+  let hotel = await Hotel.findById(req.params.hotelId)
+    .select("-image.data")
+    .exec();
+  console.log("SINGLE HOTEL", hotel);
+  res.json(hotel);
+};
+
+export const updateHotel = async(req, res) => {
+  try {
+    let fields = req.fields;
+    let files = req.files;
+
+    let data  = {...fields}
+
+    if(files.image) {
+      let image = {}
+      image.data = fs.readFileSync(files.image.path);
+      image.contentType = files.image.type;
+
+      data.image = image;
+    }
+
+    let updated = await Hotel.findByIdAndUpdate(req.params.hotelId, data, {
+      new: true,
+    }).select("-image.data")
+    .exec();
+    res.json(updated);
+  } catch (error) {
+    console.log(error);
+    response.status(400).send('Hotel update failed. Please try again')
+  }
 }
