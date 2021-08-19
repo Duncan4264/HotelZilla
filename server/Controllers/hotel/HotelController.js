@@ -67,6 +67,7 @@ let removed = await Hotel.findByIdAndDelete(req.params.hotelId).select("-image.d
 
 export const readHotel = async (req, res) => {
   let hotel = await Hotel.findById(req.params.hotelId)
+    .populate("postedBy")
     .select("-image.data")
     .exec();
   console.log("SINGLE HOTEL", hotel);

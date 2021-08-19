@@ -12,6 +12,7 @@ import NewHotel from './hotel/NewHotel';
 import StripeCallback from './stripe/StrileCallback';
 import EditHotel from './hotel/EditHotel';
 import {useHistory} from "react-router-dom"
+import ViewHotel from './hotel/ViewHotel';
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,7 @@ function App() {
     <PrivateRoute  exact path="/dashboard" component={Dashboard}/>
     <PrivateRoute exact path ="/dashboard/seller" component={DashboardSeller}/>
     <PrivateRoute exact path ="/hotels/new" component={NewHotel}/>
+    <PrivateRoute exact path ="/hotel/:hotelId" component={ViewHotel}/>
     <PrivateRoute exeact path ="/stripe/callback" component={StripeCallback}/>
     <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel}/>
     </Switch>
