@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 
 //db connect
-
+try {
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useFindAndModify: false,
@@ -16,6 +16,10 @@ mongoose.connect(process.env.DATABASE, {
     useCreateIndex: true,
 }).then(() => console.log('DB Connected'))
 .catch(() => console.log('DB Error: ', err));
+
+} catch(error) {
+    console.log(error);
+}
 
 //middlewares
 app.use(cors());

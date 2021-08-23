@@ -9,11 +9,12 @@ import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './user/Dashboard';
 import DashboardSeller from './user/DashboardSeller';
 import NewHotel from './hotel/NewHotel';
-import StripeCallback from './stripe/StrileCallback';
+import StripeCallback from './stripe/StripeCallback';
 import EditHotel from './hotel/EditHotel';
 import {useHistory} from "react-router-dom"
 import ViewHotel from './hotel/ViewHotel';
 import StripeCancel from './stripe/StripeCancel';
+import SearchResult from './hotel/SearchResults';
 
 import StripeSuccess from './stripe/StripeSuccess';
 
@@ -33,7 +34,12 @@ function App() {
     <PrivateRoute exeact path ="/stripe/callback" component={StripeCallback}/>
     <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel}/>
     <PrivateRoute exact path="/stripe/cancel" component={StripeCancel} />
-    <PrivateRoute exact path="/stripe/success/:stripeId" component={StripeSuccess} />
+    <PrivateRoute eact path="/search-result" component={SearchResult}/>
+    <PrivateRoute
+          exact
+          path="/stripe/success/:hotelId"
+          component={StripeSuccess}
+        />
     </Switch>
     </BrowserRouter>
   );

@@ -139,44 +139,44 @@ export const createConnectionAccount = async (request, response) => {
 
   export const stripeSuccess = async (req, res) => {
     try {
-      
-    //get hotel id from req body
-    const {hotelId}= req.body
-    // 2 find currently logged in user
-    const user = await await User.findById(req.user._id).exec()
+      // 1 get hotel id from req.body
+      const { hotelId } = req.body;
 
-    // check if user has stripe session
-
-    if(!user.stripeSession) return;
-
-    console.log(user);
-
-    // retrieve stripe session based on session ID 
-    const session = await stripe.checkout.sessions.retrieve(user.stripeSession.id);
-
-    // if session payment status is paid, create order
-    if(session.payment_status === 'paid') {
-      // check if order with that session id already exists by querying orders collection
-      const orderExist = await Order.findOne({'session.id': session.id}).exec();
-      if(orderExist) {
-        res.json({sucess: true});
-      } else {
-        let newOrder = await new Order({
-          hotel: hotelId,
-          session,
-          postedBy: user._id,
-        }).save()
-        // remove user's stripe session
-        await User.findByIdAndUpdate(user._id, {
-          $set: {stripeSession: {}},
-        });
-
-        res.json({success: true});
+      console.log(hotelId);
+      // 2 find currently logged in user
+      const user = await User.findById(req.user._id).exec();
+      // check if user has stripeSession
+      if (!user.stripeSession) return;
+      // 3 retrieve stripe session, based on session id we previously save in user db
+      const session = await stripe.checkout.sessions.retrieve(
+        user.stripeSession.id
+      );
+      // 4 if session payment status is paid, create order
+      if (session.payment_status === "paid") {
+        // 5 check if order with that session id already exist by querying orders collection
+        const orderExist = await Order.findOne({
+          "session.id": session.id,
+        }).exec();
+        if (orderExist) {
+          // 6 if order exist, send success true
+          res.json({ success: true });
+        } else {
+          // 7 else create new order and send success true
+          let newOrder = await new Order({
+            hotel: hotelId,
+            session,
+            orderedBy: user._id,
+          }).save();
+          // 8 remove user's stripeSession
+          await User.findByIdAndUpdate(user._id, {
+            $set: { stripeSession: {} },
+          });
+          res.json({ success: true });
+        }
       }
+    } catch (err) {
+      console.log("STRIPE SUCCESS ERR", err);
     }
-  } catch (error) {
-   console.log("STRIPE SUCCESS ERROR ", error);
-   res.json(400).send("STRIPE SUCCESS ERROR ")
-  }
 }
-  
+
+

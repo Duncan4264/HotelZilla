@@ -21,7 +21,7 @@ const StripeSuccess = ({match}) => {
                 history.push("/stripe/cancel")
             }
         })
-    }, [match.params.hotelId]);
+    }, [history, match.params.hotelId, token]);
     return (
         <div className="container">
         <div className="d-flex justify-content-center p-5">
