@@ -15,6 +15,7 @@ import EditHotel from './hotel/EditHotel';
 import ViewHotel from './hotel/ViewHotel';
 import StripeCancel from './stripe/StripeCancel';
 import SearchResult from './hotel/SearchResults';
+import "bootswatch/dist/lux/bootstrap.min.css";
 
 import StripeSuccess from './stripe/StripeSuccess';
 

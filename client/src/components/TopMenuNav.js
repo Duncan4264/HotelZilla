@@ -40,8 +40,7 @@ const TopMenuNav = () => {
       <Link className="nav-link" to="/login">Login</Link>
       <Link className="nav-link" to="/register">Register</Link></>}
       {auth !== null && (
-         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-         <a className="nav-link-porinter" to="/login" onClick={logout}>Logout</a>
+         <a className="nav-link" href="/login" onClick={logout}>Logout</a>
       )} 
     </div>
   );

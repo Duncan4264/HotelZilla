@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 /*
@@ -23,7 +24,20 @@ export const register = async (user) => {
 export const login = async (user) => {
   try {
     // axios post request to login URI with user paramater
-    let login = await axios.post(`${process.env.REACT_APP_API}/login`, user);
+    let login = await axios.post(`${process.env.REACT_APP_API}/login`, user)
+    .catch(function (error) {
+      if(error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request)
+      } else {
+        console.log('Error', error.message);
+      }
+      toast.error(error.response.data);
+      return error;
+    });
     return login;
   } catch (error) {
     // log any errors to the console

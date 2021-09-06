@@ -25,7 +25,7 @@ const Login = ({history}) => {
           // let response equare to login request
             let res = await login({email, password})
             // console.log('LOGIN RESPONSE ', res)
-
+            
             // if the response has data
             if(res.data) {
               // save auth token to browser locally
@@ -35,9 +35,15 @@ const Login = ({history}) => {
                   type: 'LOGGED_IN_USER',
                   payload: res.data
                 });
-                // Send the user to the root of the application
+                
+                // reload the application to cache cookie 
                 history.push("/");
-            }
+
+                window.location.reload()
+                // Send the user to the root of the application
+               
+              }
+
         } catch (error) {
 
           // Log the error to the console
