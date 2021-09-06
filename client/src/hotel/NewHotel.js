@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { DatePicker, Select } from "antd";
 import { createHotel } from "../actions/hotel";
 import { useSelector } from "react-redux";
 import HotelCreateForm from "../components/forms/HotelCreateForm";
 
-const { Option } = Select;
 
 const NewHotel = () => {
   // redux
@@ -43,27 +41,38 @@ const NewHotel = () => {
     hotelData.append("to", to);
     hotelData.append("bed", bed);
 
-    console.log([...hotelData]);
 
     try {
-      let res = await createHotel(token, hotelData);
-      console.log("HOTEL CREATE RES", res);
+      // await create hotel in backend
+      await createHotel(token, hotelData);
+      // send a sucess request to client 
       toast.success("New hotel is posted");
+      // reload the window after 1000 seconds 
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     } catch (err) {
+      // log the error to the console
       console.log(err);
+      // send the error data to client 
       toast.error(err.response.data);
     }
   };
-
+  /*
+  * Method to handle Image Change
+  * Parameters: Event Object
+  */
   const handleImageChange = (e) => {
     // console.log(e.target.files[0]);
+    // Set preview and creat object URL with evet file
     setPreview(URL.createObjectURL(e.target.files[0]));
+    // set values with image value in state
     setValues({ ...values, image: e.target.files[0] });
   };
-
+ /*
+ * Method to handle Change
+ * Parameters: Event Object 
+ */
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };

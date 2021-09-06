@@ -4,27 +4,40 @@ import  { register } from '../actions/auth';
 
 import RegisterForm from '../components/RegisterForm';
 
+/*
+* Method to handle Register state and register form
+* Parameters: History 
+*/
 const Register = ({ history }) => {
+
+    // Create state variables
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
 
-
+    // function to handle form submit with event parmeter
     const submitHandle = async (e) => {
+        // prevent default values
         e.preventDefault();
         try {
-       const response =  await register({
+            // Make a response from register function, destructure name email and password
+       await register({
             name,
             email,
             password,
         });
-        console.log('REGISTER USER =======>', response);
+        // console.log('REGISTER USER =======>', response);
+
+        // Post the success response to the client
         toast.success('Register sueccess!!');
+        // send the user to the login URI
         history.push("/login");
     }
         catch (error) {
+            // log the error to the console
             console.log(error);
+            // if the error response status = 400 send the error to the GUI
             if(error.response.status === 400) toast(error.response.data);
         }
     }

@@ -1,5 +1,8 @@
 import {Modal} from "antd"
 
+/*
+* Method to handle order modal to
+*/
 const OrderModal = ({session, orderedBy, showModal, setShowModal}) => {
     return (
         <Modal visible={showModal} title="Order payment info" onCancel={() => (setShowModal = !showModal)}>

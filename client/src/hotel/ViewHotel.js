@@ -1,52 +1,75 @@
+// Import people's dependencys
 import React, { useState, useEffect } from "react";
-import { useStore } from "react-redux";
 import { read, diffDays, isAlreadyBooked } from "../actions/hotel";
 import { getSessionId } from "../actions/stripe";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 
+/*
+* Method to view a single hotel
+* Parameters: match hotel Object and history Object
+*/
 const ViewHotel = ({ match, history }) => {
+  // state
   const [hotel, setHotel] = useState({});
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
 
+  // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
 
 
-
+// constructor to load seller hotels and check if it's already booked when compontent is loaded
   useEffect(() => {
+    // call load seller hotel action in back end
     loadSellerHotel();
+    // if authorized
     if(auth && auth.token) {
+      // check to see if user is already booked
       isAlreadyBooked(auth.token, match.params.hotelId)
+      // then if response
       .then((res) => {
+        // set hotel objects to already booked
         setAlreadyBooked(res.data.ok);
       });
     }
-  }, []);
+  });
   
 
-
+// Method to load seller hotel
   const loadSellerHotel = async () => {
+    // call backed with response variable
     let res  = await read(match.params.hotelId);
     // console.log(res);
+    // set hotel state to response data
     setHotel(res.data);
+    // set image to hotel image URI
     setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
-
+/*
+* Method to handle click
+* Parameters: Enviroment Object
+*/
   const handleClick = async (e) => {
+    // if no auth or auth token
     if(!auth || !auth.token) {
+      // send user to login
       history.push('/login')
       return;
     }
+    // prevent default form data
     e.preventDefault();
+    // set loading state to true
     setLoading(true);
+    // if no auth token send user to login uri
     if (!auth) history.push("/login");
-     console.log(auth.token, match.params.hotelId);
+    // let response to get session ID
     let res = await getSessionId(auth.token, match.params.hotelId);
-    // console.log("get sessionid resposne", res.data.sessionId);
+    // let stripe await load stripe with stripe API key
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
+    // stripe redirect to
     stripe
       .redirectToCheckout({
         sessionId: res.data.sessionId,

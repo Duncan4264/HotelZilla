@@ -1,3 +1,7 @@
+/*
+* Method to load register component 
+* Parameters: Submit handle, name, setName, email, setEmail, password, setPassword
+*/
 const RegisterForm = ({submitHandle, name, setName, email, setEmail, password, setPassword}) => (
     <form onSubmit={submitHandle} className="mt-3">
           <div className="form-group mb-3">

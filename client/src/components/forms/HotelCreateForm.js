@@ -2,10 +2,16 @@ import { DatePicker, Select } from "antd";
 import moment from "moment";
 import ReactGoogleAutocomplete  from 'react-google-autocomplete'
 
+// Deconstruct option from select
 const { Option } = Select;
 
+// set config variable to enviroment variable to Google places api key
 const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
 
+/*
+* function to handle and create hotel create form
+* Parameters: values, setValues, handleChange, handleImageChange,HandleSubmit, location, SetLocation
+*/
 const HotelCreateForm = ({
   values,
   setValues,
@@ -15,6 +21,7 @@ const HotelCreateForm = ({
   location,
   setLocation,
 }) => {
+  // Desconstruct title, content and price from values
   const { title, content, price } = values;
 
   return (

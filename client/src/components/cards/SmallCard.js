@@ -2,7 +2,10 @@ import { currencyFormatter } from "../../actions/stripe";
 import { diffDays } from "../../actions/hotel";
 import { useHistory, Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+/*
+* Function to create small card and handle functions
+* Parameters: hotel, hhand
+*/
 const SmallCard = ({
   h,
   handleHotelDelete = (f) => f,
@@ -18,13 +21,13 @@ const SmallCard = ({
             {h.image && h.image.contentType ? (
               <img
                 src={`${process.env.REACT_APP_API}/hotel/image/${h._id}`}
-                alt="default hotel image"
+                alt="default hotel"
                 className="card-image img img-fluid"
               />
             ) : (
               <img
                 src="https://via.placeholder.com/900x500.png?text=MERN+Booking"
-                alt="default hotel image"
+                alt="default hotel"
                 className="card-image img img-fluid"
               />
             )}

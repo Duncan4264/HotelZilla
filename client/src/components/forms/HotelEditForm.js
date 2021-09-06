@@ -2,10 +2,16 @@ import { DatePicker, Select } from "antd";
 import moment from "moment";
 import ReactGoogleAutocomplete  from 'react-google-autocomplete'
 
+// Deconstruct Option from select
 const { Option } = Select;
 
+// create cofig variable to enviroment variable react app google places API
 const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
 
+/*
+* Method to create and handle hotel edit form
+* Parameters: Values, setValues, handleChange, handleImageChange, handleSubmit
+*/ 
 const HotelEditForm = ({
   values,
   setValues,

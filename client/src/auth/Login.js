@@ -4,27 +4,45 @@ import { toast } from "react-toastify";
 import { login } from "../actions/auth";
 import {useDispatch} from "react-redux"
 
-const Login = ({history}) => {
-    const [email, setEmail] = useState("ryan@gmail.com");
-    const [password, setPassword] = useState("rrrrrr");
-    const dispatch = useDispatch();
-    const SubmitHandle = async (e) => {
-        e.preventDefault();
-        console.log("SEND LOGIN DATA", {email, password});
-        try {
-            let res = await login({email, password})
-            console.log('LOGIN RESPONSE ', res)
-            if(res.data) {
-                window.localStorage.setItem("auth", JSON.stringify(res.data));
 
+/*
+* Method to handle state and render Login Form
+* Parameters: History 
+*/
+const Login = ({history}) => {
+  // Create the staate
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    // create dispatch
+    const dispatch = useDispatch();
+    // function to handle submit
+    const SubmitHandle = async (e) => {
+      // prevent form defaults
+        e.preventDefault();
+        // log the information in the console for dev testing
+        // console.log("SEND LOGIN DATA", {email, password});
+        try {
+          // let response equare to login request
+            let res = await login({email, password})
+            // console.log('LOGIN RESPONSE ', res)
+
+            // if the response has data
+            if(res.data) {
+              // save auth token to browser locally
+                window.localStorage.setItem("auth", JSON.stringify(res.data));
+                // dispatch that the user is logged in with response.data
                 dispatch({
                   type: 'LOGGED_IN_USER',
                   payload: res.data
                 });
+                // Send the user to the root of the application
                 history.push("/");
             }
         } catch (error) {
+
+          // Log the error to the console
             console.log(error);
+            // if server errror display the error in the GUI
             if(error.response.status === 400) toast.error(error.response.data);
         }
     }

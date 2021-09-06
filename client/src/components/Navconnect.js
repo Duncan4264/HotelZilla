@@ -8,31 +8,44 @@ import { SettingOutlined } from "@ant-design/icons";
 import {toast} from 'react-toastify';
 const { Meta }  = Card;
 const { Ribbon } = Badge;
+/*
+* Method to handle nav component state and rendering
+*/
 const NavConnect = () => {
+    // State variables
     const [balance, setBalance] = useState(0);
     // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const {auth} = useSelector((state) => ({...state}));
-    const {user} = auth;
 
+    // deconstruct user from stat auth
+    const {user} = auth;
+    // Constructor to get account balance
     useEffect(() => {
+        // get account balance with auth token
         getAccountBalance(auth.token).then(response => {
-            console.log(response);
+            // set account balance with response data
             setBalance(response.data);
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    // Configure payout settings 
     const configurePayoutSettings = async () => {
+        // Set loading state to true
         setLoading(true)
         try {
+            // create a response variable and await getting payout settings from backent
             const response = await getPayoutSettings(auth.token);
-            console.log('RESPONSE FOR PAYOUT SETTINGS', response);
+            // set window location to response data url
             window.location.href = response.data.url;
+            // set location to ture
             setLoading(false);
         } catch (error) {
+            // log the error to the console
             console.log(error);
+            // set loading state false
             setLoading(false)
+            // push an update to the client with error
             toast('Unable to access settings. Try again');
         }
     }

@@ -3,16 +3,27 @@ import { readAllHotels } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 import Search from "../components/forms/Search"
 
+/*
+* Handle hotel form
+*/
 const Home = () => {
+  // create the state variables 
   const [hotels, setHotels] = useState([]);
-
+ // Constructor to call load all hotels method
   useEffect(() => {
     loadAllhotels();
   }, []);
-
+  // load all hotels method to get all hotels from API
   const loadAllhotels = async () => {
+      try {
+        // create response variable equal to reading all hotels
     let res = await readAllHotels();
+    // set hotel state equal to response dta
     setHotels(res.data);
+      } catch(error) {
+        // log the error to the console
+        console.log(error);
+      }
   };
 
   return (

@@ -25,7 +25,7 @@ const history  = useHistory()
     const [location, setLocation] = useState("")
     const [date, setDate] = useState("")
     const [bed, setBed] = useState("")
-
+    // function to handle submit and push to URI with search result and date / bed URI
     const handleSubmit = () => {
         history.push(`/search-result?location=${location}&date=${date}&bed=${bed}`)
     }

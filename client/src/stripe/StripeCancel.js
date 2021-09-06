@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Method to render stripe failed error
 const StripeCancel = () => {
     return (
         <div className="container">

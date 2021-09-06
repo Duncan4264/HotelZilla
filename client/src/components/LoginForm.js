@@ -1,3 +1,7 @@
+/*
+*  Component to load Login Form component
+* Parameters: Handlesubmit function, email string, set email state, password string, set password state
+*/
 const LoginForm = ({
     handleSubmit,
     email,

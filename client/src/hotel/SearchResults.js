@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
 import QueryString from "query-string";
-import { Link } from "react-router-dom";
 import Search from "../components/forms/Search"
 import { searchLists } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 
 const SearchResult = () => {
     // state
-    const [searchLocation, setSearchLocaiton] = useState('')
-    const [searchDate, setSearchDate] = useState('')
-    const [searchBed, setSearchBed] = useState('')
     const [hotels, setHotels] = useState([])
 
+    // constructor to loead search lists nad create query string
     useEffect(() => {
+        // create query string with location date and bed
         const {location, date, bed} = QueryString.parse(window.location.search)
-
+        // call search lists with location, date and bed parameters
         searchLists({location, date, bed}).then(res => {
-            console.log('SEARCH RESULTS ====> ', res.data);
+            // set hotels to response data
             setHotels(res.data)
         })
-    }, [window.location.search])
+        // set window location search
+    })
     return (
         <>
         <div className="container-fluid bg-secondary p-5 text-center">

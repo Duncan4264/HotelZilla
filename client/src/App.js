@@ -1,3 +1,4 @@
+// import dependencys 
 import Home from './booking/Home';
 import Login from './auth/Login';
 import Register from './auth/Register';
@@ -11,13 +12,13 @@ import DashboardSeller from './user/DashboardSeller';
 import NewHotel from './hotel/NewHotel';
 import StripeCallback from './stripe/StripeCallback';
 import EditHotel from './hotel/EditHotel';
-import {useHistory} from "react-router-dom"
 import ViewHotel from './hotel/ViewHotel';
 import StripeCancel from './stripe/StripeCancel';
 import SearchResult from './hotel/SearchResults';
 
 import StripeSuccess from './stripe/StripeSuccess';
 
+// Main function to handle app rendering and routing
 function App() {
   return (
     <BrowserRouter>
