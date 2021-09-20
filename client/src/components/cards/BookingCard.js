@@ -4,10 +4,14 @@ import { diffDays } from "../../actions/hotel";
 
 import OrderModal from "../modals/OrderModal";
 
-/*
-* Method to handle and create a booking card
-* Parameters: Hotel object, orderedBy and stripe Session
-*/
+
+/**
+ * @description Method to handle the booking card component and render to front end the user, the user session and who booked the hotel
+ * @author Cyrus Duncan
+ * @date 16/09/2021
+ * @param {*} { hotel, session, orderedBy }
+ * @returns {*} Booking component card
+ */
 const BookingCard = ({ hotel, session, orderedBy }) => {
   // create state variables
   const [showModal, setShowModal] = useState(false);

@@ -2,10 +2,18 @@ import { currencyFormatter } from "../../actions/stripe";
 import { diffDays } from "../../actions/hotel";
 import { useHistory, Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-/*
-* Function to create small card and handle functions
-* Parameters: hotel, hhand
-*/
+/**
+ * @description Method to render the small card component and handle the hotel delete and edit, check if the user is the owener, render the hotel and show view single hotel
+ * @author Cyrus Duncan
+ * @date 16/09/2021
+ * @param {*} {
+ *   h,
+ *   handleHotelDelete = (f) => f,
+ *   owner = false,
+ *   showViewMoreButton = true,
+ * }
+ * @returns {*} Small card component
+ */
 const SmallCard = ({
   h,
   handleHotelDelete = (f) => f,
@@ -55,6 +63,13 @@ const SmallCard = ({
               <p className="card-text">
                 Available from {new Date(h.from).toLocaleDateString()}
               </p>
+              {
+                <>
+                <Link to={`/user/${h.postedBy._id}`}>
+                  <h3>{h.postedBy.name}</h3>
+                </Link>
+                </>
+              }
 
               <div className="d-flex justify-content-between h4">
                 {showViewMoreButton && (

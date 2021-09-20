@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {toast} from 'react-toastify';
 import  { register } from '../actions/auth';
 
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/forms/RegisterForm';
 
 /*
 * Method to handle Register state and register form

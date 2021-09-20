@@ -8,10 +8,21 @@ const { Option } = Select;
 // set config variable to enviroment variable to Google places api key
 const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
 
-/*
-* function to handle and create hotel create form
-* Parameters: values, setValues, handleChange, handleImageChange,HandleSubmit, location, SetLocation
-*/
+/**
+ * @description
+ * @author Cyrus Duncan
+ * @date 16/09/2021
+ * @param {*} {
+ *   values,
+ *   setValues,
+ *   handleChange,
+ *   handleImageChange,
+ *   handleSubmit,
+ *   location,
+ *   setLocation,
+ * }
+ * @returns {*} 
+ */
 const HotelCreateForm = ({
   values,
   setValues,

@@ -3,9 +3,12 @@ import { readAllHotels } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 import Search from "../components/forms/Search"
 
-/*
-* Handle hotel form
-*/
+/**
+ * @description Renders the home componenet, along with grabbing all of the hotels and displaying edit and delete hotel if the hotel is the hotel owner
+ * @author Cyrus Duncan
+ * @date 16/09/2021
+ * @returns {*} returns the home component
+ */
 const Home = () => {
   // create the state variables 
   const [hotels, setHotels] = useState([]);

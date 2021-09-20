@@ -128,26 +128,6 @@ export const read = async (hotelId) => {
   console.log(error);
 }
 }
-/*
-* Method to get users hotel bookings from the API
-* Parameters: User Token
-* @ GET request
-*/
-// export const userHotelBookings = async(token) => 
-// {
-//   try{ 
-//     // Await response from backend with get request to user hotel bookings with user tokein in request headers
-//  let hotelBookings = await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     }
-// }); 
-//  return hotelBookings
-//   } catch(error) {
-//     // log the error to the console
-//     console.log(error)
-//   }
-// }
 export const userHotelBookings = async(token) => await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings`, {
   headers: {
     Authorization: `Bearer ${token}`,

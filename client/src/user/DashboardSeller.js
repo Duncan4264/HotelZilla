@@ -24,7 +24,7 @@ const DashboardSeller = () => {
   // Constructor to load seller hostels
   useEffect(() => {
     loadSellersHotels();
-  });
+  }, []);
 
   // Method to load seller hotels
   const loadSellersHotels = async () => {

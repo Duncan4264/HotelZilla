@@ -36,7 +36,7 @@ const EditHotel = ({ match }) => {
   useEffect(() => {
     // method action to backend to load all seller hotels
     loadSellerHotel();
-  });
+  }, []);
   
   // method to load sller hotel from backend
   const loadSellerHotel = async () => {

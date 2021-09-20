@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { currencyFormatter } from "../actions/stripe";
 import { SettingOutlined } from "@ant-design/icons";
 import {toast} from 'react-toastify';
+import { useHistory } from "react-router";
 const { Meta }  = Card;
 const { Ribbon } = Badge;
+
 /*
 * Method to handle nav component state and rendering
 */
@@ -17,6 +19,8 @@ const NavConnect = () => {
     // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const {auth} = useSelector((state) => ({...state}));
+
+    const history = useHistory();
 
     // deconstruct user from stat auth
     const {user} = auth;
@@ -50,11 +54,16 @@ const NavConnect = () => {
         }
     }
 
+    const showProfile = () => {
+        history.push(`/user/${user._id}`);
+    }
     return (
         <div className="d-flex justify-content-around">
-            <Card>
+            <Ribbon text="Profile" color="silver">
+            <Card onClick={showProfile} classname="bg-light pointer">
             <Meta avatar={<Avatar>{user.name[0]}</Avatar>} title={user.name} description={`Joined ${moment(user.createdAt).fromNow()}`}/>
             </Card>
+            </Ribbon>
 
 { auth && auth.user && auth.user.stripe_seller && auth.user.stripe_seller.charges_enabled  && 
         (<>

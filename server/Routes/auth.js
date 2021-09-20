@@ -1,6 +1,6 @@
 // import dependencys
 import express from 'express'
-import { Register , Login } from '../Controllers/auth/AuthController';
+import { Register , Login, readUser } from '../Controllers/auth/AuthController';
 
 // create variable router from express router
 
@@ -12,8 +12,12 @@ import { Register , Login } from '../Controllers/auth/AuthController';
 router.post('/register', Register);
 
 // Post request to /login URI directs to login method for integrity
-router.post('/login', Login)
+router.post('/login', Login);
+
+// Router that gets a request userId that reads userId
+router.get('/user/:userId', readUser)
  } catch(error) {
+     // Console log an error
      console.log(error)
  }
 

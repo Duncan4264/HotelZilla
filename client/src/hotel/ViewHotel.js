@@ -35,13 +35,14 @@ const ViewHotel = ({ match, history }) => {
         setAlreadyBooked(res.data.ok);
       });
     }
-  });
+  }, []);
   
 
 // Method to load seller hotel
   const loadSellerHotel = async () => {
     // call backed with response variable
     let res  = await read(match.params.hotelId);
+    console.log(res);
     // console.log(res);
     // set hotel state to response data
     setHotel(res.data);

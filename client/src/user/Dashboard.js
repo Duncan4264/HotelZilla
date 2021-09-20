@@ -19,7 +19,7 @@ const Dashboard = () => {
     useEffect(() => {
         // call method to load user booking
         loadUserBookings()
-    })
+    }, [])
     // Method to handle load user bookings
     const loadUserBookings = async () => {
         // create variable to await loading user hotel bookings

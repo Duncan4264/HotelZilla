@@ -53,8 +53,9 @@ export const create = async (req, res) => {
 export const hotels = async (req, res) => {
   // let all = await Hotel.find({ })
   // find hotel based off of date
+  //rom: { $gte: new Date() 
   try {
-  let all = await Hotel.find({ from: { $gte: new Date() } })
+  let all = await Hotel.find({  })
     .limit(24)
     .select("-image.data")
     .populate("postedBy", "_id name")
@@ -86,7 +87,7 @@ export const readImage = async (req, res) => {
   } 
  } catch(error) {
     console.log(error);
-    res.status(400),json({
+    res.status(400).json({
       error: error.message,
     })
   }

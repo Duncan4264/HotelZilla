@@ -56,13 +56,13 @@ export const Login = async (req, res) => {
       // compare password
       user.comparePassword(password, (err, match) => {
         // if not a match or an error return status 400 with login failed error 
-        if (!match || err) return res.status(400).send("Login Failed");
+        if (!match || err) return res.status(400).send("Login Failed, incorrect credentials");
         // GENERATE A TOKEN THEN SEND AS RESPONSE TO CLIENT
         let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
           expiresIn: "7d",
         });
         // return token and user object in json
-        res.json({
+        return res.json({
           token,
           user: {
             _id: user._id,
@@ -80,7 +80,22 @@ export const Login = async (req, res) => {
       // log error to console
       console.log("LOGIN ERROR", err);
       // return status 400 with sign in failed
-      res.status(400).send("Signin failed");
+      return res.status(400).send("Sign in failed");
     }
   };
+
+  export const readUser = async(req, res) => {
+    try {
+      let user = await User.findById(req.params.userId)
+      .populate("User")
+      .select("-stripe_account_id")
+      .exec();
+      return res.json(user);
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({
+        error: error.message,
+      })
+    }
+  }
 

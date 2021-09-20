@@ -16,7 +16,7 @@ const SearchResult = () => {
         searchLists({location, date, bed}).then(res => {
             // set hotels to response data
             setHotels(res.data)
-        })
+        }, [])
         // set window location search
     })
     return (

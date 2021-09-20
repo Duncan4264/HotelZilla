@@ -2,14 +2,18 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
-/*
-* Method used to register users with the backend with user parameter
-*   @Post method
-*/
+/**
+ * @description
+ * @author Cyrus Duncan
+ * @date 16/09/2021
+ * @param {*} user
+ * @returns {*} returns the register success status or an resgister failed error
+ */
 export const register = async (user) => {
   try {
     // axios post to register URI with user paramater
    let register = await axios.post(`${process.env.REACT_APP_API}/register`, user);
+   // return response status
    return register;
   } catch (error) {
     // log errors
@@ -61,4 +65,13 @@ export const login = async (user) => {
       next();
     }
   };
+
+  export const readUser = async(userId) => {
+    try {
+    let hotel = await axios.get(`${process.env.REACT_APP_API}/user/${userId}`)
+    return hotel;
+    } catch(error) {
+      console.log(error);
+    }
+  }
 

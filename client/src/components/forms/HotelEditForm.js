@@ -20,6 +20,7 @@ const HotelEditForm = ({
   handleSubmit,
 
 }) => {
+  // deconstruct the fields from the values parameter
   const { title, content, location, price, bed, from, to } = values;
 
   return (
@@ -59,7 +60,7 @@ const HotelEditForm = ({
           defaultValue={location}
           apiKey={config}
           onPlaceSelected={(place) => {
-            setValues({...values, location: place})
+            setValues({location: place})
           }
         }
         style={{height: "50px"}}

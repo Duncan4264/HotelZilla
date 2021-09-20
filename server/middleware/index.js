@@ -1,6 +1,7 @@
 // import dependinces
 import expressJwt from "express-jwt";
 import Hotel from "../Models/hotel";
+import User from "../Models/User"
 
 /*
 * Method to require sign on

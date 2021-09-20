@@ -15,7 +15,11 @@ import EditHotel from './hotel/EditHotel';
 import ViewHotel from './hotel/ViewHotel';
 import StripeCancel from './stripe/StripeCancel';
 import SearchResult from './hotel/SearchResults';
+import ReadProfile from './profile/ReadProfile';
+import CreateProfile from './profile/CreateProfile';
+import EditProfile from './profile/EditProfile';
 import "bootswatch/dist/lux/bootstrap.min.css";
+
 
 import StripeSuccess from './stripe/StripeSuccess';
 
@@ -37,11 +41,10 @@ function App() {
     <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel}/>
     <PrivateRoute exact path="/stripe/cancel" component={StripeCancel} />
     <PrivateRoute eact path="/search-result" component={SearchResult}/>
-    <PrivateRoute
-          exact
-          path="/stripe/success/:hotelId"
-          component={StripeSuccess}
-        />
+    <PrivateRoute exact path="/stripe/success/:hotelId" component={StripeSuccess}/>
+    <PrivateRoute exact path="/user/:userId" component={ReadProfile}/>
+    <PrivateRoute exact path="/profile/create/:userId" component={CreateProfile} />
+    <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
     </Switch>
     </BrowserRouter>
   );
