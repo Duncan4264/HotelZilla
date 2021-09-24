@@ -74,6 +74,25 @@ return sellerHotels;
   }
 }
 /*
+* This is the method to get a users hotels from the API
+* Parameters: User ID
+* GET Request
+*/
+export const profileHotels = async(userId, token) => {
+  try {
+    let ProfileHotels = await axios.get(`${process.env.REACT_APP_API}/profile-hotels/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+    console.log(profileHotels);
+    return ProfileHotels;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
+/*
 * The method to send a delete hotel request to API by the seller
 * Parameters: User token, HotelId
 * @ Delete request

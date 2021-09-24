@@ -9,6 +9,7 @@ const LoginForm = ({
     password,
     setPassword,
   }) => (
+    <div>
     <form onSubmit={handleSubmit} className="mt-3">
       <div className="form-group mb-3">
         <label className="form-label">Email address</label>
@@ -36,6 +37,8 @@ const LoginForm = ({
         Submit
       </button>
     </form>
+    <i>New To HotelZilla? Sign up <a href="/register" value="Register">here</a>!</i>
+    </div>
   );
   
   export default LoginForm;

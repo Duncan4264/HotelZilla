@@ -22,10 +22,13 @@ import "bootswatch/dist/lux/bootstrap.min.css";
 
 
 import StripeSuccess from './stripe/StripeSuccess';
+import Footer from './components/Footer';
 
 // Main function to handle app rendering and routing
 function App() {
+    
   return (
+  
     <BrowserRouter>
     <TopMenuNav/>
     <ToastContainer position="top-center"/>
@@ -46,6 +49,7 @@ function App() {
     <PrivateRoute exact path="/profile/create/:userId" component={CreateProfile} />
     <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
     </Switch>
+    <Footer/>
     </BrowserRouter>
   );
 }

@@ -1,9 +1,12 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import {deleteProfile, read} from "../actions/profile";
+import {deleteProfile, editProfile, read} from "../actions/profile";
 import { toast } from "react-toastify";
-import {Link} from 'react-router-dom';
-import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { profileHotels } from '../actions/hotel';
+import SmallCard from "../components/cards/SmallCard";
+import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons'
+
 
 /**
  * @description Method the returns the profile object from the backend
@@ -17,13 +20,16 @@ const ReadProfile = ({match, history}) => {
     const [profile, setProfile] = useState({});
     const [loading, setLoading] = useState(false);
     const [user, setisUser] = useState(false);
+    const [hotels, setHotels] = useState([]);
     const [image, setImage] = useState({});
+    const [owner, setOwner] = useState(false);
     // Grab auth token from state
     const {auth} = useSelector((state => ({...state})));
     const { token } = auth;
     // constructor to run load user profile at start up
     useEffect(() => {
         loadUserProfile();
+        loadSellersHotels();
     }, [])
     /*
     * Method to load user porifle from profile action
@@ -36,7 +42,6 @@ const ReadProfile = ({match, history}) => {
             if(typeof res == 'undefined' || res == null || typeof res.data == 'undefined' ||  res.data == null)  {
                 // if the user is not signed in as the user in userId parameter, return user to dashboard
                 if(auth.user._id !== match.params.userId) {
-                    
                     history.push('/dashboard');
                     toast.error("User Profile Does Not Exist");
                     return;
@@ -45,6 +50,9 @@ const ReadProfile = ({match, history}) => {
                 history.push(`/profile/create/${match.params.userId}`)
                 // stop loading user profile
                 return;
+            }
+            if(auth.user._id === match.params.userId) {
+              setOwner(true);
             }
             
             // set profile to user state
@@ -77,24 +85,96 @@ const handleProfileDelete = async() => {
             console.log(error);
         }
     }
+    const loadSellersHotels = async () => {
+      try{
+      // deconstruct data from calling seller hotels from back end
+      let res  = await profileHotels(match.params.userId);
+      // set hotels state to that data
+      setHotels(res.data);
+      } catch(error) {
+        console.log(error);
+        return;
+      }
+
+    };
     return (
         <>
-        <div class="container">
-            <img align="center" class="" src={image} alt="Profile image example"/>
-            <div class="fb-profile-text">
-                <h1>{profile.name}</h1>
-                <p>{profile.content}</p>
-            </div>
-
-            <Link to={`/profile/edit/${auth.user._id}`}>
+<section class="profile">
+  <header class="header">
+    <div class="details">
+      <img src={image} alt="Profile" class="profile-pic"/>
+      <h1 class="heading">{profile.name}</h1>
+      <div class="location">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12 ,2Z"></path>
+</svg>
+        <p>{profile.location}</p>
+      </div>
+      <div class="aboutme">
+        <h2 className="text-white"> About Us: </h2>
+        <h2 className="text-white">{profile.content}</h2>
+        </div>
+      <div class="stats">
+        <div class="col-4">
+        {owner && 
+          <div className="mb-3">
+          <DeleteOutlined
+          onClick={() => handleProfileDelete(profile._id)}
+          className="text-danger"
+          />
+          </div>
+            }
+          <h4 className="text-white">20</h4>
+          <p>Reviews</p>
+        </div>
+        <div class="col-4">
+          {owner && <div className="mb-3">
+          <ProfileOutlined/>
+          </div>}
+          <h4 className="text-white">10</h4>
+          <p>Posts</p>
+        </div>
+        <div class="col-4">
+          {owner &&
+          <div className="mb-3">
+                        <Link to={`/profile/edit/${auth.user._id}`}>
                 <EditOutlined className="text-warning" />
             </Link>
-            <DeleteOutlined 
-             onClick={() => handleProfileDelete(profile._id)}
-             className="text-danger"
-            />
-            
+            </div>}
+          <h4 className="text-white">100</h4>
+          <p>Comments</p>
         </div>
+      </div>
+    </div>
+  </header>
+</section> 
+
+<h2 className="mt-5">{profile.name}'s Hotels</h2>
+<div className="card mt-5">
+  { owner &&<div className="card-body">
+        {hotels.map((h) => (
+          <SmallCard
+            key={h._id}
+            h={h}
+            showViewMoreButton={false}
+            
+            owner={true}
+
+          />  
+        ))}
+  </div>
+  }
+  { !owner && <div className="card-body">
+  {hotels.map((h) => (
+          <SmallCard
+            key={h._id}
+            h={h}
+            showViewMoreButton={false}
+            owner={false}
+          />  
+        ))}
+    </div>}
+</div>
         </>
     )
 }

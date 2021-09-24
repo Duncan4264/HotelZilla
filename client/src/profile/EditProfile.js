@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import ProfileEditForm from "../components/forms/ProfileEditForm";
+import {useHistory} from 'react-router-dom';
 import {read, editProfile} from "../actions/profile";
 import { toast } from "react-toastify";
 /**
@@ -11,6 +12,8 @@ import { toast } from "react-toastify";
  * @returns {*} Returns Edit form and API response
  */
 const EditProfile = ({match}) => {
+  // grab history
+  const history = useHistory();
   // deconstruct auth from state
     const {auth} = useSelector((state) => ({...state}));
     // deconstruct token from state
@@ -74,6 +77,8 @@ const EditProfile = ({match}) => {
             let res = await editProfile(token, profileData, id);
             // alert a success profile is updated
             toast.success(`${res.data.name} is updated`)
+            //send user to dashboard
+            history.push(`/user/${match.params.userId}`)
         } catch(error) {
           // log an error to the console
             console.log(error);

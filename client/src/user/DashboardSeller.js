@@ -28,10 +28,14 @@ const DashboardSeller = () => {
 
   // Method to load seller hotels
   const loadSellersHotels = async () => {
+    try {
     // deconstruct data from calling seller hotels from back end
     let { data } = await sellerHotels(auth.token);
     // set hotels state to that data
     setHotels(data);
+    } catch(error) {
+      console.log(error);
+    }
   };
  // Method to handle button click
   const handleClick = async () => {

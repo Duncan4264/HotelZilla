@@ -141,7 +141,7 @@ export const readHotel = async (req, res) => {
   // create variable that finds a hotel by it's hotelID
   let hotel = await Hotel.findById(req.params.hotelId)
     .populate("postedBy")
-    .select("-image.data")
+    .select("-image.data-_id")
     .exec();
   // Return hotel to frontend 
   res.json(hotel);
@@ -271,3 +271,19 @@ export const searchLists = async (req, res) => {
     })
   }
 } 
+
+
+export const profileHotels = async (req, res) => {
+  try {
+      // create variable that findes profile hotels from UserId
+      let sellerHotels = await Hotel.find({postedBy: req.params.userId})
+      .select('-image.data')
+      .populate('postedBy', '_id name')
+      .exec();
+      console.log(sellerHotels);
+      res.send(sellerHotels);
+      return sellerHotels;
+  } catch (error) {
+      console.log(error);
+  }
+}

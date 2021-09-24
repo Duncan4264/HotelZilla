@@ -3,6 +3,7 @@
 * Parameters: Submit handle, name, setName, email, setEmail, password, setPassword
 */
 const RegisterForm = ({submitHandle, name, setName, email, setEmail, password, setPassword}) => (
+    <div>
     <form onSubmit={submitHandle} className="mt-3">
           <div className="form-group mb-3">
               <label className="form-label">Name</label>
@@ -18,6 +19,8 @@ const RegisterForm = ({submitHandle, name, setName, email, setEmail, password, s
 
           <button className="btn btn-primary">Sign Up</button>
         </form>
+          <i>Already a HotelZilla user? <a href="/login" value="Login">here</a>!</i>
+          </div>
 );
 
 export default RegisterForm;
