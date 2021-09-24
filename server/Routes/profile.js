@@ -20,7 +20,7 @@ router.get('/profile/image/:profileId', readImage);
 // edit a profile based off of profile id
 router.put('/update-profile/:profileId', formidable(), updateProfile);
 // delete a profile bassed off of the profile id
-router.delete('/delete-profile/:profileId', requireSignin, DeleteProfile)
+router.delete('/delete-profile/:profileId', requireSignin, DeleteProfile);
 
  } catch(error) {
      // log and error to the console

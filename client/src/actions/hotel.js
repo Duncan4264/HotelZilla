@@ -146,6 +146,10 @@ export const read = async (hotelId) => {
   // log the error to the console
   console.log(error);
 }
+/*
+* Method to grab user hotel bookings based off of their id
+* Parameters: User token
+*/
 }
 export const userHotelBookings = async(token) => await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings`, {
   headers: {

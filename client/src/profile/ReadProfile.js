@@ -85,9 +85,12 @@ const handleProfileDelete = async() => {
             console.log(error);
         }
     }
+    /*
+    * Method to load the profile's hotels
+    */
     const loadSellersHotels = async () => {
       try{
-      // deconstruct data from calling seller hotels from back end
+      // create variable that grabs profile hotels based off of user id
       let res  = await profileHotels(match.params.userId);
       // set hotels state to that data
       setHotels(res.data);
@@ -137,8 +140,8 @@ const handleProfileDelete = async() => {
         <div class="col-4">
           {owner &&
           <div className="mb-3">
-                        <Link to={`/profile/edit/${auth.user._id}`}>
-                <EditOutlined className="text-warning" />
+           <Link to={`/profile/edit/${auth.user._id}`}>
+            <EditOutlined className="text-warning" />
             </Link>
             </div>}
           <h4 className="text-white">100</h4>

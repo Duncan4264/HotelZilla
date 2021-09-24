@@ -272,7 +272,14 @@ export const searchLists = async (req, res) => {
   }
 } 
 
-
+/**
+ * @description Method to grab the profile hotels bassed off of user id
+ * @author Cyrus Duncan
+ * @date 24/09/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}  Returns profile hotels
+ */
 export const profileHotels = async (req, res) => {
   try {
       // create variable that findes profile hotels from UserId
@@ -280,10 +287,12 @@ export const profileHotels = async (req, res) => {
       .select('-image.data')
       .populate('postedBy', '_id name')
       .exec();
-      console.log(sellerHotels);
+      // method to send response of hotels back
       res.send(sellerHotels);
+      // return out of method
       return sellerHotels;
   } catch (error) {
+    // log an error to the console
       console.log(error);
   }
 }
