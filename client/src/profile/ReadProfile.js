@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import {deleteProfile, editProfile, read} from "../actions/profile";
+import {deleteProfile, read} from "../actions/profile";
+import { deleteHotel } from "../actions/hotel";
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
 import { profileHotels } from '../actions/hotel';
@@ -85,6 +86,21 @@ const handleProfileDelete = async() => {
             console.log(error);
         }
     }
+  /*
+  * Handle hotel delete method
+  * Parameters: Hotel ID String
+  */
+  const handleHotelDelete = async (hotelId) => {
+    // if not canceled return
+    if (!window.confirm("Are you sure?")) return;
+      // Delete hotel method with token and hotel id  
+    deleteHotel(auth.token, hotelId).then((res) => {
+      // log the client hotel deleted meesage
+      toast.success("Hotel Deleted");
+      // call message to load seller hotels
+      loadSellersHotels();
+    });
+  };
     /*
     * Method to load the profile's hotels
     */
@@ -160,7 +176,7 @@ const handleProfileDelete = async() => {
             key={h._id}
             h={h}
             showViewMoreButton={false}
-            
+            handleHotelDelete={handleHotelDelete}
             owner={true}
 
           />  
