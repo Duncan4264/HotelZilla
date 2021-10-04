@@ -45,12 +45,12 @@ export const LoginService = async (req, res) => {
  * @param {*} res
  * @returns {*} read user response
  */
-export const readUserService = async (req, res) => {
+export const ReadUserService = async (req, res) => {
     try {
         // create variable that read user DAO object
-        let readUser = readUser(req, res);
+        let userRead = readUser(req, res);
         // return read user response
-        return readUser;
+        return userRead;
     } catch (error) {
         // log an error to the console
         console.log(error);

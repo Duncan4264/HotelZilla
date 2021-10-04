@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { currencyFormatter } from "../../actions/stripe";
 import { diffDays } from "../../actions/hotel";
-
+import { useHistory } from "react-router";
 import OrderModal from "../modals/OrderModal";
+import ReviewModal from "../modals/ReviewModal";
+import { Link } from "react-router-dom";
 
 
 /**
@@ -15,7 +17,8 @@ import OrderModal from "../modals/OrderModal";
 const BookingCard = ({ hotel, session, orderedBy }) => {
   // create state variables
   const [showModal, setShowModal] = useState(false);
-
+  const [reviewModal, setReviewModal] = useState(false);
+  const history = useHistory();
   return (
     <>
       <div className="card mb-3">
@@ -61,13 +64,18 @@ const BookingCard = ({ hotel, session, orderedBy }) => {
               <p className="card-text">
                 Available from {new Date(hotel.from).toLocaleDateString()}
               </p>
-                {showModal && <OrderModal session={session} orderedBy={orderedBy} showModal={showModal}setShowModal/>}
+                {showModal && <OrderModal session={session} orderedBy={orderedBy} showModal={showModal} setShowModal={setShowModal}/>}
               <div className="d-flex justify-content-between h4">
                 <button onClick={() => setShowModal(!showModal)}
                 className="btn btn-primary">
                   Show Payment info
                 </button>
               </div>
+              {reviewModal && <ReviewModal hotel={hotel} reviewModal={reviewModal} setReviewModal={setReviewModal}/>}
+              <button onClick={() => setReviewModal(!reviewModal)}
+              className="btn btn-secondary">
+                <u>Write A Review</u>
+              </button>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import {RegisterService, LoginService, readUserService} from '../../Business/auth/AuthBusinessService';
+import {RegisterService, LoginService, ReadUserService} from '../../Business/auth/AuthBusinessService';
 /**
  * @description
  * @author Cyrus Duncan
@@ -46,7 +46,7 @@ export const Login = async(req, res) => {
  */
 export const readUser = async(req, res) => {
   try {
-    let readUser = ReeadUserService(req, res);
+    let readUser = ReadUserService(req, res);
     return readUser;
   } catch (error) {
     console.log(error);

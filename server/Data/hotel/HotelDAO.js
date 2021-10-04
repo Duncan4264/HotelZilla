@@ -57,7 +57,7 @@ export const hotels = async (req, res) => {
   try {
   let all = await Hotel.find({  })
     .limit(24)
-    .select("-image.data")
+    .select("-image.data") 
     .populate("postedBy", "_id name")
     .exec();
     // return hotels as json

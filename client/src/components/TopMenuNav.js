@@ -39,23 +39,6 @@ const TopMenuNav = () => {
     color: "#ffffff"
   }
   return (
-    
-    // <div className=" nav bg-light d-flex justify-content-between">
-    //   <Link className="nav-link" to="/">Home</Link>
-
-
-    //   {auth !== null &&
-    //   <Link className="nav-link" to="/dashboard">Dashboard</Link>
-    //   } 
-
-
-    // {auth === null && <>
-    //   <Link className="nav-link" to="/login">Login</Link>
-    //   <Link className="nav-link" to="/register">Register</Link></>}
-    //   {auth !== null && (
-    //      <a className="nav-link" href="/login" onClick={logout}>Logout</a>
-    //   )} 
-    // </div>
     <div>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style={NavbarStyle}>

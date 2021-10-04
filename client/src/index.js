@@ -11,8 +11,7 @@ import rootReducer from './reducers';
 
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfKVxIHgitMA1YkVdBGNR4m-TLVa-aUZo&libraries=places"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
 
 
 const store = createStore(rootReducer, composeWithDevTools());
@@ -22,7 +21,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
     <App />
-    </Provider>
+    </Provider>,
   </React.StrictMode>,
   document.getElementById('root')
 );

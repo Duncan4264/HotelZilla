@@ -146,8 +146,6 @@ const DashboardSeller = () => {
       auth.user.stripe_seller.charges_enabled
         ? connected()
         : notConnected()}
-
-      {/* <pre>{JSON.stringify(auth, null, 4)}</pre> */}
     </>
   );
 };

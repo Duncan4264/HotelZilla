@@ -18,7 +18,10 @@ import SearchResult from './hotel/SearchResults';
 import ReadProfile from './profile/ReadProfile';
 import CreateProfile from './profile/CreateProfile';
 import EditProfile from './profile/EditProfile';
+import CreateReview from './review/CreateReview';
 import "bootswatch/dist/lux/bootstrap.min.css";
+import "antd/dist/antd";
+
 
 
 import StripeSuccess from './stripe/StripeSuccess';
@@ -48,6 +51,7 @@ function App() {
     <PrivateRoute exact path="/user/:userId" component={ReadProfile}/>
     <PrivateRoute exact path="/profile/create/:userId" component={CreateProfile} />
     <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
+    <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     </Switch>
     <Footer/>
     </BrowserRouter>
