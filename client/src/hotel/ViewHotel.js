@@ -5,6 +5,9 @@ import { getSessionId } from "../actions/stripe";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
+import { readReviews } from '../actions/review';
+import ReviewCard from "../components/cards/ReviewCard";
+
 
 /*
 * Method to view a single hotel
@@ -14,11 +17,13 @@ const ViewHotel = ({ match, history }) => {
   // state
   const [hotel, setHotel] = useState({});
   const [image, setImage] = useState("");
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
 
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
+  const { token } = auth;
 
 
 // constructor to load seller hotels and check if it's already booked when compontent is loaded
@@ -35,6 +40,8 @@ const ViewHotel = ({ match, history }) => {
         setAlreadyBooked(res.data.ok);
       });
     }
+    // read reviews
+    readAllReview();
   }, []);
   
 
@@ -42,13 +49,22 @@ const ViewHotel = ({ match, history }) => {
   const loadSellerHotel = async () => {
     // call backed with response variable
     let res  = await read(match.params.hotelId);
-    console.log(res);
     // console.log(res);
     // set hotel state to response data
     setHotel(res.data);
     // set image to hotel image URI
     setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
+// method to load reviews for hotel
+  const readAllReview = async () => {
+    // call back to read reviews
+    let res = await readReviews(match.params.hotelId, token);
+    console.log(res.data);
+
+    setReviews(res.data); 
+    console.log(reviews);
+  }
+  
 /*
 * Method to handle click
 * Parameters: Enviroment Object
@@ -126,6 +142,15 @@ const ViewHotel = ({ match, history }) => {
           </div>
         </div>
       </div>
+
+
+      {reviews.map((r) => (
+          <ReviewCard key={r._id} r={r}/>
+        ))}
+
+
+
+      
     </>
   );
 };

@@ -192,5 +192,22 @@ export const searchLists = async(query) =>
     console.log(error);
   }
 }
-
+/*
+* Method is to count hotels from API with userId
+* Parameters: UserId
+* @ GET Request
+*/
+export const countHotels = async(userId, token) => {
+  try {
+    // await counting hotels with URI
+    let count = await axios.get(`${process.env.REACT_APP_API}/user/hotels/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+    });
+    return count;
+  } catch (error) {
+    console.log(error);
+  }
+}
 

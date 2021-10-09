@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import {deleteProfile, read} from "../actions/profile";
-import { deleteHotel } from "../actions/hotel";
+import { deleteHotel, countHotels } from "../actions/hotel";
+import {countReviews} from "../actions/review"; 
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
 import { profileHotels } from '../actions/hotel';
@@ -19,11 +20,12 @@ import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons'
 const ReadProfile = ({match, history}) => {
     //state
     const [profile, setProfile] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [user, setisUser] = useState(false);
+    const [reviewCount, setReviewCount] = useState(0);
+    const [hotelCount, setHotelCount] = useState(0);
     const [hotels, setHotels] = useState([]);
     const [image, setImage] = useState({});
     const [owner, setOwner] = useState(false);
+
     // Grab auth token from state
     const {auth} = useSelector((state => ({...state})));
     const { token } = auth;
@@ -31,6 +33,8 @@ const ReadProfile = ({match, history}) => {
     useEffect(() => {
         loadUserProfile();
         loadSellersHotels();
+        countProfileReviews();
+        countPostCount();
     }, [])
     /*
     * Method to load user porifle from profile action
@@ -85,7 +89,27 @@ const handleProfileDelete = async() => {
             // log an error 
             console.log(error);
         }
-    }
+      }
+/**
+ * @description Method to count profile reviews
+ * @author Cyrus Duncan
+ * @date 05/10/2021
+ * @returns {*} review count
+ */
+const countProfileReviews = async() => {
+  try {
+    console.log(match.params.userId);
+    // grab review count from database
+    let res = await countReviews(match.params.userId, token);
+    // set review count to response data
+    setReviewCount(res.data);
+    // return res
+    return res;
+  } catch (error) {
+    // log an error to the console
+    console.log(error);
+  }
+}
   /*
   * Handle hotel delete method
   * Parameters: Hotel ID String
@@ -114,8 +138,23 @@ const handleProfileDelete = async() => {
         console.log(error);
         return;
       }
-
     };
+    /*
+    * Method to count profile hotels
+    */
+   const countPostCount = async () => {
+     try {
+       // call the count hotels method from action to get hotel count from backend
+      let res = await countHotels(match.params.userId, token);
+      // set state to response data
+      setHotelCount(res.data);
+      // return response
+      return res;
+     } catch (error) {
+       // log an error 
+      console.log(error);
+     }
+   }
     return (
         <>
 <section class="profile">
@@ -143,14 +182,16 @@ const handleProfileDelete = async() => {
           />
           </div>
             }
-          <h4 className="text-white">20</h4>
+          <h4 className="text-white">{reviewCount}</h4>
           <p>Reviews</p>
         </div>
         <div class="col-4">
           {owner && <div className="mb-3">
-          <ProfileOutlined/>
+          <a href={`/user/reviews/${auth.user._id}`}>
+          <ProfileOutlined className="text-white"/>
+          </a>
           </div>}
-          <h4 className="text-white">10</h4>
+          <h4 className="text-white">{hotelCount}</h4>
           <p>Posts</p>
         </div>
         <div class="col-4">
@@ -160,7 +201,7 @@ const handleProfileDelete = async() => {
             <EditOutlined className="text-warning" />
             </Link>
             </div>}
-          <h4 className="text-white">100</h4>
+          <h4 className="text-white">0</h4>
           <p>Comments</p>
         </div>
       </div>

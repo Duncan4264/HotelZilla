@@ -1,4 +1,4 @@
-import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels } from '../../Data/hotel/HotelDAO';
+import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels } from '../../Data/hotel/HotelDAO';
 /**
  * @description Create service for creating hotel
  * @author Cyrus Duncan
@@ -205,6 +205,25 @@ export const profileHotelsService = async(req, res) => {
         return profileHotelsService;
     } catch (error) {
         // log an error to the console
+        console.log(error);
+    }
+}
+/**
+ * @description Method that counts hotels from DAO 
+ * @author Cyrus Duncan
+ * @date 07/10/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} hotel count
+ */
+export const countHotelsService = async(req, res) => {
+    try {
+        // let hotel service count hotels from database
+        let countHotelsService = await countHotels(req, res);
+        // return hotel count
+        return countHotelsService;
+    } catch (error) {
+        // log an error to the count
         console.log(error);
     }
 }

@@ -2,7 +2,7 @@
 import express from 'express'
 import formidable from "express-formidable"
 // import methods from hotel controller
-import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels } from "../Controllers/hotel/HotelController";
+import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels } from "../Controllers/hotel/HotelController";
 
 // create router variable from express router
  const router = express.Router();
@@ -38,8 +38,10 @@ router.get('/user-hotel-bookings', requireSignin, userHotelBookings)
 router.get('/is-already-booked/:hotelId', requireSignin, isBooked)
 
 // route to search hotel listings
-router.post('/search-listings', searchLists)
+router.post('/search-listings', searchLists);
 
+// route to count hotel listings
+router.get('/user/hotels/:userId', requireSignin, countHotels);
 } catch (error) {
     // log the error to the console
     console.log(error);

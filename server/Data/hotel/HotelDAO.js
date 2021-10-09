@@ -296,3 +296,20 @@ export const profileHotels = async (req, res) => {
       console.log(error);
   }
 }
+/**
+ * @description Method to count hotels from userid
+ * @author Cyrus Duncan
+ * @date 07/10/2021
+ * @param {*} req
+ * @param {*} res 
+ * @returns {*} return hotel count 
+ */
+export const countHotels = async(req, res) => {
+  try {
+      let count = await Hotel.estimatedDocumentCount({postedBy: req.params.userId});
+      res.json(count);
+      return count;
+  } catch (error) {
+    console.log(error);
+  }
+}

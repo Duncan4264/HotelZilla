@@ -24,7 +24,8 @@ const ReviewSchema = new Schema(
             type: ObjectId,
             required: "User is required",
         },
-    }
+    },
+    {timestamps: true}
 );
 
 // export default profile profile schema

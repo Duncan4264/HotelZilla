@@ -14,7 +14,7 @@ const Footer = () => (
                 <p class="footer-center-info email text-start"> +1 855 428 5673</p>
             </div>
             <div><i class="fa fa-envelope footer-contacts-icon"></i>
-                <p><a href="#" target="_blank">support@hotelzilla.com</a></p>
+                <p><a href="/" target="_blank">support@hotelzilla.com</a></p>
             </div>
         </div>
         <div class="col-md-4 footer-about">

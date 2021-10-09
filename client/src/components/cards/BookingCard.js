@@ -4,8 +4,7 @@ import { diffDays } from "../../actions/hotel";
 import { useHistory } from "react-router";
 import OrderModal from "../modals/OrderModal";
 import ReviewModal from "../modals/ReviewModal";
-import { Link } from "react-router-dom";
-
+import EditReviewModal from '../modals/EditReviewModal';
 
 /**
  * @description Method to handle the booking card component and render to front end the user, the user session and who booked the hotel

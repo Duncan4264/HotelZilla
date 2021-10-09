@@ -19,6 +19,7 @@ import ReadProfile from './profile/ReadProfile';
 import CreateProfile from './profile/CreateProfile';
 import EditProfile from './profile/EditProfile';
 import CreateReview from './review/CreateReview';
+import readReviews from './review/ReadReviews';
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "antd/dist/antd";
 
@@ -52,6 +53,7 @@ function App() {
     <PrivateRoute exact path="/profile/create/:userId" component={CreateProfile} />
     <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
+    <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
     </Switch>
     <Footer/>
     </BrowserRouter>

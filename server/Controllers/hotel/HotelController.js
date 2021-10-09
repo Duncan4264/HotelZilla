@@ -1,4 +1,4 @@
-import {createService, deleteHotelService, hotelsService, isBookedService, profileHotelsService, readHotelService, readImageService, searchListsService, sellerHotelsService, updateHotelService, userHotelBookingsService} from '../../Business/hotel/HotelBusinessService';
+import {createService, deleteHotelService, hotelsService, isBookedService, profileHotelsService, readHotelService, readImageService, searchListsService, sellerHotelsService, updateHotelService, userHotelBookingsService, countHotelsService} from '../../Business/hotel/HotelBusinessService';
 /**
  * @description Method that handles hotel creation
  * @author Cyrus Duncan
@@ -204,6 +204,23 @@ export const profileHotels = async(req, res) => {
     return profileHotel;
   } catch (error) {
     // log an error to the console
+    console.log(error);
+  }
+}
+/**
+ * @description Method that routes to business service to count hotels by user ID
+ * @author Cyrus Duncan
+ * @date 07/10/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} hotel count
+ */
+export const countHotels = async(req, res) => {
+  try {
+    // grab count of hotels from business service
+     let count = countHotelsService(req, res);
+     return count;
+  } catch (error) {
     console.log(error);
   }
 }
