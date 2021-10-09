@@ -63,7 +63,7 @@ export const readReviews = async(req, res) => {
 export const countReviews = async(req, res) => {
     try {
         // method that counts reviews give userId
-        let reviewCount = await Review.estimatedDocumentCount({user: req.params.userId}).exec();
+        let reviewCount = await Review.countDocuments({user: req.params.userId}).exec();
         // return count as a response in JSON
         res.json(reviewCount);
         // return review count

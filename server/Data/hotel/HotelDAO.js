@@ -306,7 +306,7 @@ export const profileHotels = async (req, res) => {
  */
 export const countHotels = async(req, res) => {
   try {
-      let count = await Hotel.estimatedDocumentCount({postedBy: req.params.userId});
+      let count = await Hotel.countDocuments({postedBy: req.params.userId});
       res.json(count);
       return count;
   } catch (error) {

@@ -22,20 +22,12 @@ export const RegisterDAO =  async (req, res) => {
     
       // register User
       const user = new User(req.body);
-    
-    } catch (error) {
-      //logg error to console
-      console.log(error)
-      // return 400 error
-      return res.status(400).send("Error, Please try again");
-    }
-        try {
           // User awaiting save to database
             await user.save();
             // return json that user saved was successful
             return res.json({ ok:true});
-        }
-        catch(error) {
+        
+    } catch(error) {
           // log an error to the console
             console.log('FAILED CREATING A USER', error);
             // return error 400 and send message please try again
