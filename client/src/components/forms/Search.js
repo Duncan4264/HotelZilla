@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import ReactGoogleAutocomplete from 'react-google-autocomplete'
 
 import moment from 'moment'
+import { toast } from 'react-toastify'
 
 
 
@@ -27,7 +28,13 @@ const history  = useHistory()
     const [bed, setBed] = useState("")
     // function to handle submit and push to URI with search result and date / bed URI
     const handleSubmit = () => {
-        history.push(`/search-result?location=${location}&date=${date}&bed=${bed}`)
+      console.log(location);
+      if(location !== undefined && date !== undefined && bed !== undefined && location !== "" && date !== "" && bed !== "")  {
+        history.push(`/search-result?location=${location}&date=${date}&bed=${bed}`);
+      } else {
+        toast.error("Date, bed count and location required to search");
+        history.push('/');
+      }
     }
     return (
         <div className="d-flex pb-4">

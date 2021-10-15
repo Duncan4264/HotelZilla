@@ -3,6 +3,9 @@ import {readdirSync} from "fs";
 import cors from "cors";
 import mongoose from 'mongoose'; 
 const morgan = require("morgan");
+const helmet = require("helmet");
+const bodyParser = require('body-parser')
+
 require("dotenv").config();
 
 const app = express();
@@ -22,9 +25,11 @@ mongoose.connect(process.env.DATABASE, {
 }
 
 //middlewares
+app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
 
 // Route Middleware
 readdirSync("./Routes").map((r) => app.use("/api", require(`./Routes/${r}`)));

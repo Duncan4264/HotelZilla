@@ -3,8 +3,16 @@ import ReviewCard from "../components/cards/ReviewCard";
 import { readUser } from "../actions/auth";
 import { readuserReviews } from "../actions/review";
 import { useSelector } from "react-redux";
+import { Card } from 'antd';
 
 
+/**
+ * @description Component that handles reading reviews
+ * @author Cyrus Duncan
+ * @date 12/10/2021
+ * @param {*} {match}
+ * @returns {*} review component
+ */
 const ReadReviews = ({match}) => {
     const [reviews, setReviews] = useState([]);
     const [user, setUser] = useState({});
@@ -54,15 +62,17 @@ const readuserReview  =  async()  => {
         <div className="container-fluid bg-secondary p-5 text-center">
           <h2>{user.name}'s Reviews</h2>
         </div>
+        <Card title={`${user.name}'s Reviews`}>
         {
             owner 
         ? reviews.map((r) => (
           <ReviewCard key={r._id} r={r} owner={owner}/>
         ))
         : reviews.map((r) => (
-          <ReviewCard key={r._id} r={r}/>
+          <ReviewCard className="mt-5" key={r._id} r={r}/>
         ))
         }
+        </Card>
       </>
     )
 }

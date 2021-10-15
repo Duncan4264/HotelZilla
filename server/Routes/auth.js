@@ -2,6 +2,7 @@
 import express from 'express'
 import { Register , Login, readUser } from '../Controllers/auth/AuthController';
 
+
 // create variable router from express router
 
  const router = express.Router();

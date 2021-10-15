@@ -1,5 +1,5 @@
 const Footer = () => (
-<footer>
+<footer className="footer">
     <div class="row">
         <div class="col-sm-6 col-md-4 footer-navigation">
             <h1 className="text-white">Hotelzilla</h1>

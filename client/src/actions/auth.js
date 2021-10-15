@@ -27,6 +27,7 @@ export const register = async (user) => {
 */
 export const login = async (user) => {
   try {
+    console.log(user);
     // axios post request to login URI with user paramater
     let login = await axios.post(`${process.env.REACT_APP_API}/login`, user)
     .catch(function (error) {

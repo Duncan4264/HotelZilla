@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { readReviews } from '../actions/review';
 import ReviewCard from "../components/cards/ReviewCard";
+import { Card } from 'antd';
 
 
 /*
@@ -143,10 +144,12 @@ const ViewHotel = ({ match, history }) => {
         </div>
       </div>
 
-
+      <Card className="mt-5" title={`${hotel.title}'s Reviews`}>
       {reviews.map((r) => (
           <ReviewCard key={r._id} r={r}/>
         ))}
+    </Card>
+
 
 
 

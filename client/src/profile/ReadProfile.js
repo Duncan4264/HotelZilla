@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
 import { profileHotels } from '../actions/hotel';
 import SmallCard from "../components/cards/SmallCard";
-import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons'
+import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons';
+import { countComments  } from "../actions/comment";
 
 
 /**
@@ -22,6 +23,7 @@ const ReadProfile = ({match, history}) => {
     const [profile, setProfile] = useState({});
     const [reviewCount, setReviewCount] = useState(0);
     const [hotelCount, setHotelCount] = useState(0);
+    const [CommentCount, setCommentCount] = useState(0);
     const [hotels, setHotels] = useState([]);
     const [image, setImage] = useState({});
     const [owner, setOwner] = useState(false);
@@ -34,7 +36,8 @@ const ReadProfile = ({match, history}) => {
         loadUserProfile();
         loadSellersHotels();
         countProfileReviews();
-        countPostCount();
+        countPost();
+        countComment();
     }, [])
     /*
     * Method to load user porifle from profile action
@@ -69,6 +72,7 @@ const ReadProfile = ({match, history}) => {
            console.log(error); 
         }
     }
+
 /**
  * @description Method to handle a Profile Delete
  * @author Cyrus Duncan
@@ -142,10 +146,11 @@ const countProfileReviews = async() => {
     /*
     * Method to count profile hotels
     */
-   const countPostCount = async () => {
+   const countPost = async () => {
      try {
        // call the count hotels method from action to get hotel count from backend
       let res = await countHotels(match.params.userId, token);
+      
       // set state to response data
       setHotelCount(res.data);
       // return response
@@ -155,11 +160,23 @@ const countProfileReviews = async() => {
       console.log(error);
      }
    }
+   const countComment = async () => {
+     try {
+       let res = await countComments(match.params.userId, token);
+
+      setCommentCount(res.data);
+      console.log(res.data);
+      console.log(CommentCount);
+       return res;
+     } catch (error) {
+       console.log(error);
+     }
+   }
     return (
         <>
 <section class="profile">
   <header class="header">
-    <div class="details">
+    <div class="details mt-3">
       <img src={image} alt="Profile" class="profile-pic"/>
       <h1 class="heading">{profile.name}</h1>
       <div class="location">
@@ -201,7 +218,7 @@ const countProfileReviews = async() => {
             <EditOutlined className="text-warning" />
             </Link>
             </div>}
-          <h4 className="text-white">0</h4>
+          <h4 className="text-white">{CommentCount}</h4>
           <p>Comments</p>
         </div>
       </div>

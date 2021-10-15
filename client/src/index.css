@@ -20,6 +20,15 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
 .header {
   min-height: 60vh;
   background-image: url("https://images.unsplash.com/photo-1472803828399-39d4ac53c6e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2153&q=80");
@@ -78,10 +87,11 @@ footer {
   width: 100%;
   text-align: left;
   font: bold 16px sans-serif;
-  padding: 55px 50px;
-  margin-top: 80px;
-  bottom: 0;
+  padding: 20px 20px;
+  margin-top: 40px;
   color: #fff;
+  margin-top:auto;
+  position: absolute;
 }
 
 .footer-navigation h3 {
@@ -166,6 +176,10 @@ span.new-line-span {
   margin: 0;
 }
 
+.card-inner{
+  margin-left: 4rem;
+}
+
 div.social-links {
   margin-top: 20px;
   color: #fff;
@@ -231,6 +245,11 @@ div.social-links {
   display: inline-flex;
   margin-top: -10px;
   flex-direction: row-reverse
+}
+.profile-picture{
+  border-radius: 50%;
+  width: 800px;
+  height: 800px;
 }
 
 .rating>input {

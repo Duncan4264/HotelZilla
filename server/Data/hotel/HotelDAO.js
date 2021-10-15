@@ -266,7 +266,7 @@ export const searchLists = async (req, res) => {
   res.json(result);
   } catch(error) {
     console.log(error);
-    res.status(400).sendJson({
+    res.json({
       error: error.message,
     })
   }

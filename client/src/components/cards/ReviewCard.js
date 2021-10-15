@@ -3,6 +3,10 @@ import {read} from "../../actions/profile";
 import moment from "moment";
 import {EditOutlined} from '@ant-design/icons';
 import EditReviewModal from "../modals/EditReviewModal";
+import CreateCommentModal from '../modals/CommentModal';
+import {readComments} from '../../actions/comment';
+import { useSelector } from "react-redux";
+import CommentCard from '../cards/CommentCard';
 const ReviewCard = ({
     r,
     handleReviewDelete = (f) => f,
@@ -11,8 +15,16 @@ const ReviewCard = ({
     const [profile, setProfile] = useState({});
     const [image, setImage] = useState("");
     const [editReviewModal, setReviewModal] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [CommentModal, setCommentModal] = useState(false);
+
+        // Grab auth token from state
+        const {auth} = useSelector((state => ({...state})));
+        const { token } = auth;
+    
     useEffect(() => {
         loadUser();
+        loadComment();
     }, [])
     const loadUser = async () => {
         try {
@@ -22,41 +34,72 @@ const ReviewCard = ({
             // image 
             setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
         } catch (error) {
+            // log an error in the console
          console.log(error);   
+        }     
+    }
+    const loadComment = async() => {
+        try {
+            console.log(r._id);
+            // create variable that reads comments 
+            let res = await readComments(token, r._id);
+            console.log(res);
+            // set comments state to res
+            setComments(res.data);
+        } catch (error) {
+            // log the error to the console
+            console.log(error);
         }
-        // read the user from auth action and userId
-
-        
     }
     return (
-    <div class="reviews mt-5">
-    <div class="row blockquote review-item">
-      <div class="col-md-3 text-center">
-        <img class="rounded-circle reviewer" src={image} alt="Profile"/>
-        <div class="caption">   
-          <small>by <a href={`/user/${r.user}`}>{profile.name}</a></small>
-        </div>
-  
-      </div>
-      <div class="col-md-9">
-        <h4>{r.title}</h4>
-        <div class="ratebox text-center" data-id="0" data-rating="5"></div>
-        <p class="review-text">{r.content}</p>
-  
-        <small class="review-date">{moment (new Date(r.createdAt)).format("MMMM Do YYYY, h:mm:ss a")}</small>
-        <div className="mr-5">
-        {editReviewModal && <EditReviewModal hotel={r.hotel} editReviewModal={editReviewModal} setReviewModal={setReviewModal} review={r} />}
-        {owner &&
-        <button onClick={() => setReviewModal(!editReviewModal)}
-                  className="btn btn-secondary">
-                  <u>Edit a review</u>
+
+  <div class="container">
+
+	
+	<div class="card">
+	    <div class="card-body">
+	        <div class="row">
+        	    <div class="col-sm-2 text-center">
+        	        <img src={image} alt="Profile" class="rounded img-fluid mx-auto d-block"/>
+                  <a class="fs-4 card-title" href={`/user/${r.user}`}><strong>{profile.name}</strong></a>
+        	        <p class="text-secondary text-center">{moment (new Date(r.createdAt)).format("MMMM Do YYYY, h:mm:ss a")}</p>
+
+        	    </div>
+        	    <div class="col-sm-10">
+              {CommentModal && <CreateCommentModal review={r} CommentModal={CommentModal} setCommentModal={setCommentModal}/>}
+              <p class="pull-right">
+              <button onClick={() => setCommentModal(!CommentModal)}
+                   className="btn btn-secondary">
+                <u>Create a review</u>
                 </button> 
-        }
+              </p>
+              {editReviewModal && <EditReviewModal hotel={r.hotel} editReviewModal={editReviewModal} setReviewModal={setReviewModal} review={r} />}
+                  {owner &&
+       <p className="pull-right"><button onClick={() => setReviewModal(!editReviewModal)}
+                   className="btn btn-secondary">
+                <u>Edit a review</u>
+                </button> 
+                </p>
+       }
+
+                  <h2>{r.title}</h2> 
+        	       <div class="clearfix"></div>
+        	        <p class="fs-4">{r.content}</p>
+        	    </div>
+	        </div>
+          {comments.length === 0 ?
+          <div className="card card-inner">
+          <h1 className="text-center">No comments for this review.</h1>
+          </div>
+          : 
+          
+          comments.map((c) => (
+            <CommentCard comment={c}/>
+          ))
+         }
+          </div>
+        </div>
       </div>
-    </div>   
-    </div>
-    
-  </div>
     )
 }
 export default ReviewCard;

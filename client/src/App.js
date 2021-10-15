@@ -27,14 +27,17 @@ import "antd/dist/antd";
 
 import StripeSuccess from './stripe/StripeSuccess';
 import Footer from './components/Footer';
+import AdminDashboard from './admin/AdminDashboard';
 
 // Main function to handle app rendering and routing
 function App() {
     
   return (
-  
+    <body>
+    <div className="page-container">
     <BrowserRouter>
     <TopMenuNav/>
+    <div className="content-wrap">
     <ToastContainer position="top-center"/>
     <Switch>
     <Route exact path="/" component={Home}/>
@@ -47,16 +50,22 @@ function App() {
     <PrivateRoute exeact path ="/stripe/callback" component={StripeCallback}/>
     <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel}/>
     <PrivateRoute exact path="/stripe/cancel" component={StripeCancel} />
-    <PrivateRoute eact path="/search-result" component={SearchResult}/>
+    <PrivateRoute eact path="/search-result/" component={SearchResult}/>
     <PrivateRoute exact path="/stripe/success/:hotelId" component={StripeSuccess}/>
     <PrivateRoute exact path="/user/:userId" component={ReadProfile}/>
     <PrivateRoute exact path="/profile/create/:userId" component={CreateProfile} />
     <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
+    <PrivateRoute exact path="/admin/" component={AdminDashboard}/>
     </Switch>
+    </div>
+    <div className="footer">
     <Footer/>
+    </div>
     </BrowserRouter>
+    </div>
+    </body>
   );
 }
 

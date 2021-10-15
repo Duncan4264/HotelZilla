@@ -22,12 +22,14 @@ export const RegisterDAO =  async (req, res) => {
     
       // register User
       const user = new User(req.body);
+      // set admin to false
+      user.admin = false;
           // User awaiting save to database
             await user.save();
             // return json that user saved was successful
             return res.json({ ok:true});
         
-    } catch(error) {
+    } catch(error)  {
           // log an error to the console
             console.log('FAILED CREATING A USER', error);
             // return error 400 and send message please try again
