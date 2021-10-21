@@ -15,7 +15,7 @@ export const create = async (req, res) => {
     let files = req.files;
     // hotel variable that creates hotel object with fields
     let hotel = new Hotel(fields);
-    hotel.postedBy = req.params.userId;
+    hotel.postedBy = req.user._id;
     // handle image
     if (files.image) {
       // read image with image path parameter
@@ -198,7 +198,7 @@ export const userHotelBookings = async (req, res) => {
   try{ 
   // Create variable to and query all of the orders from the database
   const all = await Order
-  .find({orderedBy: req.params.userId})
+  .find({orderedBy: req.user._id})
   .select("session")
   .populate("hotel", "-image.data")
   .populate("orderedBy", "_id name")

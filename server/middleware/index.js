@@ -2,8 +2,6 @@
 import expressJwt from "express-jwt";
 import Hotel from "../Models/hotel";
 import User from "../Models/User"
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
 
 /*
 * Method to require sign on
@@ -29,19 +27,3 @@ export const hotelOwner = async (req, res, next) => {
   // send to next method
   next();
 };
-export const checkJwt = jwt({
-  // Dynamically provide a signing key
-  // based on the kid in the header and 
-  // the signing keys provided by the JWKS endpoint.
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `https://dev-w3d00qd3.us.auth0.com/.well-known/jwks.json`
-  }),
-
-  // Validate the audience and the issuer.
-  audience: 'http://localhost:8000/api/',
-  issuer: [`https://dev-w3d00qd3.us.auth0.com/`],
-  algorithms: ['RS256']
-});

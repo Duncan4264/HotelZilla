@@ -9,11 +9,12 @@ import jwt from 'jsonwebtoken';
 export const RegisterDAO =  async (req, res) => {
     try{
       // deconstruct name, email and password with req body
-      const {name, email} = req.body;
+      const {name, email, password} = req.body;
     
       // server validation
       if(!name) return res.status(400).send('Name is required');
       if(!email) return res.status(400).send('Email is required');
+      if(!password || password.length < 6 || password.length > 60) return res.status(400).send("Password must be a minimum of 6 charactors long and maximum of 64 characters");
       // variable to see if user exists
       let userExist = await User.findOne({email}).exec();
       // if user exists return email is taken
@@ -85,28 +86,11 @@ export const LoginDAO = async (req, res) => {
 */
   export const readUser = async(req, res) => {
     try {
-      console.log(req.params.userId);
       let user = await User.findById(req.params.userId)
       .populate("User")
       .select("-stripe_account_id")
       .exec();
       return res.json(user);
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({
-        error: error.message,
-      })
-    }
-  }
-
-  export const readUserEmail = async(req, res) => {
-    try {
-      let user = await User.find({email: req.params.userId})
-      .populate("User")
-      .select("-stripe_account_id")
-      .exec();
-      console.log(user[0]);
-      return res.json(user[0]);
     } catch (error) {
       console.log(error)
       res.status(400).json({

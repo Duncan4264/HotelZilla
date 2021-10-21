@@ -4,11 +4,11 @@ import axios from 'axios';
 * Parameters: User Token
 * @ POST request
 */
-export const createConnectionAccount = async (token, userId) =>
+export const createConnectionAccount = async (token) =>
 {
   try {
     // create a post request to Stripe API to create Stripe account URI, passing User token in headers 
- let connection =  await axios.post(`${process.env.REACT_APP_API}/createStripeAccount/${userId}`, {}, {
+ let connection =  await axios.post(`${process.env.REACT_APP_API}/createStripeAccount`, {}, {
       headers: {
           Authorization: `Bearer ${token}`,
       },
@@ -24,10 +24,10 @@ export const createConnectionAccount = async (token, userId) =>
 * Parameters: User Token
 * @ POST request
 */
-export const getStripeStatus = async(token, userId) =>  {
+export const getStripeStatus = async(token) =>  {
   try {
     // Create an axios post to STRIPE API under account status URI with authorization token
- let status =  await axios.post(`${process.env.REACT_APP_API}/getAccountStatus/${userId}`, {}, {
+ let status =  await axios.post(`${process.env.REACT_APP_API}/getAccountStatus`, {}, {
     headers: {
         Authorization: `Bearer ${token}`,
     },
@@ -44,10 +44,10 @@ return status;
 * Parameters: User Token
 * @ Post request
 */
-export const getAccountBalance = async(token, userId) => { 
+export const getAccountBalance = async(token) => { 
   try {
     // Create a STRIPE API post reqeuest in get account balance uri pasing user token in headers
-  let balance = await axios.post(`${process.env.REACT_APP_API}/getAccountBalance/${userId}`, {}, {
+  let balance = await axios.post(`${process.env.REACT_APP_API}/getAccountBalance`, {}, {
     headers: {
         Authorization: `Bearer ${token}`,
     },
@@ -74,10 +74,10 @@ export const currencyFormatter = data => {
 * Parameters: User Token
 * @ POST method
 */
-  export const getPayoutSettings = async(token, userId) =>  {
+  export const getPayoutSettings = async(token) =>  {
     try {
       // Make post request to payout settings in Stipe API  with User token in request headers
-   let payout =  await axios.post(`${process.env.REACT_APP_API}/PayoutSettings/${userId}`, {}, {
+   let payout =  await axios.post(`${process.env.REACT_APP_API}/PayoutSettings`, {}, {
     headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -93,12 +93,12 @@ export const currencyFormatter = data => {
 * Parameters: User Token, HotelID 
 * @ POST method
 */
-export const getSessionId = async (token, hotelId, userId) =>
+export const getSessionId = async (token, hotelId) =>
 {
   try {
     // Make a post request to API with hotelId and user token in request headers to get session Id
   let SessionId = await axios.post(
-    `${process.env.REACT_APP_API}/stripe-session-id/${userId}`,
+    `${process.env.REACT_APP_API}/stripe-session-id`,
     {
       hotelId,
     },
@@ -119,11 +119,11 @@ export const getSessionId = async (token, hotelId, userId) =>
 * Parameters: Token, HotelID
 * @ POST Method
 */
-export const StripeSuccessRequest = async (token, userId, hotelId) => {
+export const StripeSuccessRequest = async (token, hotelId) => {
   try {
     // Make axios post request to stripe success with hotel ID and user token in the headers
  let StripeSuccessRequest =  await axios.post(
-    `${process.env.REACT_APP_API}/stripe-success/${userId}`,
+    `${process.env.REACT_APP_API}/stripe-success`,
     { hotelId },
     {
       headers: {

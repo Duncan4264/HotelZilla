@@ -2,14 +2,14 @@ import {Modal} from "antd"
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { create } from "../../actions/comment";
-import { useAuth0 } from '@auth0/auth0-react';
+
 /*
 * Method to handle order modal to
 */
 const CreateCommentModal = ({review, CommentModal, setCommentModal}) => {
         // Grab the auth and user token from state
         const {auth} = useSelector((state) => ({...state}));
-        const {getAccessTokenSilently } = useAuth0();
+        const {token} = auth;
         const [values, setValues] = useState({
                 title: "",
                 content: ""
@@ -32,7 +32,6 @@ const CreateCommentModal = ({review, CommentModal, setCommentModal}) => {
      */
     const handleOk = async (e) => {
         try {
-            const token = await getAccessTokenSilently();
             // prevent default vlaues
             e.preventDefault();
             // grab review data

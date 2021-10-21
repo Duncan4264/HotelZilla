@@ -6,13 +6,13 @@ import { userHotelBookings } from "../actions/hotel";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import BookingCard from "../components/cards/BookingCard";
-import { useAuth0 } from '@auth0/auth0-react';
 
 // Dashboard state and rendering class
 const Dashboard = () => {
     // descustruce token from state
-    const {getAccessTokenSilently } = useAuth0();
-    const { auth } = useSelector((state) => ({ ...state }));
+    const { 
+        auth: {token},
+    } = useSelector((state) => ({...state }));
     // state variable
     const [booking, setBooking] = useState([]);
     // constructor to load user bookings 
@@ -22,9 +22,8 @@ const Dashboard = () => {
     }, [])
     // Method to handle load user bookings
     const loadUserBookings = async () => {
-        const token = await getAccessTokenSilently();
         // create variable to await loading user hotel bookings
-        const res = await userHotelBookings(token, auth._id);
+        const res = await userHotelBookings(token);
         setBooking(res.data);
     }
     return (

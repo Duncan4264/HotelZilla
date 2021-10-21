@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import queryString from "querystring";
 import express, { response } from 'express';
 import Hotel from '../../Models/hotel';
-import Order from '../../Models/order';
+import Order from '../../Models/Order';
 
 // Create stripe variable for stripe object with stripe api key
 const stripe = Stripe(process.env.STRIPE_SECRET);
@@ -16,7 +16,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 export const createConnectionAccount = async (request, response) => {
   try {
     //  find user from db
-    const user = await User.findById(request.params.userId).exec();
+    const user = await User.findById(request.user._id).exec();
     //  if user don't have stripe_account_id yet, create now
     if (!user.stripe_account_id) {
       // create accout variable that creates a stripe account in express 
@@ -55,10 +55,10 @@ export const createConnectionAccount = async (request, response) => {
   * Method to update the delayed days off of Stripe Activity
   * Parameters: Account ID
   */
-export const updateDelayDays = async (accountId) => {
+export const updateDelayDays = async (req, res, accountId) => {
     try{
       // make account variable that updates account object with accountId
-    const acount = await stripe.accounts.update(accountId, {
+    const account = await stripe.accounts.update(accountId, {
       settings: {
         payouts: {
         schedule: {
@@ -67,9 +67,8 @@ export const updateDelayDays = async (accountId) => {
         }
       }
     });
-    console.log(acount);
     // return account object
-    return acount;
+    return account;
   } catch(error) {
     // log an error tthe console
     console.log(error);
@@ -84,12 +83,11 @@ export const updateDelayDays = async (accountId) => {
       // log to the console ettering get account status
     console.log("Entering get Account Status()");
     // grab the user by id
-    const user = await User.findById(request.params.userId).exec();
-    console.log(user.stripe_account_id);
+    const user = await User.findById(request.user._id).exec();
     // grab the account by account id
     const account = await stripe.accounts.retrieve(user.stripe_account_id);
     // make an updated account with account id
-    const updataedAccount = await updateDelayDays(user.stripe_account_id);
+    const updataedAccount = await updateDelayDays(account.id);
     // update the user with user id
     const updatedUser = await User.findByIdAndUpdate(user._id, {
       stripe_seller: account,
@@ -111,11 +109,12 @@ export const updateDelayDays = async (accountId) => {
   export const getAccountBalance = async(request, response) => {
     try {
     // const variable to find user by id
-    const user = await User.findById(request.params.userId).exec();
+    const user = await User.findById(request.user._id).exec();
       // const balance to get stripe balance from userid
       const balance = await stripe.balance.retrieve({
         stripeAccount: user.stripe_account_id,
       });
+
       // return the response to json
       response.json(balance);
     } catch (error) {
@@ -132,7 +131,7 @@ export const updateDelayDays = async (accountId) => {
       // log method entered in console
       console.log('Payoutsettings()')
       // find user by id
-      const user = await User.findById(request.params.userId).exec();
+      const user = await User.findById(request.user._id).exec();
 
       // Method to create login link from stripe accounts
       const loginLink = await stripe.accounts.createLoginLink(user.stripe_seller.id, {
@@ -149,6 +148,7 @@ export const updateDelayDays = async (accountId) => {
   export const readStripeSessionId = async (req, res) => {
     try {
     //Get hotel body from request body
+
     const {hotelId} = req.body
     // find the hotel based on HotelIID
     const hotel = await Hotel.findById(hotelId).populate("postedBy").exec();
@@ -177,7 +177,7 @@ export const updateDelayDays = async (accountId) => {
       cancel_url: process.env.STRIPE_CANCEL_URL,
     });
     // Add this session object to user in the database
-    await User.findByIdAndUpdate(req.params.userId, {stripeSession: session}).exec()
+    await User.findByIdAndUpdate(req.user._id, {stripeSession: session}).exec()
     // return session ID as response to frontend 
     res.send({
       sessionId: session.id,
@@ -191,18 +191,15 @@ export const updateDelayDays = async (accountId) => {
     try {
       // 1 get hotel id from req.body
       const { hotelId } = req.body;
-      console.log(req.params.hotelId);
 
       // 2 find currently logged in user
-      const user = await User.findById(req.params.hotelId).exec();
-      console.log(user.stripeSession);
+      const user = await User.findById(req.user._id).exec();
       // check if user has stripeSession
       if (!user.stripeSession) return;
       // 3 retrieve stripe session, based on session id we previously save in user db
       const session = await stripe.checkout.sessions.retrieve(
         user.stripeSession.id
       );
-      console.log(session);
       // 4 if session payment status is paid, create order
       if (session.payment_status === "paid") {
         // 5 check if order with that session id already exist by querying orders collection
