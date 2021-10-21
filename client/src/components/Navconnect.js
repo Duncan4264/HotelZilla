@@ -7,7 +7,6 @@ import { currencyFormatter } from "../actions/stripe";
 import { SettingOutlined } from "@ant-design/icons";
 import {toast} from 'react-toastify';
 import { useHistory } from "react-router";
-import { useAuth0 } from '@auth0/auth0-react';
 const { Meta }  = Card;
 const { Ribbon } = Badge;
 
@@ -20,17 +19,18 @@ const NavConnect = () => {
     // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const {auth} = useSelector((state) => ({...state}));
-    const {getAccessTokenSilently } = useAuth0();
+
     const history = useHistory();
-    
+
+    // deconstruct user from stat auth
+    const {user} = auth;
     // Constructor to get account balance
     useEffect(() => {
-        try{
-        // get account balance
-        AccountBalance();
-    } catch(error) {
-        console.log(error);
-    }
+        // get account balance with auth token
+        getAccountBalance(auth.token).then(response => {
+            // set account balance with response data
+            setBalance(response.data);
+        })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     // Configure payout settings 
@@ -38,9 +38,8 @@ const NavConnect = () => {
         // Set loading state to true
         setLoading(true)
         try {
-            const token = await getAccessTokenSilently();
             // create a response variable and await getting payout settings from backent
-            const response = await getPayoutSettings(token, auth._id);
+            const response = await getPayoutSettings(auth.token);
             // set window location to response data url
             window.location.href = response.data.url;
             // set location to ture
@@ -54,31 +53,20 @@ const NavConnect = () => {
             toast('Unable to access settings. Try again');
         }
     }
-    const AccountBalance = async() => {
-        try {
-            const token = await getAccessTokenSilently();
-            getAccountBalance(token, auth._id).then(response => {
-                // set account balance with response data
-                setBalance(response.data);
-            })
-        } catch (error) {
-           console.log(error); 
-        }
-    }
 
     const showProfile = () => {
-        history.push(`/user/${auth._id}`);
+        history.push(`/user/${user._id}`);
     }
     return (
         <div className="d-flex justify-content-around">
             <Ribbon text="Profile" color="silver">
             <Card onClick={showProfile} classname="bg-light pointer">
-            <Meta avatar={<Avatar>{auth.name[0]}</Avatar>} title={auth.name} description={`Joined ${moment(auth.createdAt).fromNow()}`}/>
+            <Meta avatar={<Avatar>{user.name[0]}</Avatar>} title={user.name} description={`Joined ${moment(user.createdAt).fromNow()}`}/>
             </Card>
             </Ribbon>
 
-{/* { auth  && auth.stripe_seller && auth.stripe_seller.charges_enabled  &&  */}
-        <>
+{ auth && auth.user && auth.user.stripe_seller && auth.user.stripe_seller.charges_enabled  && 
+        (<>
             <Ribbon text="Avalible" color="grey">
             <Card className="bg-light pt-1">
                 {balance && balance.pending && balance.pending.map((balance, i) => (
@@ -98,8 +86,8 @@ const NavConnect = () => {
             </Ribbon>
             </>
         
-    
-        {/* } */}
+    )
+        }
         </div>
     );
 };

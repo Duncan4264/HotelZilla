@@ -2,11 +2,9 @@ import express from "express";
 import {readdirSync} from "fs";
 import cors from "cors";
 import mongoose from 'mongoose'; 
-const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
-const jwksRsa = require('jwks-rsa');
 const morgan = require("morgan");
 const helmet = require("helmet");
+const bodyParser = require('body-parser')
 
 require("dotenv").config();
 
@@ -25,28 +23,6 @@ mongoose.connect(process.env.DATABASE, {
 } catch(error) {
     console.log(error);
 }
-
-// const checkJwt = jwt({
-//     // Dynamically provide a signing key
-//     // based on the kid in the header and 
-//     // the signing keys provided by the JWKS endpoint.
-//     secret: jwksRsa.expressJwtSecret({
-//       cache: true,
-//       rateLimit: true,
-//       jwksRequestsPerMinute: 5,
-//       jwksUri: `https://dev-w3d00qd3.us.auth0.com/.well-known/jwks.json`
-//     }),
-  
-//     // Validate the audience and the issuer.
-//     audience: 'http://localhost:8000/api/',
-//     issuer: [`https://dev-w3d00qd3.us.auth0.com/`],
-//     algorithms: ['RS256']
-//   });
-  
-//   // enforce on all endpoints
-//   app.use(checkJwt);
-  
-  
 
 //middlewares
 app.use(helmet());

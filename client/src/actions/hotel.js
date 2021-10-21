@@ -5,8 +5,7 @@ import axios from "axios";
 * Parameters: User toekn and form data
 * @Post request
 */
-
-export const CreateHotel = async (token, data) => {
+export const createHotel = async (token, data) => {
   try {
     // await axios post to cereat hotel URI with form data and token in post request headers
   let hotel = await axios.post(`${process.env.REACT_APP_API}/create-hotel`, data, {
@@ -25,14 +24,10 @@ export const CreateHotel = async (token, data) => {
 * Public method to get all of the hotels from the API
 * @ Get Request
 */
-export const ReadAllHotels = async (token) => {
+export const readAllHotels = async () => {
   try {
     // await axios get request to hotels URI 
-    let hotels= await axios.get(`${process.env.REACT_APP_API}/hotels`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
+    let hotels= await axios.get(`${process.env.REACT_APP_API}/hotels`);
     return hotels;
   } catch (error) {
     // log an error to the console
@@ -64,10 +59,10 @@ export const diffDays = (from, to) => {
 * Parameters: User token
 * @ Get Request
 */
-export const sellerHotels = async (token, userId) => {
+export const sellerHotels = async (token) => {
   try {
     // await axios get method to seller hotels uri with token in headers
-  let sellerHotels = await axios.get(`${process.env.REACT_APP_API}/seller-hotels/${userId}`, {
+  let sellerHotels = await axios.get(`${process.env.REACT_APP_API}/seller-hotels`, {
   headers: {
     Authorization: `Bearer ${token}`
   },
@@ -156,7 +151,7 @@ export const read = async (hotelId) => {
 * Parameters: User token
 */
 }
-export const userHotelBookings = async(token, userId) => await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings/${userId}`, {
+export const userHotelBookings = async(token) => await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings`, {
   headers: {
     Authorization: `Bearer ${token}`,
   }

@@ -26,10 +26,10 @@ export const read = async (userId) => {
  * @param {*} data
  * @returns {*}  Returns the new user profile or an error creating the user profile
  */
-export const create = async (token, data, profileId) => {
+export const create = async (token, data) => {
     try {
         // variable that sends the post request to the uri with the form data and token in the headers
-        let profile = await axios.post(`${process.env.REACT_APP_API}/create-profile/${profileId}`, data, {
+        let profile = await axios.post(`${process.env.REACT_APP_API}/create-profile`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
               },

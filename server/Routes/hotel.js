@@ -8,13 +8,12 @@ import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, update
  const router = express.Router();
 
  // deconstruct middleware 
- import {hotelOwner, requireSignin, checkJwt} from "../middleware/index";
-
+ import {hotelOwner, requireSignin} from "../middleware/index";
 
 
 try {
     // route to handle create hotel post method with require sign on middleware, formidable method and create method uri
-router.post("/create-hotel", checkJwt, formidable(), create);
+router.post("/create-hotel", requireSignin, formidable(), create);
 
 // route to get hotels from hotels
 router.get('/hotels', hotels);
@@ -25,24 +24,24 @@ router.get('/profile-hotels/:userId', profileHotels)
 // Route to get hotel image based off of hotel id uri
 router.get('/hotel/image/:hotelId', readImage);
 // route to get the seller hotels with require sign in middleware
-router.get('/seller-hotels/:hotelId', checkJwt, sellerHotels);
+router.get('/seller-hotels', requireSignin, sellerHotels);
 
 // route to dleete a hotel based off of the hotel id, requires sign in and hotel owner
-router.delete('/delete-hotel/:hotelId', checkJwt, hotelOwner, deleteHotel);
+router.delete('/delete-hotel/:hotelId', requireSignin, hotelOwner, deleteHotel);
 // route to get a single hotel based off of hotel id
 router.get('/hotel/:hotelId', readHotel);
 // route to update hotel based off of hotel id, requires sign on and hotel owner middleware
-router.put('/update-hotel/:hotelId', checkJwt, hotelOwner, formidable(), updateHotel);
+router.put('/update-hotel/:hotelId', requireSignin, hotelOwner, formidable(), updateHotel);
 // route to get users hotel bookings that requires sign in middleware
-router.get('/user-hotel-bookings/:userId', checkJwt, userHotelBookings)
+router.get('/user-hotel-bookings', requireSignin, userHotelBookings)
 // route to get is already booked by hotel id, requiresignin middleware
-router.get('/is-already-booked/:hotelId', checkJwt, isBooked)
+router.get('/is-already-booked/:hotelId', requireSignin, isBooked)
 
 // route to search hotel listings
 router.post('/search-listings', searchLists);
 
 // route to count hotel listings
-router.get('/user/hotels/:userId', checkJwt, countHotels);
+router.get('/user/hotels/:userId', requireSignin, countHotels);
 } catch (error) {
     // log the error to the console
     console.log(error);

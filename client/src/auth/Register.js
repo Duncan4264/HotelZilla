@@ -25,6 +25,7 @@ const Register = ({ history }) => {
        await register({
             name,
             email,
+            password,
         });
         // console.log('REGISTER USER =======>', response);
 

@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { ReadAllHotels } from "../actions/hotel";
+import { readAllHotels } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
-import Search from "../components/forms/Search";
-import { useAuth0 } from '@auth0/auth0-react';
-import {readUser} from '../actions/auth';
+import Search from "../components/forms/Search"
 
 /**
  * @description Renders the home componenet, along with grabbing all of the hotels and displaying edit and delete hotel if the hotel is the hotel owner
@@ -12,23 +10,17 @@ import {readUser} from '../actions/auth';
  * @returns {*} returns the home component
  */
 const Home = () => {
-  const {getAccessTokenSilently } = useAuth0();
-
-
-
   // create the state variables 
   const [hotels, setHotels] = useState([]);
  // Constructor to call load all hotels method
   useEffect(() => {
-    LoadAllhotels();
+    loadAllhotels();
   }, []);
   // load all hotels method to get all hotels from API
-  const LoadAllhotels = async () => {
+  const loadAllhotels = async () => {
       try {
-        
-        const token = await getAccessTokenSilently();
         // create response variable equal to reading all hotels
-    let res = await ReadAllHotels(token);
+    let res = await readAllHotels();
     // set hotel state equal to response dta
     setHotels(res.data);
       } catch(error) {

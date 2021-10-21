@@ -4,7 +4,6 @@ import ProfileEditForm from "../components/forms/ProfileEditForm";
 import {useHistory} from 'react-router-dom';
 import {read, editProfile} from "../actions/profile";
 import { toast } from "react-toastify";
-import { useAuth0 } from '@auth0/auth0-react';
 /**
  * @description Method to edit a profile based off of profile id, handles and renders form 
  * @author Cyrus Duncan
@@ -13,13 +12,12 @@ import { useAuth0 } from '@auth0/auth0-react';
  * @returns {*} Returns Edit form and API response
  */
 const EditProfile = ({match}) => {
-  const {getAccessTokenSilently } = useAuth0();
   // grab history
   const history = useHistory();
   // deconstruct auth from state
     const {auth} = useSelector((state) => ({...state}));
     // deconstruct token from state
-
+    const {token} = auth;
   // create state  values
     const [values, setValues] = useState({
         name: "",
@@ -75,7 +73,6 @@ const EditProfile = ({match}) => {
         image && profileData.append("image", image);
         
         try{
-          const token = await getAccessTokenSilently();
           // send new form data to edit profile API with token, formdata and profile id
             let res = await editProfile(token, profileData, id);
             // alert a success profile is updated

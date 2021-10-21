@@ -1,6 +1,6 @@
 // import dependencys
 import express from 'express'
-import { Register , Login, readUser, readUserEmail} from '../Controllers/auth/AuthController';
+import { Register , Login, readUser } from '../Controllers/auth/AuthController';
 
 
 // create variable router from express router
@@ -16,11 +16,7 @@ router.post('/register', Register);
 router.post('/login', Login);
 
 // Router that gets a request userId that reads userId
-router.get('/user/:userId', readUser);
-
-router.get('/user/email/:userId', readUserEmail);
-
-
+router.get('/user/:userId', readUser)
  } catch(error) {
      // Console log an error
      console.log(error)

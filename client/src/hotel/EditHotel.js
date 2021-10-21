@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { read, updateHotel } from "../actions/hotel";
 import { useSelector } from "react-redux";
 import HotelEditForm from "../components/forms/HotelEditForm";
-import { useAuth0 } from '@auth0/auth0-react';
+
 
 
 /*
@@ -12,9 +12,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 * Paramaets: Match Hotel Object parameter
 */
 const EditHotel = ({ match }) => {
-  const {getAccessTokenSilently } = useAuth0();
   // redux
   const { auth } = useSelector((state) => ({ ...state }));
+  const { token } = auth;
   // state
   const [values, setValues] = useState({
     title: "",
@@ -66,7 +66,6 @@ const EditHotel = ({ match }) => {
     hotelData.append("bed", bed);
 
     try {
-      const token = await getAccessTokenSilently();
       // set response variable to await updating backend action in backend
         let res = await updateHotel(token, hotelData, match.params.hotelId);
         // show an update success with data title to the client

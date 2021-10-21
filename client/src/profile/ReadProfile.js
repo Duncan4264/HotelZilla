@@ -9,7 +9,7 @@ import { profileHotels } from '../actions/hotel';
 import SmallCard from "../components/cards/SmallCard";
 import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons';
 import { countComments  } from "../actions/comment";
-import { useAuth0 } from '@auth0/auth0-react';
+
 
 /**
  * @description Method the returns the profile object from the backend
@@ -19,7 +19,6 @@ import { useAuth0 } from '@auth0/auth0-react';
  * @returns {*} returns the profile object to the state or returns an error
  */
 const ReadProfile = ({match, history}) => {
-  const {getAccessTokenSilently } = useAuth0();
     //state
     const [profile, setProfile] = useState({});
     const [reviewCount, setReviewCount] = useState(0);
@@ -31,7 +30,7 @@ const ReadProfile = ({match, history}) => {
 
     // Grab auth token from state
     const {auth} = useSelector((state => ({...state})));
-    
+    const { token } = auth;
     // constructor to run load user profile at start up
     useEffect(() => {
         loadUserProfile();
@@ -45,15 +44,12 @@ const ReadProfile = ({match, history}) => {
     * */
     const loadUserProfile = async () => {
         try {
-          
             // Read the user profile with the profile userId
             let res = await read(match.params.userId);
-
-            
             // If the response is undefined or null
             if(typeof res == 'undefined' || res == null || typeof res.data == 'undefined' ||  res.data == null)  {
                 // if the user is not signed in as the user in userId parameter, return user to dashboard
-                if(auth._id !== match.params.userId) {
+                if(auth.user._id !== match.params.userId) {
                     history.push('/dashboard');
                     toast.error("User Profile Does Not Exist");
                     return;
@@ -63,13 +59,12 @@ const ReadProfile = ({match, history}) => {
                 // stop loading user profile
                 return;
             }
-            if(auth._id === match.params.userId) {
+            if(auth.user._id === match.params.userId) {
               setOwner(true);
             }
             
             // set profile to user state
             setProfile(res.data);
-            console.log(res.data);
             // set image to user state
             setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
         } catch (error) {
@@ -86,7 +81,6 @@ const ReadProfile = ({match, history}) => {
  */
 const handleProfileDelete = async() => {
         try {
-          const token = await getAccessTokenSilently();
             // create a variable that deletes a profile based off of token and profile id
             let res = await deleteProfile(token, profile._id);
             // create and alert that profile has been deleted
@@ -108,7 +102,6 @@ const handleProfileDelete = async() => {
  */
 const countProfileReviews = async() => {
   try {
-    const token = await getAccessTokenSilently();
     console.log(match.params.userId);
     // grab review count from database
     let res = await countReviews(match.params.userId, token);
@@ -154,7 +147,6 @@ const countProfileReviews = async() => {
     * Method to count profile hotels
     */
    const countPost = async () => {
-    const token = await getAccessTokenSilently();
      try {
        // call the count hotels method from action to get hotel count from backend
       let res = await countHotels(match.params.userId, token);
@@ -169,11 +161,12 @@ const countProfileReviews = async() => {
      }
    }
    const countComment = async () => {
-    const token = await getAccessTokenSilently();
      try {
        let res = await countComments(match.params.userId, token);
 
       setCommentCount(res.data);
+      console.log(res.data);
+      console.log(CommentCount);
        return res;
      } catch (error) {
        console.log(error);
@@ -211,7 +204,7 @@ const countProfileReviews = async() => {
         </div>
         <div class="col-4">
           {owner && <div className="mb-3">
-          <a href={`/user/reviews/${auth._id}`}>
+          <a href={`/user/reviews/${auth.user._id}`}>
           <ProfileOutlined className="text-white"/>
           </a>
           </div>}
@@ -221,7 +214,7 @@ const countProfileReviews = async() => {
         <div class="col-4">
           {owner &&
           <div className="mb-3">
-           <Link to={`/profile/edit/${auth._id}`}>
+           <Link to={`/profile/edit/${auth.user._id}`}>
             <EditOutlined className="text-warning" />
             </Link>
             </div>}
