@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 export const register = async (user) => {
   try {
     // axios post to register URI with user paramater
-   let register = await axios.post(`${process.env.REACT_APP_API}/register`, user);
+   let register = await axios.post(`${process.env.REACT_APP_API}/register/`, user);
    // return response status
    return register;
   } catch (error) {
@@ -49,6 +49,8 @@ export const login = async (user) => {
     console.log(error);
   }
 }
+
+
  
 /*
 * Added method to update user in local storage
@@ -67,11 +69,39 @@ export const login = async (user) => {
     }
   };
 
+  export const readUserAuth0 = async(token) => {
+    try {
+    let user = await axios.get(`https://dev-w3d00qd3.us.auth0.com/userinfo`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return user;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  
   export const readUser = async(userId) => {
     try {
-    let hotel = await axios.get(`${process.env.REACT_APP_API}/user/${userId}`)
-    return hotel;
+      console.log(userId);
+    let user = await axios.get(`${process.env.REACT_APP_API}/user/${userId}`)
+    console.log(user);
+    return user;
     } catch(error) {
+      console.log(error);
+    }
+  }
+
+  export const checkEmail = async(token, email) => {
+    try {
+      let user = await axios.get(`${process.env.REACT_APP_API}/user/email/${email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return user;
+    } catch (error) {
       console.log(error);
     }
   }

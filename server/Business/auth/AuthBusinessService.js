@@ -1,4 +1,4 @@
-import { LoginDAO, RegisterDAO, readUser } from "../../Data/auth/authDAO"
+import { LoginDAO, RegisterDAO, readUser, readUserEmail } from "../../Data/auth/authDAO"
 /**
  * @description Method that handles Register busienss service
  * @author Cyrus Duncan
@@ -53,6 +53,15 @@ export const ReadUserService = async (req, res) => {
         return userRead;
     } catch (error) {
         // log an error to the console
+        console.log(error);
+    }
+}
+
+export const ReadUserEmailService = async (req, res) => {
+    try {
+        let ReadUser = readUserEmail(req, res);
+        return ReadUser;
+    } catch (error) {
         console.log(error);
     }
 }

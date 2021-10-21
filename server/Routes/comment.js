@@ -8,13 +8,13 @@ import { create, readComments, countComments} from "../Controllers/comments/Comm
  const router = express.Router();
 
  // deconstruct middleware 
- import {requireSignin} from "../middleware/index";
+ import {requireSignin, checkJwt} from "../middleware/index";
 
 
 try {
-    router.post('/create-comment', requireSignin, formidable(), create);
-    router.get('/comments/:reviewId', requireSignin, readComments);
-    router.get(`/user/comments/:userId`, requireSignin, countComments);
+    router.post('/create-comment', checkJwt, formidable(), create);
+    router.get('/comments/:reviewId', checkJwt, readComments);
+    router.get(`/user/comments/:userId`, checkJwt, countComments);
 } catch (error) {
     // log the error to the console
     console.log(error);

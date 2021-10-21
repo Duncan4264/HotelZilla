@@ -8,15 +8,15 @@ import { countReviews, createReview, readReviews, readUserReviews, editReviews }
  const router = express.Router();
 
  // deconstruct middleware 
- import {hotelOwner, requireSignin} from "../middleware/index";
+ import {hotelOwner, requireSignin, checkJwt} from "../middleware/index";
 
 
 try {
-    router.post('/create-review', requireSignin, formidable(), createReview);
-    router.get('/reviews/:hotelId', requireSignin, readReviews);
-    router.get('/user/reviewcount/:userId', requireSignin, countReviews);
-    router.get('/users/reviews/:userId', requireSignin, readUserReviews);
-    router.put(`/edit-review/:reviewId`, requireSignin, formidable(), editReviews);
+    router.post('/create-review', checkJwt, formidable(), createReview);
+    router.get('/reviews/:hotelId', checkJwt, readReviews);
+    router.get('/user/reviewcount/:userId', checkJwt, countReviews);
+    router.get('/users/reviews/:userId', checkJwt, readUserReviews);
+    router.put(`/edit-review/:reviewId`, checkJwt, formidable(), editReviews);
 } catch (error) {
     // log the error to the console
     console.log(error);

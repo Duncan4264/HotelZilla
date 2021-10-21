@@ -22,8 +22,9 @@ import CreateReview from './review/CreateReview';
 import readReviews from './review/ReadReviews';
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "antd/dist/antd";
+import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
 
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 import StripeSuccess from './stripe/StripeSuccess';
 import Footer from './components/Footer';
@@ -31,11 +32,13 @@ import AdminDashboard from './admin/AdminDashboard';
 
 // Main function to handle app rendering and routing
 function App() {
-    
+
   return (
+    <div className="App">
     <body>
     <div className="page-container">
     <BrowserRouter>
+    <Auth0ProviderWithHistory>
     <TopMenuNav/>
     <div className="content-wrap">
     <ToastContainer position="top-center"/>
@@ -63,9 +66,11 @@ function App() {
     <div className="footer">
     <Footer/>
     </div>
+    </Auth0ProviderWithHistory>
     </BrowserRouter>
     </div>
     </body>
+    </div>
   );
 }
 

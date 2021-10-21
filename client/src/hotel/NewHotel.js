@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { createHotel } from "../actions/hotel";
+import { CreateHotel } from "../actions/hotel";
 import { useSelector } from "react-redux";
 import HotelCreateForm from "../components/forms/HotelCreateForm";
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 const NewHotel = () => {
   // redux
   const { auth } = useSelector((state) => ({ ...state }));
-  const { token } = auth;
+  const {getAccessTokenSilently } = useAuth0();
   // state
   const [values, setValues] = useState({
     title: "",
@@ -43,8 +43,9 @@ const NewHotel = () => {
 
 
     try {
+      const token = await getAccessTokenSilently();
       // await create hotel in backend
-      await createHotel(token, hotelData);
+      await CreateHotel(token, hotelData);
       // send a sucess request to client 
       toast.success("New hotel is posted");
       // reload the window after 1000 seconds 
@@ -54,8 +55,6 @@ const NewHotel = () => {
     } catch (err) {
       // log the error to the console
       console.log(err);
-      // send the error data to client 
-      toast.error(err.response.data);
     }
   };
   /*

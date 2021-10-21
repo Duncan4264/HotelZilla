@@ -2,6 +2,7 @@
 import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import HotelFilled from '@ant-design/icons'
+import AuthNav from './auth-nav';
 
 /*
 * Method to hanlde the state and render Top Menu Nav Component 
@@ -12,6 +13,7 @@ const TopMenuNav = () => {
   const dispatch = useDispatch();
   // deconsturct auth from state
   const {auth} = useSelector((state) => ({...state}));
+
 
 
   // create history variable from react-router-dom
@@ -48,13 +50,14 @@ const TopMenuNav = () => {
                     <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/"><i class="fa fa-home"></i> Home</a></li>
                     {auth === null && <>
                     
-                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/login"><i class="fa fa-sign-in"></i> Sign In</a></li>
+                      <li><AuthNav /></li>
                     </>
                     }
                     {auth && <>
-                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href={`/user/${auth.user._id}`}><i class="fa fa-user-circle-o"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href={`/user/${auth._id}`}><i class="fa fa-user-circle-o"></i> Profile</a></li>
                     <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/dashboard"><i class="fa fa-wpexplorer"></i> Dashboard</a></li>
-                      <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i class="fa fa-sign-in"></i>Logout</a></li>
+                      {/* <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i class="fa fa-sign-in"></i>Logout</a></li> */}
+                      <li><AuthNav /></li>
                     </>}
                 </ul>
             </div>

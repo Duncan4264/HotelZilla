@@ -1,4 +1,4 @@
-import { createConnectionAccountService, getAccountBalanceService, getPayoutSettingsService, readStripeSessionIdService, stripeSuccessService, updateDelayDaysService } from "../../Business/stripe/StripeBusinessService";
+import { createConnectionAccountService, getAccountBalanceService, getAccountStatusService, getPayoutSettingsService, readStripeSessionIdService, stripeSuccessService, updateDelayDaysService } from "../../Business/stripe/StripeBusinessService";
 /*
 * Method to create a connection account with Stripe API
 * Parameters Request Object, Response Object
@@ -32,13 +32,13 @@ export const updateDelayDays = async (req, res, accountId) => {
   */
     export const getAccountStatus = async (req, res) => {
       try {
-          let accountStatus = getAccountStatus(req, res);
+          let accountStatus = await getAccountStatusService(req, res);
           return accountStatus;
     } catch(error) {
       // log the error to the console
       console.log(error)
     }
- };
+ }
    /*
    * Method to get account balance
    * Parameters: Request, Repsonse

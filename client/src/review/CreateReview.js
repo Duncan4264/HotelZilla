@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { readUser } from "../actions/auth";
 import moment from "moment";
 import { read, diffDays } from "../actions/hotel";
+import { useAuth0 } from '@auth0/auth0-react';
 /**
  * @description class that creates a review
  * @author Cyrus Duncan
@@ -14,7 +15,7 @@ import { read, diffDays } from "../actions/hotel";
 const CreateReview = ({match, history}) => {
 // Grab the auth and user token from state
 const {auth} = useSelector((state) => ({...state}));
-const {token} = auth;
+const {getAccessTokenSilently } = useAuth0();
 // create the state variables
 const [review, setReview] = useState({});
 const [hotel, setHotel] = useState({});
@@ -34,7 +35,7 @@ useEffect(() => {
   
 // method to load user from api
 const loadUser = async () => {
-
+  const token = await getAccessTokenSilently();
     // load user
     let res = await readUser(auth.user._id);
     // set review to user

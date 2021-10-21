@@ -20,13 +20,6 @@ const userSchema = new Schema(
       required: "Email is required",
       unique: true,
     },
-    // Password Field with type of string for users password with minimum password requirement of 6 and maximum requirement of 64
-    password: {
-      type: String,
-      required: true,
-      min: 6,
-      max: 64,
-    },
     // admin field boolean to see if user is an admin
     admin: {
       type: Boolean,

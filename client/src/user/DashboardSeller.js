@@ -8,12 +8,14 @@ import { HomeOutlined } from "@ant-design/icons";
 import { createConnectionAccount } from "../actions/stripe";
 import { sellerHotels } from "../actions/hotel";
 import { toast } from "react-toastify";
+import { useAuth0 } from '@auth0/auth0-react';
 import SmallCard from "../components/cards/SmallCard";
 
 import { deleteHotel } from "../actions/hotel";
 
 // class to handle dashboard seller state and rendering
 const DashboardSeller = () => {
+  const {getAccessTokenSilently } = useAuth0();
   // deconstruct token from state
   const { auth } = useSelector((state) => ({ ...state }));
   // state varaibles
@@ -29,8 +31,9 @@ const DashboardSeller = () => {
   // Method to load seller hotels
   const loadSellersHotels = async () => {
     try {
+      const token = await getAccessTokenSilently();
     // deconstruct data from calling seller hotels from back end
-    let { data } = await sellerHotels(auth.token);
+    let { data } = await sellerHotels(token, auth._id);
     // set hotels state to that data
     setHotels(data);
     } catch(error) {
@@ -42,8 +45,9 @@ const DashboardSeller = () => {
     // set loading state to true
     setLoading(true);
     try {
+      const token = await getAccessTokenSilently();
       // response variable to create connection accout with token in stripe API
-      let res = await createConnectionAccount(auth.token);
+      let res = await createConnectionAccount(token, auth._id);
       // set browser location to response data
       window.location.href = res.data;
     } catch (err) {

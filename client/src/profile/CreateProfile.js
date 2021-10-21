@@ -5,6 +5,7 @@ import { readUser } from "../actions/auth";
 import ProfileCreateForm from "../components/forms/ProfileCreateform";
 import {create} from "../actions/profile";
 import { toast } from "react-toastify";
+import { useAuth0 } from '@auth0/auth0-react';
 /**
  * @description Method to create profile for the user based off of their userId and their user data
  * @author Cyrus Duncan
@@ -13,11 +14,12 @@ import { toast } from "react-toastify";
  * @returns {*} 
  */
 const CreateProfile = ({match, history}) => {
+  const {getAccessTokenSilently } = useAuth0();
     // Grab the auth and user token from state
     const {auth} = useSelector((state) => ({...state}));
-    const {token} = auth;
     // create the state variables
     const [profile, setProfile] = useState({});
+    let profileId = "";
     const [loading, setLoading] = useState(false);
     const [user, setisUser] = useState(false);
     // set the values of the projectin the state
@@ -32,7 +34,7 @@ const CreateProfile = ({match, history}) => {
     );
     // set the location state
     const [location, setLocation] = useState("");
-
+      
     // deconstruct profile variables and set it to values
     const {name, aboutme, image} = values;
 
@@ -46,9 +48,12 @@ const CreateProfile = ({match, history}) => {
     */
     const loadUser = async () => {
         // read the user from auth action and userId
-        let res = await readUser(match.params.userId)
+        let res = await readUser(match.params.userId);
         // set the profile state with the data returend
-        setProfile(res.data);
+        setProfile(res.data._id);
+        profileId = res.data._id;
+
+        console.log(profileId);
     }
     /*
     * Method to handle submit of form creation
@@ -64,9 +69,11 @@ const CreateProfile = ({match, history}) => {
         profileData.append("location", location);
         image && profileData.append("image", image);
         
+        
         try {
+          const token = await getAccessTokenSilently();
             // create profile variable after creating profile with usertoken and form data
-            const profile = await create(token, profileData);
+            const profile = await create(token, profileData, match.params.userId);
             // alert the user a new profile is created succuessfully
             toast.success("New  Profile is created");
             // set a timeout for 1000 seconds
@@ -79,8 +86,7 @@ const CreateProfile = ({match, history}) => {
         } catch(error) {
             // log an error to the console
             console.log(error);
-            // send the error as an alert to the end user
-            toast.error(error.response.data);
+
         }
     }
     /*

@@ -4,7 +4,7 @@ import { readUser } from "../actions/auth";
 import { readuserReviews } from "../actions/review";
 import { useSelector } from "react-redux";
 import { Card } from 'antd';
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 /**
  * @description Component that handles reading reviews
@@ -17,9 +17,9 @@ const ReadReviews = ({match}) => {
     const [reviews, setReviews] = useState([]);
     const [user, setUser] = useState({});
     const [owner, setOwner] = useState();
-
+    const {getAccessTokenSilently } = useAuth0();
     const { auth } = useSelector((state) => ({ ...state }));
-    const { token } = auth;
+
 
     useEffect(() => {
         readuserReview();
@@ -32,6 +32,7 @@ const ReadReviews = ({match}) => {
  */
 const readuserReview  =  async()  => {
         try {
+          const token = await getAccessTokenSilently();
             // read user reviews from api with userId and token
             let res = await readuserReviews(match.params.userId, token);
             // set reviews state to api response

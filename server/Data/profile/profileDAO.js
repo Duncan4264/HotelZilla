@@ -47,7 +47,7 @@ export const createProfile = async(req, res) => {
         // make a new profile variable to the profile object with fields 
         let profile = new Profile(fields);
         // set profile user variable equal to request user id
-        profile.user = req.user._id;
+        profile.user = req.params.userId
         // if the files have an image
         if(files.image) {
             // set the profile image data to the file path of the image

@@ -8,23 +8,25 @@ import { loadStripe } from "@stripe/stripe-js";
 import { readReviews } from '../actions/review';
 import ReviewCard from "../components/cards/ReviewCard";
 import { Card } from 'antd';
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 /*
 * Method to view a single hotel
 * Parameters: match hotel Object and history Object
 */
 const ViewHotel = ({ match, history }) => {
+  const {getAccessTokenSilently } = useAuth0();
   // state
   const [hotel, setHotel] = useState({});
   const [image, setImage] = useState("");
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
+  const [token, setToken] = useState("");
 
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
-  const { token } = auth;
+
 
 
 // constructor to load seller hotels and check if it's already booked when compontent is loaded
@@ -32,9 +34,9 @@ const ViewHotel = ({ match, history }) => {
     // call load seller hotel action in back end
     loadSellerHotel();
     // if authorized
-    if(auth && auth.token) {
+    if(auth && token) {
       // check to see if user is already booked
-      isAlreadyBooked(auth.token, match.params.hotelId)
+      isAlreadyBooked(token, match.params.hotelId)
       // then if response
       .then((res) => {
         // set hotel objects to already booked
@@ -48,6 +50,10 @@ const ViewHotel = ({ match, history }) => {
 
 // Method to load seller hotel
   const loadSellerHotel = async () => {
+
+    const token = await getAccessTokenSilently();
+    
+    setToken(token);
     // call backed with response variable
     let res  = await read(match.params.hotelId);
     // console.log(res);
@@ -58,6 +64,7 @@ const ViewHotel = ({ match, history }) => {
   };
 // method to load reviews for hotel
   const readAllReview = async () => {
+    const token = await getAccessTokenSilently(); 
     // call back to read reviews
     let res = await readReviews(match.params.hotelId, token);
     console.log(res.data);
@@ -72,7 +79,7 @@ const ViewHotel = ({ match, history }) => {
 */
   const handleClick = async (e) => {
     // if no auth or auth token
-    if(!auth || !auth.token) {
+    if(!auth) {
       // send user to login
       history.push('/login')
       return;
@@ -84,7 +91,8 @@ const ViewHotel = ({ match, history }) => {
     // if no auth token send user to login uri
     if (!auth) history.push("/login");
     // let response to get session ID
-    let res = await getSessionId(auth.token, match.params.hotelId);
+    let res = await getSessionId( token, match.params.hotelId, auth._id);
+    console.log(res);
     // let stripe await load stripe with stripe API key
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
     // stripe redirect to
@@ -136,7 +144,7 @@ const ViewHotel = ({ match, history }) => {
                 ? "Loading..."
                 : alreadyBooked
                 ? "Already Booked"
-                : auth && auth.token
+                : auth && token
                 ? "Book Now"
                 : "Login to Book"}
             </button>
