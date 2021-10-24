@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { ReadAllHotels } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 import Search from "../components/forms/Search";
-import { useAuth0 } from '@auth0/auth0-react';
 import {readUser} from '../actions/auth';
 
 /**
@@ -12,7 +11,6 @@ import {readUser} from '../actions/auth';
  * @returns {*} returns the home component
  */
 const Home = () => {
-  const {getAccessTokenSilently } = useAuth0();
 
 
 
@@ -26,9 +24,8 @@ const Home = () => {
   const LoadAllhotels = async () => {
       try {
         
-        const token = await getAccessTokenSilently();
         // create response variable equal to reading all hotels
-    let res = await ReadAllHotels(token);
+    let res = await ReadAllHotels();
     // set hotel state equal to response dta
     setHotels(res.data);
       } catch(error) {

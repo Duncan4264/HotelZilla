@@ -7,6 +7,7 @@ const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
 const morgan = require("morgan");
 const helmet = require("helmet");
+const compression = require('compression');
 
 require("dotenv").config();
 
@@ -50,9 +51,12 @@ mongoose.connect(process.env.DATABASE, {
 
 //middlewares
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000'
+  }));
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(compression());
 
 
 // Route Middleware

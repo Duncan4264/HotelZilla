@@ -5,6 +5,7 @@ import { login, register } from "../actions/auth";
 import {useDispatch} from "react-redux"
 import { useAuth0 } from '@auth0/auth0-react';
 import {readUserAuth0, checkEmail} from '../actions/auth';
+import {useHistory} from 'react-router-dom';
 
 
 /*
@@ -13,6 +14,8 @@ import {readUserAuth0, checkEmail} from '../actions/auth';
 */
 const Login = () => {
   const {getAccessTokenSilently } = useAuth0();
+    // create history variable from react-router-dom
+    const history = useHistory();
 
   useEffect(() => {
     LoginUser();
@@ -30,13 +33,18 @@ const Login = () => {
             let res = await checkEmail(token, user.data.email);
           if(res.data) {
             window.localStorage.setItem("auth", JSON.stringify(res.data));
+            history.push('/');
+            window.location.reload(false);
           } else {
-
           let registerUser = await register({name, email});
           let res = await checkEmail(token, user.data.email);
           if(res.data) {
             window.localStorage.setItem("auth", JSON.stringify(res.data));
+            history.push('/');
+            window.location.reload(false);
           }
+          history.push('/');
+          window.location.reload(false);
         }
           // // let response equare to login request
           //   let res = await login({email, password})
@@ -65,8 +73,6 @@ const Login = () => {
 
           // Log the error to the console
             console.log(error);
-            // if server errror display the error in the GUI
-            if(error.response.status === 400) toast.error(error.response.data);
         }
       }
     
@@ -75,7 +81,6 @@ const Login = () => {
     return (
         <>
           <div className="container-fluid bg-secondary p-5 text-center">
-            <h1>Login</h1>
           </div>
     
           <div className="container">

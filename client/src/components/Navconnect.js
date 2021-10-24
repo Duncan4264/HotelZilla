@@ -60,7 +60,8 @@ const NavConnect = () => {
             getAccountBalance(token, auth._id).then(response => {
                 // set account balance with response data
                 setBalance(response.data);
-            })
+            });
+            console.log(balance);
         } catch (error) {
            console.log(error); 
         }
@@ -77,7 +78,7 @@ const NavConnect = () => {
             </Card>
             </Ribbon>
 
-{/* { auth  && auth.stripe_seller && auth.stripe_seller.charges_enabled  &&  */}
+{ auth  && auth.stripe_seller && auth.stripe_seller.charges_enabled  && 
         <>
             <Ribbon text="Avalible" color="grey">
             <Card className="bg-light pt-1">
@@ -99,7 +100,7 @@ const NavConnect = () => {
             </>
         
     
-        {/* } */}
+        } 
         </div>
     );
 };

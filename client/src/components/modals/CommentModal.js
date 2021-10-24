@@ -40,18 +40,18 @@ const CreateCommentModal = ({review, CommentModal, setCommentModal}) => {
             // add review data
             commentData.append("title", title);
             commentData.append("content", content);
-            commentData.append("user", auth.user._id);
+            commentData.append("user", auth._id);
             commentData.append("review", review._id);
 
             try {
                 // create review in backend
-                let editReview = await create(token, commentData);
+                let createComment = await create(token, commentData);
                 // set review modal to false to remove form screen
                 setCommentModal(false);
                 // refresh the window
                 window.location.reload();
                 // return review object
-                return editReview;
+                return createComment;
             } catch (error) {
                 // log an error to the console
                 console.log(error);
@@ -75,7 +75,7 @@ const CreateCommentModal = ({review, CommentModal, setCommentModal}) => {
         <Modal visible={CommentModal} title="Create A Comment" onCancel={handleCancel} onOk={handleOk}>
             <form onSubmit={handleOk}>
             <div className="form-group">
-            <input type="text" name="userid" value={auth.user_id} hidden />
+            <input type="text" name="userid" value={auth._id} hidden />
             <input type="text" name="hotelid" value={review._id} hidden />
             <input 
                 type="text"

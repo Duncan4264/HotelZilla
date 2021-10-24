@@ -38,14 +38,15 @@ function App() {
     <body>
     <div className="page-container">
     <BrowserRouter>
-    <Auth0ProviderWithHistory>
-    <TopMenuNav/>
+
     <div className="content-wrap">
     <ToastContainer position="top-center"/>
     <Switch>
+    <Auth0ProviderWithHistory>
+    <TopMenuNav/>
     <Route exact path="/" component={Home}/>
     <Route exact path="/login" component={Login}/>
-    <Route exact path="/register" component={Register}/>
+
     <PrivateRoute  exact path="/dashboard" component={Dashboard}/>
     <PrivateRoute exact path ="/dashboard/seller" component={DashboardSeller}/>
     <PrivateRoute exact path ="/hotels/new" component={NewHotel}/>
@@ -61,12 +62,13 @@ function App() {
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
     <PrivateRoute exact path="/admin/" component={AdminDashboard}/>
+    </Auth0ProviderWithHistory>
     </Switch>
     </div>
     <div className="footer">
     <Footer/>
     </div>
-    </Auth0ProviderWithHistory>
+
     </BrowserRouter>
     </div>
     </body>

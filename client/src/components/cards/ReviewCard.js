@@ -7,11 +7,13 @@ import CreateCommentModal from '../modals/CommentModal';
 import {readComments} from '../../actions/comment';
 import { useSelector } from "react-redux";
 import CommentCard from '../cards/CommentCard';
+import { useAuth0 } from '@auth0/auth0-react';
 const ReviewCard = ({
     r,
     handleReviewDelete = (f) => f,
     owner = false,
 }) => {
+    const {getAccessTokenSilently } = useAuth0();
     const [profile, setProfile] = useState({});
     const [image, setImage] = useState("");
     const [editReviewModal, setReviewModal] = useState(false);
@@ -20,7 +22,7 @@ const ReviewCard = ({
 
         // Grab auth token from state
         const {auth} = useSelector((state => ({...state})));
-        const { token } = auth;
+       
     
     useEffect(() => {
         loadUser();
@@ -40,7 +42,7 @@ const ReviewCard = ({
     }
     const loadComment = async() => {
         try {
-            console.log(r._id);
+            const token = await getAccessTokenSilently();
             // create variable that reads comments 
             let res = await readComments(token, r._id);
             console.log(res);

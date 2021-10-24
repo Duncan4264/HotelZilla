@@ -41,7 +41,7 @@ const ReviewModal = ({hotel, reviewModal, setReviewModal}) => {
             // add review data
             reviewData.append("title", title);
             reviewData.append("content", content);
-            reviewData.append("user", auth.user._id);
+            reviewData.append("user", auth._id);
             reviewData.append("hotel", hotel._id);
 
             try {
@@ -74,7 +74,7 @@ const ReviewModal = ({hotel, reviewModal, setReviewModal}) => {
         <Modal visible={reviewModal} title="Write a review" onCancel={handleCancel} onOk={handleOk}>
             <form onSubmit={handleOk}>
             <div className="form-group">
-            <input type="text" name="userid" value={auth.user_id} hidden />
+            <input type="text" name="userid" value={auth._id} hidden />
             <input type="text" name="hotelid" value={hotel._id} hidden />
             <input 
                 type="text"
