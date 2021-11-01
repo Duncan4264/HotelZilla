@@ -20,6 +20,7 @@ import CreateProfile from './profile/CreateProfile';
 import EditProfile from './profile/EditProfile';
 import CreateReview from './review/CreateReview';
 import readReviews from './review/ReadReviews';
+import ViewLocalHotel from './hotel/ViewLocalHotel';
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "antd/dist/antd";
 import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
@@ -61,7 +62,8 @@ function App() {
     <PrivateRoute exact path="/profile/edit/:userId" component={EditProfile} />
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
-    <PrivateRoute exact path="/admin/" component={AdminDashboard}/>
+    <PrivateRoute exact path="/local/hotel/:hotelId" component={ViewLocalHotel} />
+    <PrivateRoute exact path="/admin" component={AdminDashboard}/>
     </Auth0ProviderWithHistory>
     </Switch>
     </div>

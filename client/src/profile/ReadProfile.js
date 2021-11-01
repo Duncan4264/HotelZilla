@@ -10,6 +10,9 @@ import SmallCard from "../components/cards/SmallCard";
 import {DeleteOutlined, EditOutlined, ProfileOutlined} from '@ant-design/icons';
 import { countComments  } from "../actions/comment";
 import { useAuth0 } from '@auth0/auth0-react';
+import { readuserReviews } from "../actions/review";
+import { Card } from 'antd';
+import ReviewCard from "../components/cards/ReviewCard";
 
 /**
  * @description Method the returns the profile object from the backend
@@ -22,12 +25,15 @@ const ReadProfile = ({match, history}) => {
   const {getAccessTokenSilently } = useAuth0();
     //state
     const [profile, setProfile] = useState({});
+    const [reviews, setReviews] = useState([]);
     const [reviewCount, setReviewCount] = useState(0);
     const [hotelCount, setHotelCount] = useState(0);
+    const [user, setUser] = useState({});
     const [CommentCount, setCommentCount] = useState(0);
     const [hotels, setHotels] = useState([]);
     const [image, setImage] = useState({});
     const [owner, setOwner] = useState(false);
+    
 
     // Grab auth token from state
     const {auth} = useSelector((state => ({...state})));
@@ -39,7 +45,32 @@ const ReadProfile = ({match, history}) => {
         countProfileReviews();
         countPost();
         countComment();
-    }, [])
+        readuserReview();
+    }, []);
+
+    /**
+ * @description Method to read user 
+ * @author Cyrus Duncan
+ * @date 10/9/2021
+ */
+const readuserReview  =  async()  => {
+  try {
+    const token = await getAccessTokenSilently();
+      // read user reviews from api with userId and token
+      let res = await readuserReviews(match.params.userId, token);
+      // set reviews state to api response
+      setReviews(res.data);
+      // check to see if the user is owner of these reviews
+      if(auth.user._id === match.params.userId) {
+          // set owner state to true
+          setOwner(true);
+        }
+  } catch (error) {
+      // log an error tot the console
+      console.log(error);
+  }
+};
+
     /*
     * Method to load user porifle from profile action
     * */
@@ -216,7 +247,7 @@ const countProfileReviews = async() => {
           </a>
           </div>}
           <h4 className="text-white">{hotelCount}</h4>
-          <p>Posts</p>
+          <p>Hotel Posts</p>
         </div>
         <div class="col-4">
           {owner &&
@@ -233,6 +264,25 @@ const countProfileReviews = async() => {
   </header>
 </section> 
 
+{ hotelCount === 0 ?
+<>
+<div className="container-fluid bg-secondary p-5 text-center">
+          <h2>{profile.name}'s Reviews</h2>
+        </div>
+        <Card title={`${profile.name}'s Reviews`}>
+        {
+            owner 
+        ? reviews.map((r) => (
+          <ReviewCard key={r._id} r={r} owner={owner}/>
+        ))
+        : reviews.map((r) => (
+          <ReviewCard className="mt-5" key={r._id} r={r}/>
+        ))
+        }
+        </Card>
+</>
+:
+<>
 <h2 className="mt-5">{profile.name}'s Hotels</h2>
 <div className="card mt-5">
   { owner &&<div className="card-body">
@@ -259,6 +309,9 @@ const countProfileReviews = async() => {
         ))}
     </div>}
 </div>
+</>
+}
+
         </>
     )
 }

@@ -216,3 +216,36 @@ export const countHotels = async(userId, token) => {
   }
 }
 
+/*
+*  Method to get all local hotels from the user
+* @ GET request
+*/
+export const readAllLocalHotels = async() => {
+  try {
+    let hotels = await axios.get(`${process.env.REACT_APP_API}/local/hotels/Phoenix`);
+    return hotels.data;
+  } catch(error) {
+    console.log(error);
+  }
+}
+/**
+ * @description Method that reads local hotels from the API
+ * @author Cyrus Duncan
+ * @date 30/10/2021
+ * @param {*} token
+ * @param {*} userId
+ * @returns {*} return local hotel
+ */
+export const readLocalHotel = async(token, hotelId) => {
+  try {
+    let hotel = await axios.get(`${process.env.REACT_APP_API}/local/hotel/${hotelId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return hotel;
+  } catch(error) {
+    console.log(error);
+  }
+}
+

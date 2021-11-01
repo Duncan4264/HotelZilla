@@ -1,4 +1,4 @@
-import {createService, deleteHotelService, hotelsService, isBookedService, profileHotelsService, readHotelService, readImageService, searchListsService, sellerHotelsService, updateHotelService, userHotelBookingsService, countHotelsService} from '../../Business/hotel/HotelBusinessService';
+import {createService, deleteHotelService, hotelsService, isBookedService, profileHotelsService, readHotelService, readImageService, searchListsService, sellerHotelsService, updateHotelService, userHotelBookingsService, countHotelsService, readLocalHotelsService, readLocalHotelService} from '../../Business/hotel/HotelBusinessService';
 /**
  * @description Method that handles hotel creation
  * @author Cyrus Duncan
@@ -220,6 +220,37 @@ export const countHotels = async(req, res) => {
     // grab count of hotels from business service
      let count = countHotelsService(req, res);
      return count;
+  } catch (error) {
+    console.log(error);
+  }
+}
+/**
+ * @description
+ * @author Cyrus Duncan
+ * @date 26/10/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} Local hotel array
+ */
+export const readLocalHotels = async(req, res) => {
+  try {
+    // grab local hotels from business service
+     let readLocalHotels = await readLocalHotelsService(req, res);
+     // return local hotels 
+     return readLocalHotels;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const readLocalHotel = async(req, res) => {
+  try {
+    console.log("hello");
+    // grab local hotel from business service
+     let readLocalHotel = await readLocalHotelService(req, res);
+
+     // return local hotels 
+     return readLocalHotel;
   } catch (error) {
     console.log(error);
   }

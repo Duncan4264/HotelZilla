@@ -1,4 +1,4 @@
-import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels } from '../../Data/hotel/HotelDAO';
+import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels, readLocalHotels, readLocalHotel} from '../../Data/hotel/HotelDAO';
 /**
  * @description Create service for creating hotel
  * @author Cyrus Duncan
@@ -227,4 +227,34 @@ export const countHotelsService = async(req, res) => {
         console.log(error);
     }
 }
+/**
+ * @description Business services that searches local hotels
+ * @author Cyrus Duncan
+ * @date 26/10/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} local hotel array
+ */
+export const readLocalHotelsService = async(req, res) => {
+    try {
+        // read local hotels DAO
+        let readLocalHotelsService = await readLocalHotels(req, res);
+        // return hotels
+        return readLocalHotelsService;
+    } catch (error) {
+        // log an error to the console
+        console.log(error);
+    }
+}
 
+export const readLocalHotelService = async(req, res) => {
+    try {
+        // read local hotels DAO
+        let readLocalHotelService = await readLocalHotel(req, res);
+        // return hotels
+        return readLocalHotelService;
+    } catch (error) {
+        // log an error to the console
+        console.log(error);
+    }
+}

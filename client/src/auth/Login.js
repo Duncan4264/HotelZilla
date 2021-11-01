@@ -46,28 +46,6 @@ const Login = () => {
           history.push('/');
           window.location.reload(false);
         }
-          // // let response equare to login request
-          //   let res = await login({email, password})
-          //   // console.log('LOGIN RESPONSE ', res)
-            
-          //   // if the response has data
-          //   if(res.data) {
-          //     // save auth token to browser locally
-          //       window.localStorage.setItem("auth", JSON.stringify(res.data));
-          //       // dispatch that the user is logged in with response.data
-          //       dispatch({
-          //         type: 'LOGGED_IN_USER',
-          //         payload: res.data
-          //       });
-                
-          //       // reload the application to cache cookie 
-          //       history.push("/");
-
-          //       window.location.reload()
-          //       // Send the user to the root of the application
-               
-          //     }
-        
 
         } catch (error) {
 
@@ -76,8 +54,6 @@ const Login = () => {
         }
       }
     
-
-
     return (
         <>
           <div className="container-fluid bg-secondary p-5 text-center">

@@ -3,6 +3,11 @@ import Hotel from "../../Models/hotel"
 import fs from "fs";
 import { response } from "express";
 import Order from "../../Models/order"
+import unirest from "unirest";
+import moment from "moment";
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 
 /*
 * Method to handle hotel creation
@@ -312,4 +317,74 @@ export const countHotels = async(req, res) => {
   } catch (error) {
     console.log(error);
   }
+}
+
+export const readLocalHotels = async (req, res) => {
+  try {
+
+    let request = unirest("GET", process.env.RAPID_API_URL);
+    let theDate = moment().format('YYYY-MM-DD');
+    let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
+    request.query({
+      "destinationId": "1469103",
+      "pageNumber": "1",
+      "pageSize": "25",
+      "checkIn": theDate,
+      "checkOut": theDate2,
+      "adults1": "1",
+      "sortOrder": "PRICE",
+      "locale": "en_US",
+      "currency": "USD"
+    });
+    
+    request.headers({
+      "x-rapidapi-host": process.env.RAPID_API_HOST,
+      "x-rapidapi-key": process.env.RAPID_API_KEY,
+      "useQueryString": true
+    });
+
+request.end(function (response) {
+	if (response.error) throw new Error(response.error);
+
+	
+  let hotels = response.body.data.body.searchResults.results;
+  res.json(hotels);
+});
+  } catch (error) {
+    console.log(error);
+  }
+}
+/**
+ * @description Method to read a single local hotel from API
+ * @author Cyrus Duncan
+ * @date 30/10/2021
+ * @param {*} req
+ * @param {*} res
+ */
+export const readLocalHotel = async (req, res) => {
+  var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");
+
+  request.query({
+    "id": "33023360",
+    "adults1": "1",
+    "checkIn": "2021-11-01",
+	  "checkOut": "2021-11-15",
+    "currency": "USD",
+    "locale": "en_US"
+  });
+  
+  request.headers({
+    "x-rapidapi-host": "hotels4.p.rapidapi.com",
+    "x-rapidapi-key": "89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188",
+    "useQueryString": true
+  });
+  
+  
+  request.end(function (response) {
+    if (response.error) throw new Error(response.error);
+    
+    let hotel = response.body.data.body.roomsAndRates.rooms[0];
+    console.log(hotel);
+    res.json(hotel);
+  });
 }
