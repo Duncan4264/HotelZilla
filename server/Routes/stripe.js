@@ -7,7 +7,7 @@ import express from 'express';
  import { requireSignin, checkJwt } from '../middleware';
 
 // Controller
-import { createConnectionAccount, getAccountStatus, getAccountBalance,  getPayoutSettings, readStripeSessionId, stripeSuccess} from '../Controllers/stripe/StripeController';
+import { createConnectionAccount, getAccountStatus, getAccountBalance,  getPayoutSettings, readStripeSessionId, stripeSuccess, readLocalStripeSessionId} from '../Controllers/stripe/StripeController';
 
 try {
 // Route to handle post request to handle creating stripe account
@@ -22,6 +22,8 @@ router.post("/PayoutSettings/:userId", checkJwt, getPayoutSettings)
 router.post("/stripe-session-id/:userId", checkJwt, readStripeSessionId)
 // route to handle stripe success 
 router.post("/stripe-success/:hotelId", checkJwt, stripeSuccess)
+// route to handle stripe local
+router.post("/stripe-local/:userId", checkJwt, readLocalStripeSessionId)
 } catch (error) {
     // log the error to the console
     console.log(error)

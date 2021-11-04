@@ -1,4 +1,4 @@
-import {createConnectionAccount, updateDelayDays, getAccountStatus, getAccountBalance, getPayoutSettings, readStripeSessionId, stripeSuccess} from '../../Data/stripe/StripeDAO';
+import {createConnectionAccount, updateDelayDays, getAccountStatus, getAccountBalance, getPayoutSettings, readStripeSessionId, stripeSuccess, readLocalStripeSessionId} from '../../Data/stripe/StripeDAO';
 
 /**
  * @description Method the creates an account
@@ -120,5 +120,17 @@ export const stripeSuccessService = async (req, res) => {
     } catch (error) {
         // log an error code
         console.log(success);
+    }
+}
+
+export const readLocalStripeSessionIdService = async (req, res) => {
+        try {
+        // create a DAO call to get session ID
+        let StripeSessionId = readLocalStripeSessionId(req, res);
+        // return Session Id
+        return StripeSessionId;
+    } catch (error) {
+        // log an error to the console
+        console.log(error);
     }
 }

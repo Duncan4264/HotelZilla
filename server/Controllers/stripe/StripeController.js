@@ -1,4 +1,4 @@
-import { createConnectionAccountService, getAccountBalanceService, getAccountStatusService, getPayoutSettingsService, readStripeSessionIdService, stripeSuccessService, updateDelayDaysService } from "../../Business/stripe/StripeBusinessService";
+import { createConnectionAccountService, getAccountBalanceService, getAccountStatusService, getPayoutSettingsService, readStripeSessionIdService, stripeSuccessService, updateDelayDaysService, readLocalStripeSessionIdService} from "../../Business/stripe/StripeBusinessService";
 /*
 * Method to create a connection account with Stripe API
 * Parameters Request Object, Response Object
@@ -100,6 +100,18 @@ export const updateDelayDays = async (req, res, accountId) => {
         console.log("STRIPE SUCCESS ERR", err);
       }
   }
+
+  export const readLocalStripeSessionId = async (req, res) => {
+    try {
+      // vairable that read stripe session id business service
+      let readStripeSession = readLocalStripeSessionIdService(req, res);
+      // return stripe session
+      return readStripeSession;
+    } catch(error) {
+        // log an error to the console
+      console.log(error);
+    }
+}
   
   
   

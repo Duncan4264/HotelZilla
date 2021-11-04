@@ -231,4 +231,44 @@ export const updateDelayDays = async (accountId) => {
     }
 }
 
+export const readLocalStripeSessionId = async (req, res) => {
+  try {
+    //Get hotel body from request body
+    console.log(req.params.userId)
+    // // find the hotel based on HotelIID
+    // const hotel = await Hotel.findById(hotelId).populate("postedBy").exec();
+    // // Charge 20% application fee 
+    // const fee = (hotel.price * 20) / 100;
+    // // create a session
+    // const session = await stripe.checkout.sessions.create({
+    //   payment_method_types: ['card'],
+    //   line_items: [
+    //     {
+    //       name: hotel.title,
+    //       amount: hotel.price * 100, // in cents
+    //       currency: "usd",
+    //       quantity: 1
+    //     }
+    //   ],
+    //   payment_intent_data: {
+    //     application_fee_amount: fee * 100,
+    //     // this seller can see his balance in our fronetend dashboard 
+    //     transfer_data: {
+    //       destination: hotel.postedBy.stripe_account_id,
+    //     },
+    //   },
+    //   // success and cancel uerls
+    //   success_url: `${process.env.STRIPE_SUCCESS_URL}/${hotel.id}`,
+    //   cancel_url: process.env.STRIPE_CANCEL_URL,
+    // });
+    // // Add this session object to user in the database
+    // await User.findByIdAndUpdate(req.params.userId, {stripeSession: session}).exec()
+    // // return session ID as response to frontend 
+    // res.send({
+    //   sessionId: session.id,
+    // })
+  } catch(error) {
+    console.log(error);
+  }
+}
 

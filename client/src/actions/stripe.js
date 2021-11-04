@@ -137,3 +137,22 @@ export const StripeSuccessRequest = async (token, userId, hotelId) => {
     console.log(error);
   }
 }
+
+export const getLocalStripeSession = async (token, userId) => {
+  try {
+    // Make axios post request to stripe local with user token in the headers
+ let loadStripeLocal =  await axios.post(
+    `${process.env.REACT_APP_API}/stripe-local/${userId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return loadStripeLocal;
+  } catch (error) {
+    // log the error to the console
+    console.log(error);
+  }
+}
