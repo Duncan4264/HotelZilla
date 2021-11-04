@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { readLocalHotel, diffDays, isAlreadyBooked } from "../actions/hotel";
 import { getSessionId } from "../actions/stripe";
+import { readReviews } from "../actions/review";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
@@ -22,6 +23,7 @@ const ViewLocalHotel = ({ match, history }) => {
   const [loading, setLoading] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
   const [token, setToken] = useState("");
+  const [reviews, setReviews] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   // deconstruct auth from state
@@ -49,7 +51,12 @@ const ViewLocalHotel = ({ match, history }) => {
 
     // set hotel state to response data
     setHotel(res.data);
-    console.log(res.data);
+
+    console.log(res.data.images[0].fullSizeUrl);
+    let imageUrl = res.data.images[0].fullSizeUrl;
+    let images = imageUrl.slice(0, -5) + 'w.jpg';
+    console.log(images);
+    setImage(images);
     } catch(error) {
       console.log(error);
     }
@@ -57,16 +64,16 @@ const ViewLocalHotel = ({ match, history }) => {
     // setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
   
-// // method to load reviews for hotel
-//   const readAllReview = async () => {
-//     const token = await getAccessTokenSilently(); 
-//     // call back to read reviews
-//     let res = await readReviews(match.params.hotelId, token);
-//     console.log(res.data);
+// method to load reviews for hotel
+  const readAllReview = async () => {
+    const token = await getAccessTokenSilently(); 
+    // call back to read reviews
+    let res = await readReviews(match.params.hotelId, token);
+    console.log(res.data);
 
-//     setReviews(res.data); 
-//     console.log(reviews);
-//   }
+    setReviews(res.data); 
+    console.log(reviews);
+  }
   
 /*
 * Method to handle click
@@ -120,7 +127,7 @@ const ViewLocalHotel = ({ match, history }) => {
                   </span>
                 </p>
                 <p>
-                <b>{hotel.bedChoices.mainOptions}</b><br/>
+                {/* <b>{hotel.bedChoices.mainOptions}</b><br/> */}
 
                 </p>
                 <p>

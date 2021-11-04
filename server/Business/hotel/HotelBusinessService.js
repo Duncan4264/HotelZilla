@@ -1,4 +1,4 @@
-import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels, readLocalHotels, readLocalHotel} from '../../Data/hotel/HotelDAO';
+import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels, readLocalHotels, readLocalHotel, readLocalHotelImages} from '../../Data/hotel/HotelDAO';
 /**
  * @description Create service for creating hotel
  * @author Cyrus Duncan
@@ -246,7 +246,14 @@ export const readLocalHotelsService = async(req, res) => {
         console.log(error);
     }
 }
-
+/**
+ * @description Method to read local hotels from third party API
+ * @author Cyrus Duncan
+ * @date 02/11/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} hotels
+ */
 export const readLocalHotelService = async(req, res) => {
     try {
         // read local hotels DAO
@@ -255,6 +262,24 @@ export const readLocalHotelService = async(req, res) => {
         return readLocalHotelService;
     } catch (error) {
         // log an error to the console
+        console.log(error);
+    }
+}
+/**
+ * @description Method to read local hotel imges from third party API
+ * @author Cyrus Duncan
+ * @date 02/11/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} images
+ */
+export const readLocalHotelImageService = async(req, res) => { 
+    try {
+        // read local hotel image DAO
+        let readLocalHotelImagesService = await readLocalHotelImages(req, res);
+        // return hotel images
+        return readLocalHotelImagesService;
+    } catch (error) {
         console.log(error);
     }
 }

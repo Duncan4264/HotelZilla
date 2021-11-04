@@ -364,11 +364,13 @@ request.end(function (response) {
 export const readLocalHotel = async (req, res) => {
   var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");
 
+  let theDate = moment().format('YYYY-MM-DD');
+  let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
   request.query({
-    "id": "33023360",
+    "id": req.params.hotelId,
     "adults1": "1",
-    "checkIn": "2021-11-01",
-	  "checkOut": "2021-11-15",
+    "checkIn": theDate,
+	  "checkOut": theDate2,
     "currency": "USD",
     "locale": "en_US"
   });
@@ -386,5 +388,25 @@ export const readLocalHotel = async (req, res) => {
     let hotel = response.body.data.body.roomsAndRates.rooms[0];
     console.log(hotel);
     res.json(hotel);
+  });
+}
+
+export const readLocalHotelImages = async (req, res) => {
+  var axios = require("axios").default;
+
+  var options = {
+    method: 'GET',
+    url: 'https://hotels4.p.rapidapi.com/properties/get-hotel-photos',
+    params: {id: '150594'},
+    headers: {
+      'x-rapidapi-host': 'hotels4.p.rapidapi.com',
+      'x-rapidapi-key': '89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188'
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
   });
 }
