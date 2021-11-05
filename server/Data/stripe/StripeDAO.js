@@ -6,6 +6,7 @@ import express, { response } from 'express';
 import Hotel from '../../Models/hotel';
 import Order from '../../Models/order';
 import unirest from 'unirest';
+import moment from 'moment';
 
 // Create stripe variable for stripe object with stripe api key
 const stripe = Stripe(process.env.STRIPE_SECRET);
@@ -187,49 +188,95 @@ export const updateDelayDays = async (accountId) => {
     console.log(error);
   }
   }
+/**
+ *
+ *
+ * @param {*} req
+ * @param {*} res
+ * @return {*} stripe success
+ */
+export const stripeSuccess = async (req, res) => {
+  try {
+    // 1 get hotel id from req.body
+    let { hotelId } = req.body;
+    console.log(req.params.hotelId);
 
-  export const stripeSuccess = async (req, res) => {
-    try {
-      // 1 get hotel id from req.body
-      const { hotelId } = req.body;
-      console.log(req.params.hotelId);
+    // 2 find currently logged in user
+    const user = await User.findById(req.params.hotelId).exec();
+    console.log(user.stripeSession);
+    // check if user has stripeSession
+    if (!user.stripeSession) return;
+    // 3 retrieve stripe session, based on session id we previously save in user db
+    const session = await stripe.checkout.sessions.retrieve(
+      user.stripeSession.id
+    );
+    console.log(session);
+    // 4 if session payment status is paid, create order
+    if (session.payment_status === "paid") {
+      // 5 check if order with that session id already exist by querying orders collection
+      const orderExist = await Order.findOne({
+        "session.id": session.id,
+      }).exec();
+      if (orderExist) {
+        // 6 if order exist, send success true
+        res.json({ success: true });
+      } else {
+        var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");
 
-      // 2 find currently logged in user
-      const user = await User.findById(req.params.hotelId).exec();
-      console.log(user.stripeSession);
-      // check if user has stripeSession
-      if (!user.stripeSession) return;
-      // 3 retrieve stripe session, based on session id we previously save in user db
-      const session = await stripe.checkout.sessions.retrieve(
-        user.stripeSession.id
-      );
-      console.log(session);
-      // 4 if session payment status is paid, create order
-      if (session.payment_status === "paid") {
-        // 5 check if order with that session id already exist by querying orders collection
-        const orderExist = await Order.findOne({
-          "session.id": session.id,
-        }).exec();
-        if (orderExist) {
-          // 6 if order exist, send success true
-          res.json({ success: true });
-        } else {
-          // 7 else create new order and send success true
-          let newOrder = await new Order({
-            hotel: hotelId,
-            session,
-            orderedBy: user._id,
-          }).save();
-          // 8 remove user's stripeSession
-          await User.findByIdAndUpdate(user._id, {
-            $set: { stripeSession: {} },
-          });
-          res.json({ success: true });
-        }
-      }
-    } catch (err) {
-      console.log("STRIPE SUCCESS ERR", err);
-    }
+  let theDate = moment().format('YYYY-MM-DD');
+  let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
+  request.query({
+    "id": hotelId,
+    "adults1": "1",
+    "checkIn": theDate,
+	  "checkOut": theDate2,
+    "currency": "USD",
+    "locale": "en_US"
+  });
+  
+  request.headers({
+    "x-rapidapi-host": "hotels4.p.rapidapi.com",
+    "x-rapidapi-key": "89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188",
+    "useQueryString": true
+  });
+  
+  
+  request.end(async function (response) {
+    if (response.error) throw new Error(response.error);
+    
+    let hotel = response.body.data.body;
+    let tagline = hotel.propertyDescription.tagline[0].replace( /(<([^>]+)>)/ig, '');
+    let newHotel = new Hotel({
+      title: hotel.propertyDescription.name,
+      content: tagline,
+      location: hotel.propertyDescription.address.cityName,
+      price: hotel.propertyDescription.featuredPrice.currentPrice.plain,
+      postedBy: "60dbba001aa8fd27c672d828",
+      image: hotel.roomsAndRates.rooms[0].images[0].fullSizeUrl,
+      from: Date.now(),
+      to: Date.now() + 7,
+      bed: 1,
+    }).save(async function(err, obj) {
+      if (err) throw err;
+      hotelId = obj._id;
+              // 7 else create new order and send success true
+              let newOrder = await new Order({
+                hotel: hotelId,
+                session,
+                orderedBy: user._id,
+              }).save();
+              // 8 remove user's stripeSession
+              await User.findByIdAndUpdate(user._id, {
+                $set: { stripeSession: {} },
+              });
+              res.json({ success: true });
+        });
+    });
+  }
+}
+  } catch (err) {
+    console.log("STRIPE SUCCESS ERR", err);
+  }
 }
 
 export const readLocalStripeSessionId = async (req, res) => {
@@ -264,21 +311,26 @@ export const readLocalStripeSessionId = async (req, res) => {
       if (response.error) throw new Error(response.error);
       
       let hotel = response.body.data.body.roomsAndRates.rooms[0];
+      let price =  hotel.ratePlans[0].price.current.substring(1);
       console.log(hotel);
           // create a session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          name: hotel.title,
-          amount: hotel.ratePlans[0].price.current, // in cents
+          name: hotel.name,
+          amount: Number(price * 100), // in cents
           currency: "usd",
           quantity: 1
         }
       ],
       payment_intent_data: {
-        application_fee_amount: fee * 100,
+        application_fee_amount: 2,
+        transfer_data: {
+          destination: "acct_1JJ3tOPwuqIiuJ32",
+        },
       },
+
       // success and cancel uerls
       success_url: `${process.env.STRIPE_SUCCESS_URL}/${req.params.hotelId}`,
       cancel_url: process.env.STRIPE_CANCEL_URL,
