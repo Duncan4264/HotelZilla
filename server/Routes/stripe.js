@@ -23,7 +23,7 @@ router.post("/stripe-session-id/:userId", checkJwt, readStripeSessionId)
 // route to handle stripe success 
 router.post("/stripe-success/:hotelId", checkJwt, stripeSuccess)
 // route to handle stripe local
-router.post("/stripe-local/:userId", checkJwt, readLocalStripeSessionId)
+router.post("/stripe-local/:userId/:hotelId", checkJwt, readLocalStripeSessionId)
 } catch (error) {
     // log the error to the console
     console.log(error)

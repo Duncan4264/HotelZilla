@@ -5,6 +5,7 @@ import queryString from "querystring";
 import express, { response } from 'express';
 import Hotel from '../../Models/hotel';
 import Order from '../../Models/order';
+import unirest from 'unirest';
 
 // Create stripe variable for stripe object with stripe api key
 const stripe = Stripe(process.env.STRIPE_SECRET);
@@ -234,39 +235,61 @@ export const updateDelayDays = async (accountId) => {
 export const readLocalStripeSessionId = async (req, res) => {
   try {
     //Get hotel body from request body
-    console.log(req.params.userId)
-    // // find the hotel based on HotelIID
+    // find the hotel based on HotelIID
     // const hotel = await Hotel.findById(hotelId).populate("postedBy").exec();
     // // Charge 20% application fee 
     // const fee = (hotel.price * 20) / 100;
-    // // create a session
-    // const session = await stripe.checkout.sessions.create({
-    //   payment_method_types: ['card'],
-    //   line_items: [
-    //     {
-    //       name: hotel.title,
-    //       amount: hotel.price * 100, // in cents
-    //       currency: "usd",
-    //       quantity: 1
-    //     }
-    //   ],
-    //   payment_intent_data: {
-    //     application_fee_amount: fee * 100,
-    //     // this seller can see his balance in our fronetend dashboard 
-    //     transfer_data: {
-    //       destination: hotel.postedBy.stripe_account_id,
-    //     },
-    //   },
-    //   // success and cancel uerls
-    //   success_url: `${process.env.STRIPE_SUCCESS_URL}/${hotel.id}`,
-    //   cancel_url: process.env.STRIPE_CANCEL_URL,
-    // });
-    // // Add this session object to user in the database
-    // await User.findByIdAndUpdate(req.params.userId, {stripeSession: session}).exec()
-    // // return session ID as response to frontend 
-    // res.send({
-    //   sessionId: session.id,
-    // })
+
+    var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");
+
+    let theDate = moment().format('YYYY-MM-DD');
+    let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
+    request.query({
+      "id": req.params.hotelId,
+      "adults1": "1",
+      "checkIn": theDate,
+      "checkOut": theDate2,
+      "currency": "USD",
+      "locale": "en_US"
+    });
+    
+    request.headers({
+      "x-rapidapi-host": "hotels4.p.rapidapi.com",
+      "x-rapidapi-key": "89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188",
+      "useQueryString": true
+    });
+    
+    
+    request.end(async function (response) {
+      if (response.error) throw new Error(response.error);
+      
+      let hotel = response.body.data.body.roomsAndRates.rooms[0];
+      console.log(hotel);
+          // create a session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          name: hotel.title,
+          amount: hotel.ratePlans[0].price.current, // in cents
+          currency: "usd",
+          quantity: 1
+        }
+      ],
+      payment_intent_data: {
+        application_fee_amount: fee * 100,
+      },
+      // success and cancel uerls
+      success_url: `${process.env.STRIPE_SUCCESS_URL}/${req.params.hotelId}`,
+      cancel_url: process.env.STRIPE_CANCEL_URL,
+    });
+    // Add this session object to user in the database
+    await User.findByIdAndUpdate(req.params.userId, {stripeSession: session}).exec()
+    // return session ID as response to frontend 
+    res.send({
+      sessionId: session.id,
+    })
+    });
   } catch(error) {
     console.log(error);
   }

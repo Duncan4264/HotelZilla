@@ -1,7 +1,7 @@
 // Import people's dependencys
 import React, { useState, useEffect } from "react";
 import { readLocalHotel, diffDays, isAlreadyBooked } from "../actions/hotel";
-import { getLocalStripeSession } from "../actions/stripe";
+import { getLocalSessionId } from "../actions/stripe";
 import { readReviews } from "../actions/review";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -51,6 +51,7 @@ const ViewLocalHotel = ({ match, history }) => {
 
     // set hotel state to response data
     setHotel(res.data);
+    console.log(res.data);
 
     console.log(res.data.images[0].fullSizeUrl);
     let imageUrl = res.data.images[0].fullSizeUrl;
@@ -93,8 +94,7 @@ const ViewLocalHotel = ({ match, history }) => {
     // if no auth token send user to login uri
     if (!auth) history.push("/login");
     // let response to get session ID
-    let res = await getLocalStripeSession( token, match.params.hotelId, auth._id);
-    console.log(res);
+    let res = await getLocalSessionId( token, auth._id, match.params.hotelId);
     // let stripe await load stripe with stripe API key
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
     // stripe redirect to

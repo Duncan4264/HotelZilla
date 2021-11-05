@@ -137,12 +137,19 @@ export const StripeSuccessRequest = async (token, userId, hotelId) => {
     console.log(error);
   }
 }
-
-export const getLocalStripeSession = async (token, userId) => {
+/**
+ * @description Method to handle getting a stripe
+ * @author Cyrus Duncan
+ * @date 04/11/2021
+ * @param {*} token
+ * @param {*} userId
+ * @returns {*}  stripe session
+ */
+export const getLocalSessionId = async (token, userId, hotelId) => {
   try {
     // Make axios post request to stripe local with user token in the headers
  let loadStripeLocal =  await axios.post(
-    `${process.env.REACT_APP_API}/stripe-local/${userId}`,
+    `${process.env.REACT_APP_API}/stripe-local/${userId}/${hotelId}`,
     {},
     {
       headers: {

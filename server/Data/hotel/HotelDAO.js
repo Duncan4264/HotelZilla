@@ -390,7 +390,13 @@ export const readLocalHotel = async (req, res) => {
     res.json(hotel);
   });
 }
-
+/**
+ * @description method to read local hotel images
+ * @author Cyrus Duncan
+ * @date 04/11/2021
+ * @param {*} req
+ * @param {*} res
+ */
 export const readLocalHotelImages = async (req, res) => {
   var axios = require("axios").default;
 

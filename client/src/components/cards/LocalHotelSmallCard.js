@@ -21,17 +21,22 @@ const LocalHotelSmallCard = ({
   showViewMoreButton = true,
 }) => {
   const history = useHistory();
+  console.log();
+  let thumbnail = h.optimizedThumbUrls.srpDesktop.split("?")[0];
+  thumbnail = thumbnail + "?impolicy=fcrop&w=900&h=590&q=high"
+
+
   return (
     <>
-    {console.log(h)}
       <div className="card mb-3">
         <div className="row no-gutters">
           <div className="col-md-4">
+            
             {h.optimizedThumbUrls ? (
               <img
-                src={h.optimizedThumbUrls.srpDesktop} 
+                src={thumbnail} 
                 alt="default hotel"
-                className="card-image img img-fluid"
+                className="card-image img img-fluid  m-2"
               />
             ) : (
               <img 
@@ -70,11 +75,11 @@ const LocalHotelSmallCard = ({
               <p className="card-text">
               </p>
 
-              <div className="d-flex justify-content-between h4">
+              <div className="position-relative h4">
                 {showViewMoreButton && (
                   <button
                     onClick={() => history.push(`/local/hotel/${h.id}`)}
-                    className="btn btn-primary"
+                    className="btn btn-primary bommtom-0"
                   >
                     Show more
                   </button>
