@@ -43,9 +43,15 @@ const Home = () => {
     try {
       // create response variable equal to reading all hotels   
     let res = await readAllLocalHotels();
+    let result = res.filter(function(hotel) {
+      return hotel.optimizedThumbUrls !== null && hotel.name !== null && hotel.address !== null
+    });
+    console.log(result);
+
     // set hotel state equal to response dta
-    setLocalHotels(res);
-    console.log(localHotels);
+    setLocalHotels(result);
+
+    
     } catch(error) {  
       // log the error to the console
       console.log(error);
@@ -65,8 +71,11 @@ const Home = () => {
         <br />
         {/* { console.log(JSON.stringify(localHotels, null, 4)) } */}
         {localHotels.map((h) => (
+          <>
+          
           <LocalHotelSmallCard key={h._id} h={h}/>
-        ))}
+          </>
+         ))}
         {hotels.map((h) => (
           <SmallCard key={h._id} h={h}/>
         ))}

@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { readLocalHotel } from "../actions/hotel";
 import { getLocalSessionId } from "../actions/stripe";
-import {Spin} from 'antd';
+import * as location from "../assets/9013-hotel.json";
+
+import Lottie from "react-lottie";
+
 // import { readReviews } from "../actions/review";
 
 import { useSelector } from "react-redux";
@@ -19,11 +22,11 @@ const ViewLocalHotel = ({ match, history }) => {
   // state
   const [hotel, setHotel] = useState();
   const [image, setImage] = useState("");
+  const [hotelInfo, setHotelInfo] = useState();
 
   const [loading, setLoading] = useState(false);
   const [alreadyBooked] = useState(false);
   const [token, setToken] = useState("");
-  const [ setLoaded] = useState(false);
 
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
@@ -32,12 +35,21 @@ const ViewLocalHotel = ({ match, history }) => {
   useEffect(() => {
     try{
     loadSellerHotel();
-    setLoaded(true);
+
     }catch(err){
       console.log(err)
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const defaultOptions1 = {
+      loop: true,
+      autoplay: true,
+      animationData: location.default,
+
+    };
+    
+
 
 // Method to load seller hotel
   const loadSellerHotel = async () => {
@@ -48,13 +60,18 @@ const ViewLocalHotel = ({ match, history }) => {
     setToken(token);
     // call backed with response variable
     let res  = await readLocalHotel(token, match.params.hotelId);
-
+    setHotelInfo(res.data.data.body);
     // set hotel state to response data
-    setHotel(res.data);
-    console.log(res.data);
+    setHotel(res.data.data.body.roomsAndRates.rooms[0]);
 
-    console.log(res.data.images[0].fullSizeUrl);
-    let imageUrl = res.data.images[0].fullSizeUrl;
+
+
+    console.log(res.data.data.body);
+ 
+
+
+
+    let imageUrl = res.data.data.body.roomsAndRates.rooms[0].images[0].fullSizeUrl;
     let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
     } catch(error) {
@@ -107,7 +124,7 @@ const ViewLocalHotel = ({ match, history }) => {
     { !hotel ? 
     <>
     <div class="h-100 row align-items-center">
-      <Spin size="large" tip="Loading..."/>
+    <Lottie options={defaultOptions1} height={600} width={600} />
   </div> 
   </>: (
       <>
@@ -133,13 +150,17 @@ const ViewLocalHotel = ({ match, history }) => {
 
                 </p>
                 <p>
-                <b>Max Occupancy: {hotel.maxOccupancy.total}</b>
+                <p>Max Occupancy: {hotel.maxOccupancy.total}</p>
+                <p>Address: {hotelInfo.propertyDescription.address.fullAddress}</p>
+                <p>Reviews: {hotelInfo.guestReviews.brands.rating} out of {hotelInfo.guestReviews.brands.scale}</p>
+                <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[0]}</p>
+                <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[1]}</p>
                 </p>
                 {/* <i>Posted by {hotel.postedBy && hotel.postedBy.name}</i> */}
                 <br />
                 <button
                   onClick={handleClick}
-                  className="btn btn-block btn-lg btn-primary mt-3"
+                  className="btn btn-block btn-lg btn-primary"
                   disabled={loading || alreadyBooked}
                 >
                   {loading

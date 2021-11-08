@@ -1,13 +1,39 @@
-import { Spin } from 'antd';
+
+import Lottie from "react-lottie";
+
+import * as location from "../assets/9013-hotel.json";
+import * as success from "../assets/782-check-mark-success.json";
+
+const defaultOptions1 = {
+  loop: true,
+  autoplay: true,
+  animationData: location.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
+const defaultOptions2 = {
+  loop: true,
+  autoplay: true,
+  animationData: success.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 const Loading = (props) => { 
 
-      return(
-        <div className="Loading">
+
+      return( 
+
+        <div className="d-flex justify-content-center align-items-center">
           {
             !props.error ? (
-              <img className="Loading-img" src={Spin} alt="Loading..." />
+             
+              <Lottie options={defaultOptions1} height={600} width={600} />
+              
             ) : (
-              <p className="alert alert-danger"><strong>Error:</strong> Could not retrieve data.</p>
+              <Lottie options={defaultOptions2} height={600} width={600} />
             )
           }
         </div>
