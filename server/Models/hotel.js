@@ -38,6 +38,9 @@ const hotelSchema = new Schema(
       data: Buffer,
       contentType: String,
     },
+    imageUrl: {
+      type: String,
+    },
     // From field with Date type
     from: {
       type: Date,

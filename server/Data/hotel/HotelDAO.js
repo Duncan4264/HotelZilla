@@ -386,7 +386,6 @@ export const readLocalHotel = async (req, res) => {
     if (response.error) throw new Error(response.error);
     
     let hotel = response.body.data.body.roomsAndRates.rooms[0];
-    console.log(hotel);
     res.json(hotel);
   });
 }

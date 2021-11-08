@@ -55,8 +55,7 @@ const ViewLocalHotel = ({ match, history }) => {
 
     console.log(res.data.images[0].fullSizeUrl);
     let imageUrl = res.data.images[0].fullSizeUrl;
-    let images = imageUrl.slice(0, -5) + 'w.jpg';
-    console.log(images);
+    let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
     } catch(error) {
       console.log(error);
@@ -70,10 +69,8 @@ const ViewLocalHotel = ({ match, history }) => {
     const token = await getAccessTokenSilently(); 
     // call back to read reviews
     let res = await readReviews(match.params.hotelId, token);
-    console.log(res.data);
 
-    setReviews(res.data); 
-    console.log(reviews);
+    setReviews(res.data);
   }
   
 /*
@@ -115,7 +112,7 @@ const ViewLocalHotel = ({ match, history }) => {
             <div className="row">
               <div className="col-md-6">
                 <br />
-                <img src={image} alt={hotel.name} className="img img-fluid m-2" />
+                <img src={image} alt={hotel.name} width={900} height={800} className="img img-fluid m-2"/>
               </div>
 
               <div className="col-md-6">

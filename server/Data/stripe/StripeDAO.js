@@ -69,7 +69,7 @@ export const updateDelayDays = async (accountId) => {
         }
       }
     });
-    console.log(acount);
+
     // return account object
     return acount;
   } catch(error) {
@@ -87,7 +87,6 @@ export const updateDelayDays = async (accountId) => {
     console.log("Entering get Account Status()");
     // grab the user by id
     const user = await User.findById(request.params.userId).exec();
-    console.log(user.stripe_account_id);
     // grab the account by account id
     const account = await stripe.accounts.retrieve(user.stripe_account_id);
     // make an updated account with account id
@@ -199,7 +198,6 @@ export const stripeSuccess = async (req, res) => {
   try {
     // 1 get hotel id from req.body
     let { hotelId } = req.body;
-    console.log(req.params.hotelId);
 
     // 2 find currently logged in user
     const user = await User.findById(req.params.hotelId).exec();
@@ -210,7 +208,6 @@ export const stripeSuccess = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       user.stripeSession.id
     );
-    console.log(session);
     // 4 if session payment status is paid, create order
     if (session.payment_status === "paid") {
       // 5 check if order with that session id already exist by querying orders collection
@@ -245,6 +242,11 @@ export const stripeSuccess = async (req, res) => {
     if (response.error) throw new Error(response.error);
     
     let hotel = response.body.data.body;
+    let imageUrl = hotel.roomsAndRates.rooms[0].images[0].fullSizeUrl;
+    imageUrl = imageUrl.slice(0, -5);
+    imageUrl = imageUrl + 'z.jpg';
+    imageUrl = imageUrl + '?impolicy=fcrop&w=900&h=590&q=high';
+
     let tagline = hotel.propertyDescription.tagline[0].replace( /(<([^>]+)>)/ig, '');
     let newHotel = new Hotel({
       title: hotel.propertyDescription.name,
@@ -252,7 +254,7 @@ export const stripeSuccess = async (req, res) => {
       location: hotel.propertyDescription.address.cityName,
       price: hotel.propertyDescription.featuredPrice.currentPrice.plain,
       postedBy: "60dbba001aa8fd27c672d828",
-      image: hotel.roomsAndRates.rooms[0].images[0].fullSizeUrl,
+      imageUrl: imageUrl,
       from: Date.now(),
       to: Date.now() + 7,
       bed: 1,
@@ -281,12 +283,6 @@ export const stripeSuccess = async (req, res) => {
 
 export const readLocalStripeSessionId = async (req, res) => {
   try {
-    //Get hotel body from request body
-    // find the hotel based on HotelIID
-    // const hotel = await Hotel.findById(hotelId).populate("postedBy").exec();
-    // // Charge 20% application fee 
-    // const fee = (hotel.price * 20) / 100;
-
     var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");
 
     let theDate = moment().format('YYYY-MM-DD');
@@ -312,7 +308,6 @@ export const readLocalStripeSessionId = async (req, res) => {
       
       let hotel = response.body.data.body.roomsAndRates.rooms[0];
       let price =  hotel.ratePlans[0].price.current.substring(1);
-      console.log(hotel);
           // create a session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

@@ -27,13 +27,13 @@ const BookingCard = ({ hotel, session, orderedBy }) => {
               <img
                 src={`${process.env.REACT_APP_API}/hotel/image/${hotel._id}`}
                 alt="default hotel"
-                className="card-image img img-fluid"
+                className="img-fluid img-thumbnail" 
               />
             ) : (
               <img
-                src="https://via.placeholder.com/900x500.png?text=MERN+Booking"
+                src={hotel.imageUrl}
                 alt="default hotel"
-                className="card-image img img-fluid"
+                className="img-fluid img-thumbnail"
               />
             )}
           </div>

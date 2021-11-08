@@ -25,7 +25,6 @@ const Dashboard = () => {
         const token = await getAccessTokenSilently();
         // create variable to await loading user hotel bookings
         const res = await userHotelBookings(token, auth._id);
-        console.log(res.data);
         setBooking(res.data);
     }
     return (

@@ -21,6 +21,7 @@ const SmallCard = ({
   showViewMoreButton = true,
 }) => {
   const history = useHistory();
+  console.log(h);
   return (
     <>
       <div className="card mb-3">
@@ -34,7 +35,7 @@ const SmallCard = ({
               />
             ) : (
               <img
-                src="https://via.placeholder.com/900x500.png?text=MERN+Booking"
+                src={h.imageUrl}
                 alt="default hotel"
                 className="card-image img img-fluid"
               />

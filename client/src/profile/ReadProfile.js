@@ -100,7 +100,6 @@ const readuserReview  =  async()  => {
             
             // set profile to user state
             setProfile(res.data);
-            console.log(res.data);
             // set image to user state
             setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
         } catch (error) {
