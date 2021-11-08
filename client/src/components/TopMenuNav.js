@@ -1,7 +1,6 @@
 // Imported dependencys 
-import {Link, useHistory} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
-import HotelFilled from '@ant-design/icons'
+
+import {useSelector} from 'react-redux';
 import AuthNav from './auth-nav';
 
 /*
@@ -9,28 +8,12 @@ import AuthNav from './auth-nav';
 */
 const TopMenuNav = () => {
 
-  // Create dispatch from react redux
-  const dispatch = useDispatch();
+
   // deconsturct auth from state
   const {auth} = useSelector((state) => ({...state}));
 
 
 
-  // create history variable from react-router-dom
-  const history = useHistory();
-
-  // logout function
-  const logout = () => {
-    // dispatch the logout to the react redux
-    dispatch({
-      type: 'LOGOUT',
-      payload: null
-    });
-    // remove auth token from local storage
-    window.localStorage.removeItem('auth');
-    // push login URI
-    history.push("/login")
-  }
 
   const NavbarStyle = {
     height: "80px",

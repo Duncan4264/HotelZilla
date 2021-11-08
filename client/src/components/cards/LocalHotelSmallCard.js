@@ -1,7 +1,6 @@
-import { currencyFormatter } from "../../actions/stripe";
-import { diffDays } from "../../actions/hotel";
-import { useHistory, Link } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+
+import { useHistory } from "react-router-dom";
+
 /**
  * @description Method to render the small card component and handle the hotel delete and edit, check if the user is the owener, render the hotel and show view single hotel
  * @author Cyrus Duncan

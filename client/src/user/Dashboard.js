@@ -19,6 +19,7 @@ const Dashboard = () => {
     useEffect(() => {
         // call method to load user booking
         loadUserBookings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     // Method to handle load user bookings
     const loadUserBookings = async () => {

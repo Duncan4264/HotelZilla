@@ -21,6 +21,7 @@ const CommentCard = ({comment}) => {
 
     useEffect(() => {
         loadUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
  <div class="card card-inner mt-3">

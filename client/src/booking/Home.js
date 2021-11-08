@@ -3,7 +3,7 @@ import { ReadAllHotels, readAllLocalHotels } from "../actions/hotel";
 import LocalHotelSmallCard from "../components/cards/LocalHotelSmallCard";
 import SmallCard from "../components/cards/SmallCard";
 import Search from "../components/forms/Search";
-import {readUser} from '../actions/auth';
+
 
 /**
  * @description Renders the home componenet, along with grabbing all of the hotels and displaying edit and delete hotel if the hotel is the hotel owner
@@ -22,6 +22,7 @@ const Home = () => {
   useEffect(() => {
     LoadAllhotels();
     LoadAllLocalHotels();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // load all hotels method to get all hotels from API
   const LoadAllhotels = async () => {

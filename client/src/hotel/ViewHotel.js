@@ -45,6 +45,7 @@ const ViewHotel = ({ match, history }) => {
     }
     // read reviews
     readAllReview();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
 

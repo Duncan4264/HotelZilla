@@ -1,13 +1,12 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
 const LogoutButton = () => {
   // Create dispatch from react redux
     const dispatch = useDispatch();
   // create history variable from react-router-dom
-  const history = useHistory();
+
   const { logout } = useAuth0();
   const handleLogout = () => {
     

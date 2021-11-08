@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import {read} from "../../actions/profile";
-import moment from "moment";
-import {EditOutlined} from '@ant-design/icons';
+
 import EditReviewModal from "../modals/EditReviewModal";
 import CreateCommentModal from '../modals/CommentModal';
 import {readComments} from '../../actions/comment';
-import { useSelector } from "react-redux";
+
 import CommentCard from '../cards/CommentCard';
 import { useAuth0 } from '@auth0/auth0-react';
+import moment from 'moment';
 const ReviewCard = ({
     r,
     handleReviewDelete = (f) => f,
@@ -20,13 +20,12 @@ const ReviewCard = ({
     const [comments, setComments] = useState([]);
     const [CommentModal, setCommentModal] = useState(false);
 
-        // Grab auth token from state
-        const {auth} = useSelector((state => ({...state})));
        
     
     useEffect(() => {
         loadUser();
         loadComment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     const loadUser = async () => {
         try {

@@ -28,7 +28,6 @@ const ReadProfile = ({match, history}) => {
     const [reviews, setReviews] = useState([]);
     const [reviewCount, setReviewCount] = useState(0);
     const [hotelCount, setHotelCount] = useState(0);
-    const [user, setUser] = useState({});
     const [CommentCount, setCommentCount] = useState(0);
     const [hotels, setHotels] = useState([]);
     const [image, setImage] = useState({});
@@ -46,6 +45,7 @@ const ReadProfile = ({match, history}) => {
         countPost();
         countComment();
         readuserReview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /**

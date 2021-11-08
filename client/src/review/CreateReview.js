@@ -17,19 +17,17 @@ const CreateReview = ({match, history}) => {
 const {auth} = useSelector((state) => ({...state}));
 const {getAccessTokenSilently } = useAuth0();
 // create the state variables
-const [review, setReview] = useState({});
+const [setReview] = useState({});
 const [hotel, setHotel] = useState({});
 const [image, setImage] = useState("");
 // set the values of the projectin the state
-const [values, setValues] = useState({
-    title: "",
-    content: "",
-    });
+
 
 // Load user and seller hotel in constructor
 useEffect(() => {
     loadUser();
     loadSellerHotel();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
   
@@ -37,7 +35,7 @@ useEffect(() => {
 const loadUser = async () => {
   const token = await getAccessTokenSilently();
     // load user
-    let res = await readUser(auth.user._id);
+    let res = await readUser(auth.user._id, token);
     // set review to user
     setReview(res.data);
 }

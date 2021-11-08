@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { read, updateHotel } from "../actions/hotel";
-import { useSelector } from "react-redux";
+
 import HotelEditForm from "../components/forms/HotelEditForm";
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -13,8 +13,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 */
 const EditHotel = ({ match }) => {
   const {getAccessTokenSilently } = useAuth0();
-  // redux
-  const { auth } = useSelector((state) => ({ ...state }));
+
+
   // state
   const [values, setValues] = useState({
     title: "",
@@ -36,6 +36,7 @@ const EditHotel = ({ match }) => {
   useEffect(() => {
     // method action to backend to load all seller hotels
     loadSellerHotel();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   // method to load sller hotel from backend

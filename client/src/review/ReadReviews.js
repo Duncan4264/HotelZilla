@@ -24,6 +24,7 @@ const ReadReviews = ({match}) => {
     useEffect(() => {
         readuserReview();
         loadUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 /**
  * @description Method to read user 

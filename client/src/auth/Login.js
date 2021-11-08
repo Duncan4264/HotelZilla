@@ -1,8 +1,8 @@
-import LoginForm from "../components/forms/LoginForm"
-import {useState, useEffect} from 'react';
-import { toast } from "react-toastify";
-import { login, register } from "../actions/auth";
-import {useDispatch} from "react-redux"
+
+import { useEffect} from 'react';
+
+import { register } from "../actions/auth";
+
 import { useAuth0 } from '@auth0/auth0-react';
 import {readUserAuth0, checkEmail} from '../actions/auth';
 import {useHistory} from 'react-router-dom';
@@ -19,7 +19,8 @@ const Login = () => {
 
   useEffect(() => {
     LoginUser();
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
     const LoginUser = async() => {
     // function to handle submit
@@ -36,7 +37,7 @@ const Login = () => {
             history.push('/');
             window.location.reload(false);
           } else {
-          let registerUser = await register({name, email});
+          await register({name, email});
           let res = await checkEmail(token, user.data.email);
           if(res.data) {
             window.localStorage.setItem("auth", JSON.stringify(res.data));

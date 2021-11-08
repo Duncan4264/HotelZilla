@@ -26,6 +26,7 @@ const DashboardSeller = () => {
   // Constructor to load seller hostels
   useEffect(() => {
     loadSellersHotels();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Method to load seller hotels

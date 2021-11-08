@@ -1,7 +1,7 @@
 // import dependencys 
 import Home from './booking/Home';
 import Login from './auth/Login';
-import Register from './auth/Register';
+
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import TopMenuNav from './components/TopMenuNav';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,7 +25,6 @@ import "bootswatch/dist/lux/bootstrap.min.css";
 import "antd/dist/antd";
 import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
 
-import { useAuth0 } from '@auth0/auth0-react';
 
 import StripeSuccess from './stripe/StripeSuccess';
 import Footer from './components/Footer';

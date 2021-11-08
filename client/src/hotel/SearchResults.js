@@ -3,14 +3,13 @@ import QueryString from "query-string";
 import Search from "../components/forms/Search"
 import { searchLists } from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router";
+
 
 const SearchResult = () => {
     // state
     const [hotels, setHotels] = useState([])
 
-    const history = useHistory();
+
 
     // constructor to loead search lists nad create query string
     useEffect(() => {

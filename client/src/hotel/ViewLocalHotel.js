@@ -1,13 +1,13 @@
 // Import people's dependencys
 import React, { useState, useEffect } from "react";
-import { readLocalHotel, diffDays, isAlreadyBooked } from "../actions/hotel";
+import { readLocalHotel } from "../actions/hotel";
 import { getLocalSessionId } from "../actions/stripe";
-import { readReviews } from "../actions/review";
-import moment from "moment";
+import {Spin} from 'antd';
+// import { readReviews } from "../actions/review";
+
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import ReviewCard from "../components/cards/ReviewCard";
-import { Card } from 'antd';
+
 import { useAuth0 } from '@auth0/auth0-react';
 
 /*
@@ -19,12 +19,11 @@ const ViewLocalHotel = ({ match, history }) => {
   // state
   const [hotel, setHotel] = useState();
   const [image, setImage] = useState("");
-  const [isVisible, setIsVisible] = useState(true);
+
   const [loading, setLoading] = useState(false);
-  const [alreadyBooked, setAlreadyBooked] = useState(false);
+  const [alreadyBooked] = useState(false);
   const [token, setToken] = useState("");
-  const [reviews, setReviews] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [ setLoaded] = useState(false);
 
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
@@ -37,6 +36,7 @@ const ViewLocalHotel = ({ match, history }) => {
     }catch(err){
       console.log(err)
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 // Method to load seller hotel
@@ -64,14 +64,14 @@ const ViewLocalHotel = ({ match, history }) => {
     // setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
   
-// method to load reviews for hotel
-  const readAllReview = async () => {
-    const token = await getAccessTokenSilently(); 
-    // call back to read reviews
-    let res = await readReviews(match.params.hotelId, token);
+// // method to load reviews for hotel
+//   const readAllReview = async () => {
+//     const token = await getAccessTokenSilently(); 
+//     // call back to read reviews
+//     let res = await readReviews(match.params.hotelId, token);
 
-    setReviews(res.data);
-  }
+//     setReviews(res.data);
+//   }
   
 /*
 * Method to handle click
@@ -104,7 +104,12 @@ const ViewLocalHotel = ({ match, history }) => {
 
   return (   
     <>
-    { !hotel ? <h1>Loading...</h1> :(
+    { !hotel ? 
+    <>
+    <div class="h-100 row align-items-center">
+      <Spin size="large" tip="Loading..."/>
+  </div> 
+  </>: (
       <>
     <div className="container-fluid bg-secondary p-5 text-center">
           <h1>{hotel.name}</h1>

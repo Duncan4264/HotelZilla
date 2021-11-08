@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { currencyFormatter } from "../../actions/stripe";
 import { diffDays } from "../../actions/hotel";
-import { useHistory } from "react-router";
+
 import OrderModal from "../modals/OrderModal";
 import ReviewModal from "../modals/ReviewModal";
-import EditReviewModal from '../modals/EditReviewModal';
+
 
 /**
  * @description Method to handle the booking card component and render to front end the user, the user session and who booked the hotel
@@ -17,7 +17,7 @@ const BookingCard = ({ hotel, session, orderedBy }) => {
   // create state variables
   const [showModal, setShowModal] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
-  const history = useHistory();
+
   return (
     <>
       <div className="card mb-3">

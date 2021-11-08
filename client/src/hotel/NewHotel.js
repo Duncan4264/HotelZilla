@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { CreateHotel } from "../actions/hotel";
-import { useSelector } from "react-redux";
+
 import HotelCreateForm from "../components/forms/HotelCreateForm";
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NewHotel = () => {
-  // redux
-  const { auth } = useSelector((state) => ({ ...state }));
   const {getAccessTokenSilently } = useAuth0();
   // state
   const [values, setValues] = useState({

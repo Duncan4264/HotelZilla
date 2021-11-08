@@ -1,5 +1,4 @@
 
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { readUser } from "../actions/auth";
 import ProfileCreateForm from "../components/forms/ProfileCreateform";
@@ -15,13 +14,11 @@ import { useAuth0 } from '@auth0/auth0-react';
  */
 const CreateProfile = ({match, history}) => {
   const {getAccessTokenSilently } = useAuth0();
-    // Grab the auth and user token from state
-    const {auth} = useSelector((state) => ({...state}));
     // create the state variables
-    const [profile, setProfile] = useState({});
+    const [setProfile] = useState({});
     let profileId = "";
-    const [loading, setLoading] = useState(false);
-    const [user, setisUser] = useState(false);
+
+    const [user] = useState(false);
     // set the values of the projectin the state
     const [values, setValues] = useState({
         name: "",
@@ -42,6 +39,7 @@ const CreateProfile = ({match, history}) => {
     useEffect(() => {
         // call te method to load the user information
         loadUser();    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     /*
     * Method to load the user, and set the profile equal to the user data response
