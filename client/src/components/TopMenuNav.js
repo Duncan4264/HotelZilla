@@ -12,9 +12,6 @@ const TopMenuNav = () => {
   // deconsturct auth from state
   const {auth} = useSelector((state) => ({...state}));
 
-
-
-
   const NavbarStyle = {
     height: "80px",
     background: "#37434d",

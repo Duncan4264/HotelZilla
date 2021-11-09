@@ -186,11 +186,15 @@ return booked;
 * Parameters: User Query
 * @ POST request 
 */
-export const searchLists = async(query) => 
+export const searchLists = async(query, token) => 
 {
   try {
     // await response from backend when making a post request to search listings uri with query parameter
-  let lists = await axios.post(`${process.env.REACT_APP_API}/search-listings`, query)
+  let lists = await axios.post(`${process.env.REACT_APP_API}/search-listings`, query, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
   return lists;
   } catch(error) {
     // log the error to the console
@@ -245,6 +249,21 @@ export const readLocalHotel = async(token, hotelId) => {
     });
     return hotel;
   } catch(error) {
+    console.log(error);
+  }
+}
+
+export const listLocalHotels = async(token, query) => {
+  try {
+    // await response from backend when making a post request to search listings uri with query parameter
+  let lists = await axios.post(`${process.env.REACT_APP_API}/search-local-listings`, query, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+  return lists;
+  } catch(error) {
+    // log the error to the console
     console.log(error);
   }
 }

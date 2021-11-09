@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm server.js"
+    "start": "nodemon -r esm server.js",
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true,
+    "roots": [ "sample", "src" ],
+    "testRegex": "\\.test\\.jsx?$"
   },
   "keywords": [],
   "author": "",

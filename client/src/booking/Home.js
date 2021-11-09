@@ -13,8 +13,6 @@ import Search from "../components/forms/Search";
  */
 const Home = () => {
 
-
-
   // create the state variables 
   const [hotels, setHotels] = useState([]);
   const [localHotels, setLocalHotels] = useState([]);
@@ -46,7 +44,7 @@ const Home = () => {
     let result = res.filter(function(hotel) {
       return hotel.optimizedThumbUrls !== null && hotel.name !== null && hotel.address !== null
     });
-    console.log(result);
+ 
 
     // set hotel state equal to response dta
     setLocalHotels(result);
@@ -60,12 +58,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="container-fluid bg-secondary p-5 text-center">
-        <h1>All Hotels</h1>
-      </div>
       <div className="col">
-      <br/>
       <Search />
+
     </div>
       <div className="container-fluid">
         <br />

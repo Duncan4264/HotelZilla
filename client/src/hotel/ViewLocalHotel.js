@@ -34,7 +34,12 @@ const ViewLocalHotel = ({ match, history }) => {
 // constructor to load seller hotels and check if it's already booked when compontent is loaded
   useEffect(() => {
     try{
-    loadSellerHotel();
+      const timer = setTimeout(() => {
+        loadSellerHotel();
+      }, 5000);
+    
+      return () => clearTimeout(timer);
+
 
     }catch(err){
       console.log(err)
@@ -69,26 +74,15 @@ const ViewLocalHotel = ({ match, history }) => {
     console.log(res.data.data.body);
  
 
-
-
     let imageUrl = res.data.data.body.roomsAndRates.rooms[0].images[0].fullSizeUrl;
     let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
     } catch(error) {
       console.log(error);
     }
-    // // set image to hotel image URI
-    // setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
+    
   };
-  
-// // method to load reviews for hotel
-//   const readAllReview = async () => {
-//     const token = await getAccessTokenSilently(); 
-//     // call back to read reviews
-//     let res = await readReviews(match.params.hotelId, token);
 
-//     setReviews(res.data);
-//   }
   
 /*
 * Method to handle click

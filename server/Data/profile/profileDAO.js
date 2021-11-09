@@ -1,5 +1,5 @@
 // import dependenceis
-import Profile from '../../Models/Profile';
+import Profile from '../../Models/profile';
 import jwt from 'jsonwebtoken';
 import fs from "fs";    
 import hotel from '../../Models/hotel';

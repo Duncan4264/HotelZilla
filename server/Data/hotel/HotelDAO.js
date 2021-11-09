@@ -376,8 +376,8 @@ export const readLocalHotel = async (req, res) => {
   });
   
   request.headers({
-    "x-rapidapi-host": "hotels4.p.rapidapi.com",
-    "x-rapidapi-key": "89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188",
+    "x-rapidapi-host": process.env.RAPID_API_HOST,
+    "x-rapidapi-key": process.env.RAPID_API_KEY,
     "useQueryString": true
   });
   
@@ -404,8 +404,8 @@ export const readLocalHotelImages = async (req, res) => {
     url: 'https://hotels4.p.rapidapi.com/properties/get-hotel-photos',
     params: {id: '150594'},
     headers: {
-      'x-rapidapi-host': 'hotels4.p.rapidapi.com',
-      'x-rapidapi-key': '89c82a4054msh1dc9265c777dba3p139679jsn2eb8ca089188'
+      "x-rapidapi-host": process.env.RAPID_API_HOST,
+      "x-rapidapi-key": process.env.RAPID_API_KEY,
     }
   };
   
@@ -414,4 +414,42 @@ export const readLocalHotelImages = async (req, res) => {
   }).catch(function (error) {
     console.error(error);
   });
+}
+
+export const searchLocalLists = async(req, res) => {
+  try {
+    console.log(req.body);
+    // let {location, date, bed} = req.body
+    // let fromDate = date.split(",");
+    console.log("hello");
+  //   let result = await Hotel.find({from: {$gte: new Date(fromDate[0])}, location: location, bed: bed})
+  //   .select("-image.data")
+  //   .exec();
+  //   res.json(result);
+  //   return result;
+
+var req = unirest("GET", "https://hotels4.p.rapidapi.com/locations/v2/search");
+
+req.query({
+	"query": "Phoenix",
+	"locale": "en_US",
+	"currency": "USD"
+});
+
+req.headers({
+	"x-rapidapi-host": process.env.RAPID_API_HOST,
+	"x-rapidapi-key": process.env.RAPID_API_KEY,
+	"useQueryString": true
+});
+
+
+req.end(function (res) {
+	if (res.error) throw new Error(res.error);
+
+	console.log(res.body);
+});
+
+  } catch (error) {
+    console.log(error);
+  }
 }

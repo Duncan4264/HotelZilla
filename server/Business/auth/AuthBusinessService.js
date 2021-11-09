@@ -1,4 +1,4 @@
-import { LoginDAO, RegisterDAO, readUser, readUserEmail } from "../../Data/auth/authDAO"
+import { LoginDAO, RegisterDAO, readUser, readUserEmail } from "../../Data/auth/AuthDAO";
 /**
  * @description Method that handles Register busienss service
  * @author Cyrus Duncan

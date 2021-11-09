@@ -20,7 +20,11 @@ const Login = () => {
     const history = useHistory();
 
   useEffect(() => {
+    const timer = setTimeout(() => {
     LoginUser();
+  }, 5000);
+
+  return () => clearTimeout(timer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const defaultOptions1 = {

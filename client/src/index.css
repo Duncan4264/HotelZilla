@@ -360,7 +360,43 @@ div.social-links {
   flex-direction: column;
   justify-content: space-between;
 }
+.search-sec{
+  padding: 5rem;
+}
+.search-slt{
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background: rgb(55, 67, 77);
+  color: rgb(55, 67, 77);
+  background-color: rgb(55, 67, 77);
+  background-image: none;
+  border: 1px solid rgb(55, 67, 77);
 
+  border-radius:0;
+}
+.wrn-btn{
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: capitalize;
+  height: calc(3rem + 2px) !important;
+  border-radius:0;
+}
+
+@media (min-width: 992px){
+  .search-sec{
+      position: relative;
+      background: rgb(55, 67, 77);
+  }
+}
+
+@media (max-width: 992px){
+  .search-sec{
+      background: rgb(55, 67, 77);
+  }
+}
 
 
 
