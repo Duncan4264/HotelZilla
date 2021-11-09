@@ -1,27 +1,28 @@
 import { useState, useEffect } from "react";
 import QueryString from "query-string";
-import Search from "../components/forms/Search"
 import { searchLists, listLocalHotels} from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 import { useAuth0 } from '@auth0/auth0-react';
+import LocalHotelSmallCard from "../components/cards/LocalHotelSmallCard";
 
 
 const SearchResult = () => {
     // state
     const [hotels, setHotels] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [localHotels, setLocalHotels] = useState([]);
     const {getAccessTokenSilently } = useAuth0();
  // create query string with location date and bed
  const {location, date, bed} = QueryString.parse(window.location.search);
 const getToken = async () => {
     const token = await getAccessTokenSilently();
-    console.log("hello");
             // call search lists with location, date and bed parameters
             searchLists({location, date, bed}, token).then(res => {
                 // set hotels to response data
                 setHotels(res.data);
             });
             listLocalHotels({location, date, bed}, token).then(res => {
+                console.log(res.data);
                 // set hotels to response data
                 setLocalHotels(res.data);
             });
@@ -48,6 +49,11 @@ const getToken = async () => {
                 {
                     hotels.map((h) => (
                         <SmallCard key={h._id} h={h} />
+                    ))
+                }
+                {
+                    localHotels.map((h) => (
+                        <LocalHotelSmallCard key={h._id} h={h} />
                     ))
                 }
             </div>

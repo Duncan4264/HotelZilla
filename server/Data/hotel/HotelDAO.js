@@ -321,7 +321,6 @@ export const countHotels = async(req, res) => {
 
 export const readLocalHotels = async (req, res) => {
   try {
-
     let request = unirest("GET", process.env.RAPID_API_URL);
     let theDate = moment().format('YYYY-MM-DD');
     let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
@@ -384,7 +383,6 @@ export const readLocalHotel = async (req, res) => {
   
   request.end(function (response) {
     if (response.error) throw new Error(response.error);
-    console.log(response.body);
     let hotel = response.body.data.body.roomsAndRates.rooms[0];
     res.json(response.body);
   });
@@ -410,45 +408,61 @@ export const readLocalHotelImages = async (req, res) => {
   };
   
   axios.request(options).then(function (response) {
-    console.log(response.data);
   }).catch(function (error) {
     console.error(error);
   });
 }
-
+/**
+ * @description Method to search local hotels
+ * @author Cyrus Duncan
+ * @date 11/09/2021
+ * @param {*} req
+ * @param {*} res
+ */
 export const searchLocalLists = async(req, res) => {
+  const {location, date, bed} = req.body
+  
   try {
-    console.log(req.body);
-    // let {location, date, bed} = req.body
-    // let fromDate = date.split(",");
-    console.log("hello");
-  //   let result = await Hotel.find({from: {$gte: new Date(fromDate[0])}, location: location, bed: bed})
-  //   .select("-image.data")
-  //   .exec();
-  //   res.json(result);
-  //   return result;
-
 var req = unirest("GET", "https://hotels4.p.rapidapi.com/locations/v2/search");
-
 req.query({
-	"query": "Phoenix",
+	"query": location,
 	"locale": "en_US",
-	"currency": "USD"
+	"currency": "USD" 
 });
-
 req.headers({
 	"x-rapidapi-host": process.env.RAPID_API_HOST,
 	"x-rapidapi-key": process.env.RAPID_API_KEY,
 	"useQueryString": true
 });
+req.end(function (response) {
+	if (response.error) throw new Error(response.error);
+	let Id = response.body.suggestions[0].entities[0].destinationId
 
-
-req.end(function (res) {
-	if (res.error) throw new Error(res.error);
-
-	console.log(res.body);
+  let request = unirest("GET", process.env.RAPID_API_URL);
+  let theDate = moment().format('YYYY-MM-DD');
+  let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
+  request.query({
+    "destinationId": Id,
+    "pageNumber": "1",
+    "pageSize": "25",
+    "checkIn": theDate,
+    "checkOut": theDate2,
+    "adults1": "1",
+    "sortOrder": "PRICE",
+    "locale": "en_US",
+    "currency": "USD"
+  });
+  request.headers({
+    "x-rapidapi-host": process.env.RAPID_API_HOST,
+    "x-rapidapi-key": process.env.RAPID_API_KEY,
+    "useQueryString": true
+  });
+request.end(function (response) {
+if (response.error) throw new Error(response.error);
+let hotels = response.body.data.body.searchResults.results;
+res.json(hotels);
+}); 
 });
-
   } catch (error) {
     console.log(error);
   }

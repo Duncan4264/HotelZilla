@@ -253,7 +253,7 @@ export const readLocalHotel = async(token, hotelId) => {
   }
 }
 
-export const listLocalHotels = async(token, query) => {
+export const listLocalHotels = async(query, token) => {
   try {
     // await response from backend when making a post request to search listings uri with query parameter
   let lists = await axios.post(`${process.env.REACT_APP_API}/search-local-listings`, query, {
@@ -261,6 +261,7 @@ export const listLocalHotels = async(token, query) => {
       Authorization: `Bearer ${token}`,
     }
   });
+  console.log(query);
   return lists;
   } catch(error) {
     // log the error to the console

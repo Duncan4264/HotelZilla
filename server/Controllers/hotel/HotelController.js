@@ -179,7 +179,6 @@ export const isBooked = async(req, res) => {
  */
 export const searchLists = async(req, res) => {
   try {
-    console.log(req.body);
     /// search hotels service
     let searchLists = searchListsService(req, res);
     // return hotels
@@ -277,7 +276,7 @@ console.log(error);
 
 export const searchLocalLists = async(req, res) => {
   try {
-    console.log("hello");
+    console.log(req.body);
     // grab local hotels from business service
       let searchLocalLists = await searchLocalListsService(req, res);
       // return local hotels 
