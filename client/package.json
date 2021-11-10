@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/pro-form": "^1.42.1",
+    "@ant-design/pro-form": "^1.43.5",
     "@auth0/auth0-react": "^1.8.0",
     "@stripe/stripe-js": "^1.15.1",
     "@testing-library/jest-dom": "^5.15.0",
