@@ -15,10 +15,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 const CreateProfile = ({match, history}) => {
   const {getAccessTokenSilently } = useAuth0();
     // create the state variables
-    const [setProfile] = useState({});
+    // eslint-disable-next-line no-unused-vars
+    const [profile, setProfile] = useState({});
     let profileId = "";
 
-    const [user] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [user, setUser] = useState(false);
     // set the values of the projectin the state
     const [values, setValues] = useState({
         name: "",

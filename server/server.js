@@ -10,6 +10,7 @@ const helmet = require("helmet");
 const compression = require('compression');
 const dotenv = require('dotenv');
 const rateLimit = require("express-rate-limit");
+const mongoSanitize = require('express-mongo-sanitize');
 
 dotenv.config({ path: './.env' });
 
@@ -41,6 +42,7 @@ app.use(cors({
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(compression());
+app.use(mongoSanitize());
 app.use(limiter);
 
 

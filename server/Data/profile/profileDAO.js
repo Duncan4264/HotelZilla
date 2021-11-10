@@ -50,12 +50,8 @@ export const createProfile = async(req, res) => {
         profile.user = req.params.userId
         // if the files have an image
         if(files.image) {
-            const urlPath = files.image.path;
-            urlPath = urlPath.replace(/%2e/ig, '.');
-            urlPath = urlPath.replace(/%2f/ig, '/');
-            const normalizedPath = path.normalize(urlPath);
-            // read file from image path
-            profile.image.data = fs.readFileSync(normalizedPath);
+            // set the profile image data to the file path of the image
+            profile.image.data = fs.readFileSync(files.image.path);
             // set the profile image type to the file image type
             profile.image.contentType = files.image.type;
         }
@@ -127,12 +123,8 @@ export const updateProfile = async (req, res) => {
         if(files.image) {
             // create an image object
             let image = {}
-            const urlPath = files.image.path;
-            urlPath = urlPath.replace(/%2e/ig, '.');
-            urlPath = urlPath.replace(/%2f/ig, '/');
-            const normalizedPath = path.normalize(urlPath);
             // read file from image path
-            image.data = await fs.readFileSync(normalizedPath);
+            image.data = fs.readFileSync(files.image.path);
             // set image type to request image type
             image.contentType = files.image.type;
             // set image data to new imaage
