@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from 'react';
 import { currencyFormatter } from "../../actions/stripe";
 import { diffDays } from "../../actions/hotel";
 
@@ -82,5 +83,8 @@ const BookingCard = ({ hotel, session, orderedBy }) => {
     </>
   );
 };
+BookingCard.propTypes = {};
+
+BookingCard.defaultProps = {};
 
 export default BookingCard;

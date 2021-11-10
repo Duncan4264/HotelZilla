@@ -6,7 +6,7 @@
     "@ant-design/pro-form": "^1.42.1",
     "@auth0/auth0-react": "^1.8.0",
     "@stripe/stripe-js": "^1.15.1",
-    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.16.13",
     "axios": "^0.21.1",
@@ -33,22 +33,6 @@
     "redux-devtools-extension": "^2.13.9",
     "web-vitals": "^1.1.2",
     "yarn": "^1.22.17"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "setupFiles": [
-      "jest-canvas-mock"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/src/test/mocks/styleMock.js",
-      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/src/test/mocks/fileMock.js"
-    }
   },
   "scripts": {
     "start": "react-scripts start",

@@ -16,7 +16,8 @@ export const createComment = async (req, res) => {
         review.save((error, result) => {
             if(error) {
                 console.log("error saving a review  " + error);
-                res.status(400).send("Error saving review" + error);
+                let errorMessage = "Error saving a review";
+                res.status(400).send(errorMessage + error);
             }
             // return results to front end in JSON
             res.json(result);

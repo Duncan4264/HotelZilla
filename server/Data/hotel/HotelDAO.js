@@ -5,6 +5,7 @@ import { response } from "express";
 import Order from "../../Models/order"
 import unirest from "unirest";
 import moment from "moment";
+import validator from 'validator';
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
@@ -23,8 +24,12 @@ export const create = async (req, res) => {
     hotel.postedBy = req.params.userId;
     // handle image
     if (files.image) {
-      // read image with image path parameter
-      hotel.image.data = fs.readFileSync(files.image.path);
+      const urlPath = files.image.path;
+            urlPath = urlPath.replace(/%2e/ig, '.');
+            urlPath = urlPath.replace(/%2f/ig, '/');
+            const normalizedPath = path.normalize(urlPath);
+            // read file from image path
+            hotel.image.data = fs.readFileSync(normalizedPath);
       // store image content type
       hotel.image.contentType = files.image.type;
     }
@@ -174,8 +179,12 @@ export const updateHotel = async(req, res) => {
     if(files.image) {
       // make an image object variable
       let image = {}
-      // read the image path
-      image.data = fs.readFileSync(files.image.path);
+      const urlPath = files.image.path;
+            urlPath = urlPath.replace(/%2e/ig, '.');
+            urlPath = urlPath.replace(/%2f/ig, '/');
+            const normalizedPath = path.normalize(urlPath);
+            // read file from image path
+            image.data = fs.readFileSync(normalizedPath);
       // Set the image content type
       image.contentType = files.image.type;
 
@@ -287,11 +296,13 @@ export const searchLists = async (req, res) => {
  */
 export const profileHotels = async (req, res) => {
   try {
+    validator.validate(req.params.userId, { type: 'string' });
       // create variable that findes profile hotels from UserId
       let sellerHotels = await Hotel.find({postedBy: req.params.userId})
       .select('-image.data')
       .populate('postedBy', '_id name')
       .exec();
+      validator.validate(sellerHotels, { type: 'array' });
       // method to send response of hotels back
       res.send(sellerHotels);
       // return out of method

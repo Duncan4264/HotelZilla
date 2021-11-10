@@ -43,7 +43,8 @@ const userSchema = new Schema(
     // if user is modified password
     if (user.isModified("password")) {
       // decrypt the user password hash
-      return bcrypt.hash(user.password, 12, function (err, hash) {
+      let salt = 12;
+      return bcrypt.hash(user.password, salt, function (err, hash) {
         // if error
         if (err) {
           // log the error to the conolse
