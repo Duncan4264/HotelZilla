@@ -6,6 +6,8 @@ import Order from "../../Models/order"
 import unirest from "unirest";
 import moment from "moment";
 import validator from 'validator';
+import excape from 'lodash.escape';
+import escape from "lodash.escape";
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
@@ -296,13 +298,15 @@ export const searchLists = async (req, res) => {
  */
 export const profileHotels = async (req, res) => {
   try {
-    validator.validate(req.params.userId, { type: 'string' });
+      validator.isMongoId(req.params.userId, 'User ID must be alphanumeric')
       // create variable that findes profile hotels from UserId
       let sellerHotels = await Hotel.find({postedBy: req.params.userId})
       .select('-image.data')
       .populate('postedBy', '_id name')
       .exec();
-      validator.validate(sellerHotels, { type: 'array' });
+
+
+      //  sellerHotels = escape(sellerHotels);
       // method to send response of hotels back
       res.send(sellerHotels);
       // return out of method
