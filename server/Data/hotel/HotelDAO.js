@@ -5,6 +5,7 @@ import { response } from "express";
 import Order from "../../Models/order"
 import unirest from "unirest";
 import moment from "moment";
+import validator from 'validator';
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
@@ -281,19 +282,18 @@ export const searchLists = async (req, res) => {
  * @description Method to grab the profile hotels bassed off of user id
  * @author Cyrus Duncan
  * @date 24/09/2021
- * @param {*} req
- * @param {*} res
- * @returns {*}  Returns profile hotels
+ * @returns Returns profile hotels
  */
 export const profileHotels = async (req, res) => {
   try {
+      validator.isMongoId(req.params.userId);
       // create variable that findes profile hotels from UserId
       let sellerHotels = await Hotel.find({postedBy: req.params.userId})
       .select('-image.data')
       .populate('postedBy', '_id name')
       .exec();
       // method to send response of hotels back
-      res.send(sellerHotels);
+      res.json(sellerHotels);
       // return out of method
       return sellerHotels;
   } catch (error) {
