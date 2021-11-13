@@ -28,7 +28,6 @@ import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
 
 import StripeSuccess from './stripe/StripeSuccess';
 import Footer from './components/Footer';
-import AdminDashboard from './admin/AdminDashboard';
 
 // Main function to handle app rendering and routing
 function App() {

@@ -112,7 +112,7 @@ export const sellerHotels = async (req, res) => {
   .populate('postedBy', '_id name')
   .exec();
   // Send the seller hotels data to front end
-  res.send(sellerHotels);
+  res.json(sellerHotels);
   } catch(error) {
     console.log(error)
     res.status(400).json({

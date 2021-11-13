@@ -39,6 +39,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5",
     "moment": "^2.29.1",
+    "mongo-sanitize": "^1.1.0",
     "mongoose": "^5.12.12",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",

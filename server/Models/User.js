@@ -43,7 +43,7 @@ const userSchema = new Schema(
     // if user is modified password
     if (user.isModified("password")) {
       // decrypt the user password hash
-      let salt = 12;
+      let salt = bcrypt.genSaltSync(12);
       return bcrypt.hash(user.password, salt, function (err, hash) {
         // if error
         if (err) {

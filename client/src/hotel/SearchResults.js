@@ -31,7 +31,7 @@ const getHotels= async () => {
     useEffect(  () => {
         try{
             const fetchData = async () => {
-                const data = await getHotels();
+              await getHotels();
              }
            
              fetchData();
