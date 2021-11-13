@@ -20,6 +20,9 @@ const userSchema = new Schema(
       required: "Email is required",
       unique: true,
     },
+    image: {
+      type: String,
+    },
     // admin field boolean to see if user is an admin
     admin: {
       type: Boolean,

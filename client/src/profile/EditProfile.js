@@ -103,7 +103,7 @@ const EditProfile = ({match}) => {
         * Parameters: Event Object
         */
         const handleChange = (e) => {
-          if(e.target.value.match("^[a-zA-Z ']*$") != null){
+          if(e.target.value.match("^[a-zA-Z ]*$") != null){
             setValues({ ...values, [e.target.name]: e.target.value });
         } else { 
           toast.error('Validation error, please ensure there are no special characters and input fits input')

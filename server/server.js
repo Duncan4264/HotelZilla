@@ -10,7 +10,6 @@ const helmet = require("helmet");
 const compression = require('compression');
 const dotenv = require('dotenv');
 const mongoSanitize = require('express-mongo-sanitize');
-
 dotenv.config({ path: './.env' });
 
 const app = express();

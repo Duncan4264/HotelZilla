@@ -31,7 +31,7 @@ const ProfileEditForm = ({
     const {name, content } = values;
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType='multipart/form-data'>
             <div className="form-group">
                 <label className="btn btn-outline-secndary btn-block m-2 text-left">
                     Image

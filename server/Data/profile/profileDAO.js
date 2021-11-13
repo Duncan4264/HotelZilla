@@ -3,6 +3,9 @@ import Profile from '../../Models/profile';
 import jwt from 'jsonwebtoken';
 import fs from "fs";    
 import hotel from '../../Models/hotel';
+var multer  = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
 import { ObjectId } from 'mongodb';
 /**
  * @description Method to handle reading a profile from the beckend mongo database
@@ -119,17 +122,19 @@ export const updateProfile = async (req, res) => {
         let files = req.files;
         // deconstruct fields
         let data = {...fields}
-        // if files have an image
-        if(files.image) {
-            // create an image object
-            let image = {}
-            // read file from image path
-            image.data = fs.readFileSync(files.image.path);
-            // set image type to request image type
-            image.contentType = files.image.type;
-            // set image data to new imaage
-            data.image = image;
-        }
+        console.log(JSON.stringify(req.files.image.path));
+        // // if files have an image
+        // if(files.image) {
+        //     // create an image object
+        //     let image = {}
+        //     // read file from image path
+        //     image.data = fs.readFileSync(files.image.path);
+        //     // set image type to request image type
+        //     image.contentType = files.image.type;
+        //     // set image data to new imaage
+        //     data.image = image;
+        // }
+        data.image = req.files.image.path;
         // find profile by id and update with profile id parameter and data
         let updated = await Profile.findByIdAndUpdate(req.params.profileId, data, {
             new: true,
