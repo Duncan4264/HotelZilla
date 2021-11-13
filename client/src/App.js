@@ -63,7 +63,6 @@ function App() {
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
     <PrivateRoute exact path="/local/hotel/:hotelId" component={ViewLocalHotel} />
-    <PrivateRoute exact path="/admin" component={AdminDashboard}/>
     </Auth0ProviderWithHistory>
     </Switch>
     </div>
