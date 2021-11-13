@@ -72,7 +72,7 @@ const EditProfile = ({match}) => {
         profileData.append("name", name);
         profileData.append("content", content)
         profileData.append("location", location)
-        profileData.append("user", auth.user._id    )
+        profileData.append("user", auth._id)
         image && profileData.append("image", image);
         
         try{
@@ -103,8 +103,13 @@ const EditProfile = ({match}) => {
         * Parameters: Event Object
         */
         const handleChange = (e) => {
+          if(e.target.value.match("^[a-zA-Z ']*$") != null){
+            setValues({ ...values, [e.target.name]: e.target.value });
+        } else { 
+          toast.error('Validation error, please ensure there are no special characters and input fits input')
+        }
             // set the values of the state of e target neame to e target value
-            setValues({...values, [e.target.name]: e.target.value });
+            // setValues({...values, [e.target.name]: e.target.value });
         }
     return (
         <>

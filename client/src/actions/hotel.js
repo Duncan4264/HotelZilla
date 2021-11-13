@@ -72,6 +72,7 @@ export const sellerHotels = async (token, userId) => {
     Authorization: `Bearer ${token}`
   },
 })
+console.log(sellerHotels);
 return sellerHotels;
   } catch(error) {
     // log the error to the console

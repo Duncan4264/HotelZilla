@@ -248,6 +248,7 @@ export const stripeSuccess = async (req, res) => {
     imageUrl = imageUrl + '?impolicy=fcrop&w=900&h=590&q=high';
 
     let tagline = hotel.propertyDescription.tagline[0].replace( /(<([^>]+)>)/ig, '');
+    let user = await User.find({}).sort({"_id":1}).limit(1);
     let newHotel = new Hotel({
       title: hotel.propertyDescription.name,
       content: tagline,

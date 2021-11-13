@@ -34,8 +34,9 @@ import AdminDashboard from './admin/AdminDashboard';
 function App() {
 
   return (
-    <div className="App">
     <body>
+    <div className="App">
+
     <div className="page-container">
     <BrowserRouter>
 
@@ -72,8 +73,8 @@ function App() {
 
     </BrowserRouter>
     </div>
-    </body>
     </div>
+    </body>
   );
 }
 

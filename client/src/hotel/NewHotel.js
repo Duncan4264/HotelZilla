@@ -71,7 +71,10 @@ const NewHotel = () => {
  * Parameters: Event Object 
  */
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    if(e.target.value.match("^[a-zA-Z ]*$") != null){
+      setValues({ ...values, [e.target.name]: e.target.value });
+  }
+    // setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (

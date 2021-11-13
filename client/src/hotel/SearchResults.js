@@ -4,7 +4,7 @@ import { searchLists, listLocalHotels} from "../actions/hotel";
 import SmallCard from "../components/cards/SmallCard";
 import { useAuth0 } from '@auth0/auth0-react';
 import LocalHotelSmallCard from "../components/cards/LocalHotelSmallCard";
-
+import Search from "../components/forms/Search";
 
 const SearchResult = () => {
     // state
@@ -14,7 +14,7 @@ const SearchResult = () => {
     const {getAccessTokenSilently } = useAuth0();
  // create query string with location date and bed
  const {location, date, bed} = QueryString.parse(window.location.search);
-const getToken = async () => {
+const getHotels= async () => {
     const token = await getAccessTokenSilently();
             // call search lists with location, date and bed parameters
             searchLists({location, date, bed}, token).then(res => {
@@ -22,15 +22,23 @@ const getToken = async () => {
                 setHotels(res.data);
             });
             listLocalHotels({location, date, bed}, token).then(res => {
-                console.log(res.data);
                 // set hotels to response data
                 setLocalHotels(res.data);
             });
     
 }
     // constructor to loead search lists nad create query string
-    useEffect(() => {
-        getToken();
+    useEffect(  () => {
+        try{
+            const fetchData = async () => {
+                const data = await getHotels();
+             }
+           
+             fetchData();
+        }catch(error){
+            console.log(error);
+        }
+     
 
         // set window location search
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,10 +48,10 @@ const getToken = async () => {
         <div className="container-fluid bg-secondary p-5 text-center">
         <h2>Search Results</h2>
       </div>
-        {/* <div className="col">
-            <br />
+        <div className="col">
             <Search />
-        </div> */}
+        </div>
+        <br/>
         <div className="container">
             <div className="row">
                 {

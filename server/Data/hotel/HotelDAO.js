@@ -106,7 +106,7 @@ export const readImage = async (req, res) => {
 export const sellerHotels = async (req, res) => {
   try {
   // Set seller hotels variable to find hotel by postedby variable with user ID
-  let sellerHotels = await Hotel.find({postedBy: req.user._id})
+  let sellerHotels = await Hotel.find({postedBy: req.params.hotelId})
   .select('-image.data')
   .populate('postedBy', '_id name')
   .exec();

@@ -102,8 +102,11 @@ const CreateProfile = ({match, history}) => {
     * Parameters: Event Object
     */
     const handleChange = (e) => {
+      if(e.target.value.match("^[a-zA-Z ]*$") != null){
+        setValues({ ...values, [e.target.name]: e.target.value });
+    }
         // set the values of the state of e target neame to e target value
-        setValues({...values, [e.target.name]: e.target.value });
+        // setValues({...values, [e.target.name]: e.target.value });
     }
     return (
         <>

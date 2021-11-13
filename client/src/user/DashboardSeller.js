@@ -34,7 +34,7 @@ const DashboardSeller = () => {
     try {
       const token = await getAccessTokenSilently();
     // deconstruct data from calling seller hotels from back end
-    let { data } = await sellerHotels(token, auth._id);
+    let { data }  = await sellerHotels(token, auth._id);
     // set hotels state to that data
     setHotels(data);
     } catch(error) {
@@ -85,7 +85,7 @@ const DashboardSeller = () => {
           <h2>Your Hotels</h2>
         </div>
         <div className="col-md-2">
-          <Link to="/hotels/new" className="btn btn-primary">
+          <Link to="/hotels/new" className="btn btn-primary mb-4">
             + Add New
           </Link>
         </div>
@@ -146,9 +146,8 @@ const DashboardSeller = () => {
       </div>
 
       {auth &&
-      auth.user &&
-      auth.user.stripe_seller &&
-      auth.user.stripe_seller.charges_enabled
+      auth.stripe_seller &&
+      auth.stripe_seller.charges_enabled
         ? connected()
         : notConnected()}
     </>

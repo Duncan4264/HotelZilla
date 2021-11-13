@@ -26,6 +26,8 @@ const EditHotel = ({ match }) => {
     bed: "",
   });
 
+
+
   const [image, setImage] = useState("")
   const [preview, setPreview] = useState(
     "https://via.placeholder.com/100x100.png?text=PREVIEW"
@@ -47,6 +49,7 @@ const EditHotel = ({ match }) => {
     setValues({ ...values, ...res.data });
     // set image preview to image based off of image ID 
     setPreview(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
+    setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
   /*
   * Method to handle submitting edit form
@@ -96,7 +99,10 @@ const EditHotel = ({ match }) => {
   * Parameters: Event Object
   */
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    if(e.target.value.match("^[a-zA-Z ]*$") != null){
+      setValues({ ...values, [e.target.name]: e.target.value });
+  }
+   
   };
 
   return (

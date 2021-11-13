@@ -44,7 +44,7 @@ const Dashboard = () => {
                     
                 </div>
                 <div className="col-md-2">
-                    <Link to="/" className="btn btn-primary">Search Hotels</Link>
+                    <Link to="/" className="btn btn-primary mb-4">Search Hotels</Link>
                 </div>
                 </div>
                 <div className="row">
