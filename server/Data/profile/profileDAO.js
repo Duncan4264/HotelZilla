@@ -120,9 +120,13 @@ export const updateProfile = async (req, res) => {
         // grab fields and files from request
         let fields = req.fields;
         let files = req.files;
+        console.log(req.files.image);
+        console.log(req.fields.image);
+
         // deconstruct fields
         let data = {...fields}
-        console.log(JSON.stringify(req.files.image.path));
+        
+        // console.log();
         // // if files have an image
         // if(files.image) {
         //     // create an image object
@@ -134,7 +138,7 @@ export const updateProfile = async (req, res) => {
         //     // set image data to new imaage
         //     data.image = image;
         // }
-        data.image = req.files.image.path;
+        // data.image = req.files.image.path;
         // find profile by id and update with profile id parameter and data
         let updated = await Profile.findByIdAndUpdate(req.params.profileId, data, {
             new: true,

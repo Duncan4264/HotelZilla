@@ -100,7 +100,8 @@ const readuserReview  =  async()  => {
             
             // set profile to user state
             setProfile(res.data);
-            // set image to user state
+            console.log(res.data);
+            // // set image to user state
             setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
         } catch (error) {
             // log an error to the console.
@@ -214,7 +215,7 @@ const countProfileReviews = async() => {
 <section class="profile">
   <header class="header">
     <div class="details mt-3">
-      <img src={image} alt="Profile" class="profile-pic"/>
+      <img src={profile.image || image} alt="Profile" class="profile-pic"/>
       <h1 class="heading">{profile.name}</h1>
       <div class="location">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
