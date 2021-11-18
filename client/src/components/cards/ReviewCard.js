@@ -61,7 +61,7 @@ const ReviewCard = ({
 	    <div class="card-body">
 	        <div class="row">
         	    <div class="col-sm-2 text-center">
-        	        <img src={image} alt="Profile" class="rounded img-fluid mx-auto d-block"/>
+        	        <img src={profile.image || image} alt="Profile" class="rounded img-fluid mx-auto d-block"/>
                   <a class="fs-4 card-title" href={`/user/${r.user}`}><strong>{profile.name}</strong></a>
         	        <p class="text-secondary text-center">{moment (new Date(r.createdAt)).format("MMMM Do YYYY, h:mm:ss a")}</p>
 

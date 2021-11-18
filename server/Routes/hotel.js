@@ -2,7 +2,7 @@
 import express from 'express'
 import formidable from "express-formidable"
 // import methods from hotel controller
-import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels, readLocalHotels, readLocalHotel, readLocalHotelImages, searchLocalLists} from "../Controllers/hotel/HotelController";
+import { create, hotels, readImage, sellerHotels, deleteHotel, readHotel, updateHotel, userHotelBookings, isBooked, searchLists, profileHotels, countHotels, readLocalHotels, readLocalHotel, searchLocalLists} from "../Controllers/hotel/HotelController";
 
 // create router variable from express router
  const router = express.Router();
@@ -28,11 +28,11 @@ router.get('/hotel/image/:hotelId', readImage);
 router.get('/seller-hotels/:hotelId', checkJwt, sellerHotels);
 
 // route to dleete a hotel based off of the hotel id, requires sign in and hotel owner
-router.delete('/delete-hotel/:hotelId', checkJwt, hotelOwner, deleteHotel);
+router.delete('/delete-hotel/:hotelId', checkJwt, deleteHotel);
 // route to get a single hotel based off of hotel id
 router.get('/hotel/:hotelId', readHotel);
 // route to update hotel based off of hotel id, requires sign on and hotel owner middleware
-router.put('/update-hotel/:hotelId', checkJwt, hotelOwner, formidable(), updateHotel);
+router.put('/update-hotel/:hotelId', checkJwt, formidable(), updateHotel);
 // route to get users hotel bookings that requires sign in middleware
 router.get('/user-hotel-bookings/:userId', checkJwt, userHotelBookings)
 // route to get is already booked by hotel id, requiresignin middleware
@@ -51,7 +51,6 @@ router.get('/user/hotels/:userId', checkJwt, countHotels);
 router.get('/local/hotels/:word', readLocalHotels);
 //get api for local hotel listing
 router.get('/local/hotel/:hotelId', readLocalHotel);
-router.get('/local/hotel/images/:hotelId', readLocalHotelImages);
 } catch (error) {
     // log the error to the console
     console.log(error);

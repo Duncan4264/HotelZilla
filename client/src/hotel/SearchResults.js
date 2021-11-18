@@ -5,10 +5,14 @@ import SmallCard from "../components/cards/SmallCard";
 import { useAuth0 } from '@auth0/auth0-react';
 import LocalHotelSmallCard from "../components/cards/LocalHotelSmallCard";
 import Search from "../components/forms/Search";
+import Lottie from "react-lottie";
+import * as animationLocation from "../assets/9013-hotel.json";
 
 const SearchResult = () => {
     // state
-    const [hotels, setHotels] = useState([]);
+    const [hotels, setHotels] = useState();
+    // Method to set loading
+    const [loading, setLoading] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [localHotels, setLocalHotels] = useState([]);
     const {getAccessTokenSilently } = useAuth0();
@@ -17,24 +21,32 @@ const SearchResult = () => {
 const getHotels= async () => {
     const token = await getAccessTokenSilently();
             // call search lists with location, date and bed parameters
-            searchLists({location, date, bed}, token).then(res => {
+            await searchLists({location, date, bed}, token).then(res => {
                 // set hotels to response data
                 setHotels(res.data);
             });
-            listLocalHotels({location, date, bed}, token).then(res => {
+            await listLocalHotels({location, date, bed}, token).then(res => {
                 // set hotels to response data
                 setLocalHotels(res.data);
             });
+
+            setLoading(false);
     
 }
+const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: animationLocation.default,
+  };
+  
     // constructor to loead search lists nad create query string
-    useEffect(  () => {
+    useEffect(() => {
         try{
-            const fetchData = async () => {
-              await getHotels();
-             }
-           
-             fetchData();
+            const timer = setTimeout(() => {
+                getHotels();
+              }, 5000);
+            
+              return () => clearTimeout(timer);
         }catch(error){
             console.log(error);
         }
@@ -44,6 +56,13 @@ const getHotels= async () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
+        <>
+    { loading ? 
+    <>
+    <div class="h-100 row align-items-center">
+    <Lottie options={defaultOptions1} height={600} width={600} />
+  </div> 
+  </>: (
         <>
         <div className="container-fluid bg-secondary p-5 text-center">
         <h2>Search Results</h2>
@@ -67,6 +86,9 @@ const getHotels= async () => {
             </div>
         </div>
         </>
+    )
+            }
+            </>
     )
 }
 

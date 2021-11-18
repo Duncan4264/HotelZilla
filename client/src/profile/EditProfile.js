@@ -103,9 +103,8 @@ const EditProfile = ({match}) => {
           body: formData,
             };
 
-// replace cloudname with your Cloudinary cloud_name
-return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
-.then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
+          return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
+                    .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
           }
             // method to set preview state to a new url created from event files
 
@@ -116,7 +115,7 @@ return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
         * Parameters: Event Object
         */
         const handleChange = (e) => {
-          if(e.target.value.match("^[a-zA-Z ]*$") != null){
+          if(e.target.value.match("^[a-zA-Z ']*$") != null){
             setValues({ ...values, [e.target.name]: e.target.value });
         } else { 
           toast.error('Validation error, please ensure there are no special characters and input fits input')

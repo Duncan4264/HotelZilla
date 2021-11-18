@@ -83,17 +83,24 @@ const EditHotel = ({ match }) => {
     }
   }
 
-  /*
-  * Method to handle image change
-  * Parameters: Event Object
-  */
-  const handleImageChange = (e) => {
-    // console.log(e.target.files[0]);
-    // set the preview state to the create object url with image file from event object
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    // set the Image to the file in the event oject
-    setImage(e.target.files[0]);
-  };
+    /*
+    * Method to handle an Image Change in state
+    * Parameters: Event Object
+    */
+     const handleImageChange = (e) => {
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      setPreview(URL.createObjectURL(e.target.files[0]));
+      // replace this with your upload preset name
+      formData.append('upload_preset', 'Hotelzilla');
+      const options = {
+      method: 'POST',
+      body: formData,
+        };
+
+      return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
+                .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
+      }
   /*
   * Method to handle the change of all other fields
   * Parameters: Event Object

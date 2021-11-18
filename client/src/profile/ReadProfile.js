@@ -157,10 +157,11 @@ const countProfileReviews = async() => {
   * Parameters: Hotel ID String
   */
   const handleHotelDelete = async (hotelId) => {
+    const token = await getAccessTokenSilently();
     // if not canceled return
     if (!window.confirm("Are you sure?")) return;
       // Delete hotel method with token and hotel id  
-    deleteHotel(auth.token, hotelId).then((res) => {
+    deleteHotel(token, hotelId).then((res) => {
       // log the client hotel deleted meesage
       toast.success("Hotel Deleted");
       // call message to load seller hotels

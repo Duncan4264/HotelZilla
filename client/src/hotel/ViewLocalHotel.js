@@ -51,7 +51,6 @@ const ViewLocalHotel = ({ match, history }) => {
       loop: true,
       autoplay: true,
       animationData: location.default,
-
     };
     
 

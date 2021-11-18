@@ -94,11 +94,19 @@ const CreateProfile = ({match, history}) => {
     * Parameters: Event Object
     */
     const handleImageChange = (e) => {
-        // method to set preview state to a new url created from event files
-        setPreview(URL.createObjectURL(e.target.files[0]));
-        // set the values of image to event tartget values
-        setValues({...values, image: e.target.files[0]});
-    }
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      setPreview(URL.createObjectURL(e.target.files[0]));
+      // replace this with your upload preset name
+      formData.append('upload_preset', 'Hotelzilla');
+      const options = {
+      method: 'POST',
+      body: formData,
+        };
+
+      return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
+                .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
+      }
     /*
     * Method to handle a change in state 
     * Parameters: Event Object

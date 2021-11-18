@@ -248,7 +248,7 @@ export const stripeSuccess = async (req, res) => {
     imageUrl = imageUrl + '?impolicy=fcrop&w=900&h=590&q=high';
 
     let tagline = hotel.propertyDescription.tagline[0].replace( /(<([^>]+)>)/ig, '');
-    let user = await User.find({}).sort({"_id":1}).limit(1);
+    let adminUser = await User.find({}).sort({"_id":1}).limit(1);
     let newHotel = new Hotel({
       title: hotel.propertyDescription.name,
       content: tagline,
@@ -262,6 +262,7 @@ export const stripeSuccess = async (req, res) => {
     }).save(async function(err, obj) {
       if (err) throw err;
       hotelId = obj._id;
+      console.log(user._id);
               // 7 else create new order and send success true
               let newOrder = await new Order({
                 hotel: hotelId,
@@ -281,7 +282,13 @@ export const stripeSuccess = async (req, res) => {
     console.log("STRIPE SUCCESS ERR", err);
   }
 }
-
+/**
+ * @description Method to get stripe sesson id
+ * @author Cyrus Duncan
+ * @date 17/11/2021
+ * @param {*} req
+ * @param {*} res
+ */
 export const readLocalStripeSessionId = async (req, res) => {
   try {
     var request = unirest("GET", "https://hotels4.p.rapidapi.com/properties/get-details");

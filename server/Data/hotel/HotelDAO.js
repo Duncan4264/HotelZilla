@@ -21,14 +21,8 @@ export const create = async (req, res) => {
     let files = req.files;
     // hotel variable that creates hotel object with fields
     let hotel = new Hotel(fields);
-    hotel.postedBy = req.params.userId;
-    // handle image
-    if (files.image) {
-      // read image with image path parameter
-      hotel.image.data = fs.readFileSync(files.image.path);
-      // store image content type
-      hotel.image.contentType = files.image.type;
-    }
+    hotel.postedBy = fields.postedBy;
+    hotel.imageUrl = fields.image;
 
     // Save the hotel to database
     hotel.save((err, result) => {
@@ -171,18 +165,6 @@ export const updateHotel = async(req, res) => {
     // variable that deconstructs the fileds
     let data  = {...fields}
 
-    // if there is an image
-    if(files.image) {
-      // make an image object variable
-      let image = {}
-      // read the image path
-      image.data = fs.readFileSync(files.image.path);
-      // Set the image content type
-      image.contentType = files.image.type;
-
-      // set the data.image to the image
-      data.image = image;
-    }
     // create updated variable that queries database for hotel based off of id and updates it
     let updated = await Hotel.findByIdAndUpdate(req.params.hotelId, data, {
       new: true,
@@ -387,31 +369,7 @@ export const readLocalHotel = async (req, res) => {
     res.json(response.body);
   });
 }
-/**
- * @description method to read local hotel images
- * @author Cyrus Duncan
- * @date 04/11/2021
- * @param {*} req
- * @param {*} res
- */
-export const readLocalHotelImages = async (req, res) => {
-  var axios = require("axios").default;
 
-  var options = {
-    method: 'GET',
-    url: 'https://hotels4.p.rapidapi.com/properties/get-hotel-photos',
-    params: {id: '150594'},
-    headers: {
-      "x-rapidapi-host": process.env.RAPID_API_HOST,
-      "x-rapidapi-key": process.env.RAPID_API_KEY,
-    }
-  };
-  
-  axios.request(options).then(function (response) {
-  }).catch(function (error) {
-    console.error(error);
-  });
-}
 /**
  * @description Method to search local hotels
  * @author Cyrus Duncan

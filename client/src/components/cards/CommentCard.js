@@ -28,7 +28,7 @@ const CommentCard = ({comment}) => {
  <div class="card-body">
      <div class="row">
          <div class="col-md-2">
-             <img  alt="Profile" src={image} class="img img-rounded img-fluid"/>
+             <img  alt="Profile" src={profile.image || image} class="img img-rounded img-fluid"/>
              <p className="text-center mt-2"><a href={`/user/${comment.user}`}><strong>{profile.name}</strong></a></p>
              <p class="text-secondary text-center">{moment (new Date(comment.createdAt)).format("MMMM Do YYYY, h:mm:ss a")}</p>
          </div>

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { CreateHotel } from "../actions/hotel";
+import { useSelector } from "react-redux";
 
 import HotelCreateForm from "../components/forms/HotelCreateForm";
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NewHotel = () => {
   const {getAccessTokenSilently } = useAuth0();
+  const { auth } = useSelector((state) => ({ ...state }));
   // state
   const [values, setValues] = useState({
     title: "",
@@ -38,6 +40,7 @@ const NewHotel = () => {
     hotelData.append("from", from);
     hotelData.append("to", to);
     hotelData.append("bed", bed);
+    hotelData.append("postedBy", auth._id);
 
 
     try {
@@ -57,21 +60,28 @@ const NewHotel = () => {
   };
   /*
   * Method to handle Image Change
-  * Parameters: Event Object
+  * Post request to cloudinary
   */
   const handleImageChange = (e) => {
-    // console.log(e.target.files[0]);
-    // Set preview and creat object URL with evet file
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
     setPreview(URL.createObjectURL(e.target.files[0]));
-    // set values with image value in state
-    setValues({ ...values, image: e.target.files[0] });
-  };
+    // replace this with your upload preset name
+    formData.append('upload_preset', 'Hotelzilla');
+    const options = {
+    method: 'POST',
+    body: formData,
+      };
+
+    return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
+              .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
+    }
  /*
  * Method to handle Change
  * Parameters: Event Object 
  */
   const handleChange = (e) => {
-    if(e.target.value.match("^[a-zA-Z ]*$") != null){
+    if(e.target.value.match("^[a-zA-Z 0-9]*$") != null){
       setValues({ ...values, [e.target.name]: e.target.value });
   }
     // setValues({ ...values, [e.target.name]: e.target.value });

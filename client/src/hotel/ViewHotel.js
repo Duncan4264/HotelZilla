@@ -113,7 +113,7 @@ const ViewHotel = ({ match, history }) => {
         <div className="row">
           <div className="col-md-6">
             <br />
-            <img src={image} alt={hotel.title} className="img img-fluid m-2" />
+            <img src={hotel.imageUrl || image} alt={hotel.title} className="img img-fluid m-2" />
           </div>
 
           <div className="col-md-6">
