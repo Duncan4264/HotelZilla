@@ -24,7 +24,7 @@ const BookingCard = ({ hotel, session, orderedBy }) => {
       <div className="card mb-3">
         <div className="row no-gutters">
           <div className="col-md-4">
-            {hotel.image && hotel.image.contentType ? (
+            {hotel.image ? (
               <img
                 src={`${process.env.REACT_APP_API}/hotel/image/${hotel._id}`}
                 alt="default hotel"

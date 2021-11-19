@@ -51,13 +51,14 @@ export const createProfile = async(req, res) => {
         let profile = new Profile(fields);
         // set profile user variable equal to request user id
         profile.user = req.params.userId
+        profile.imageurl = fields.image;
         // if the files have an image
-        if(files.image) {
-            // set the profile image data to the file path of the image
-            profile.image.data = fs.readFileSync(files.image.path);
-            // set the profile image type to the file image type
-            profile.image.contentType = files.image.type;
-        }
+        // if(files.image) {
+        //     // set the profile image data to the file path of the image
+        //     profile.image.data = fs.readFileSync(files.image.path);
+        //     // set the profile image type to the file image type
+        //     profile.image.contentType = files.image.type;
+        // }
         // save the profile to the data bae with error and result parameters
         profile.save((error, result) => {
             // if there is an error 
@@ -178,4 +179,5 @@ export const DeleteProfile = async (req, res) => {
       }) 
     }
 }
+
 

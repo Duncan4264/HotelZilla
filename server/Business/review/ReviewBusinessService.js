@@ -94,3 +94,14 @@ export const editReviewService = async(req, res) => {
        console.log(error); 
     }
 }
+export const readLocalReviewsService = async (req, res) => {
+    try {
+        // read reviews from DAO
+        let readReview = readLocalReviews(req, res);
+        // reead reviews
+        return readReview;
+    } catch (error) {
+        // log an error to the console
+        console.log(error);
+    }
+}

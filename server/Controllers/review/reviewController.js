@@ -94,3 +94,22 @@ export const editReviews = async(req, res) => {
         console.log(error); 
     }
 }
+/**
+ * @description Method that reads local reviews
+ * @author Cyrus Duncan
+ * @date 18/11/2021
+ * @param {*} req
+ * @param {*} res
+ * @returns {*} 
+ */
+const readLocalReviews = async (req, res) => {
+    try {
+        // create variable that calls read in review business service
+        let readReview = readLocalReviewsService(req, res);
+        // return reviews
+        return readReview;
+    } catch (error) {
+        // log an error to the console
+        console.log(error);
+    }
+}

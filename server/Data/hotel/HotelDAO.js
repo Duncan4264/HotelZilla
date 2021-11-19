@@ -395,7 +395,8 @@ req.headers({
 req.end(function (response) {
 	if (response.error) throw new Error(response.error);
 	let Id = response.body.suggestions[0].entities[0].destinationId
-
+  let test = Number(bed);
+  console.log(test);
   let request = unirest("GET", process.env.RAPID_API_URL);
   let theDate = moment().format('YYYY-MM-DD');
   let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
@@ -405,7 +406,7 @@ req.end(function (response) {
     "pageSize": "25",
     "checkIn": theDate,
     "checkOut": theDate2,
-    "adults1": "1",
+    "adults1": test,
     "sortOrder": "PRICE",
     "locale": "en_US",
     "currency": "USD"

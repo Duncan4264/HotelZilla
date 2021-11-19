@@ -121,3 +121,34 @@ export const edit = async (req, res) => {
         console.log(error);
     }
 }
+/*
+*
+*
+*/
+export const readLocalReviews = async (req, res) => {
+    try {
+        var req = unirest("GET", "https://hotels4.p.rapidapi.com/reviews/v2/list");
+
+req.query({
+	"hotelId": "1053457920",
+	"reviewOrder": "date_newest_first",
+	"tripTypeFilter": "all"
+});
+
+req.headers({
+	"x-rapidapi-host": process.env.RAPID_API_HOST,
+	"x-rapidapi-key": process.env.RAPID_API_KEY,
+	"useQueryString": true
+});
+
+
+req.end(function (res) {
+	if (res.error) throw new Error(res.error);
+
+	console.log(res.body);
+});
+    } catch(error) {
+    // log an error to the console
+    console.log(error);
+}
+    }
