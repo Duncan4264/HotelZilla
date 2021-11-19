@@ -118,3 +118,20 @@ export const edit = async(reviewId, data, token) => {
        console.log(error); 
     }
 }
+
+export const readLocalReview = async(hotelId, token) => {
+    try {
+        // get reviews from api
+        let reviews = await axios.get(`${process.env.REACT_APP_API}/local/reviews/${hotelId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        console.log(reviews);
+        // return reviews
+        return reviews;
+    } catch (error) {
+        // log an error
+        console.log(error);
+    }
+}

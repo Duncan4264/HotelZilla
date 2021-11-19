@@ -5,7 +5,7 @@ import { getSessionId } from "../actions/stripe";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import { readReviews } from '../actions/review';
+import { readReviews, readLocalReview } from '../actions/review';
 import ReviewCard from "../components/cards/ReviewCard";
 import { Card } from 'antd';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -18,8 +18,8 @@ const ViewHotel = ({ match, history }) => {
   const {getAccessTokenSilently } = useAuth0();
   // state
   const [hotel, setHotel] = useState({});
-  const [image, setImage] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
   const [token, setToken] = useState("");
@@ -41,10 +41,9 @@ const ViewHotel = ({ match, history }) => {
       .then((res) => {
         // set hotel objects to already booked
         setAlreadyBooked(res.data.ok);
+        readAllReview(match.params.hotelId, token);
       });
     }
-    // read reviews
-    readAllReview();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -72,6 +71,7 @@ const ViewHotel = ({ match, history }) => {
 
     setReviews(res.data); 
     console.log(reviews);
+
   }
   
 /*

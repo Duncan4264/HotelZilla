@@ -2,7 +2,7 @@
 import express from 'express'
 import formidable from "express-formidable"
 // import methods from hotel controller
-import { countReviews, createReview, readReviews, readUserReviews, editReviews } from "../Controllers/review/reviewController";
+import { countReviews, createReview, readReviews, readUserReviews, editReviews, readLocalReviews} from "../Controllers/review/reviewController";
 
 // create router variable from express router
  const router = express.Router();
@@ -17,6 +17,7 @@ try {
     router.get('/user/reviewcount/:userId', checkJwt, countReviews);
     router.get('/users/reviews/:userId', checkJwt, readUserReviews);
     router.put(`/edit-review/:reviewId`, checkJwt, formidable(), editReviews);
+    router.get(`/local/reviews/:hotelId`, checkJwt, readLocalReviews);
 } catch (error) {
     // log the error to the console
     console.log(error);

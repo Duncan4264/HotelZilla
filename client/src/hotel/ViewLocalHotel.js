@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { readLocalHotel } from "../actions/hotel";
 import { getLocalSessionId } from "../actions/stripe";
+import { readLocalReview } from "../actions/review";
 import * as location from "../assets/9013-hotel.json";
 
 import Lottie from "react-lottie";
@@ -22,6 +23,7 @@ const ViewLocalHotel = ({ match, history }) => {
   // state
   const [hotel, setHotel] = useState();
   const [image, setImage] = useState("");
+  const [LocalReviews, setLocalReviews] = useState();
   const [hotelInfo, setHotelInfo] = useState();
 
   const [loading, setLoading] = useState(false);
@@ -67,15 +69,14 @@ const ViewLocalHotel = ({ match, history }) => {
     setHotelInfo(res.data.data.body);
     // set hotel state to response data
     setHotel(res.data.data.body.roomsAndRates.rooms[0]);
-
-
-
     console.log(res.data.data.body);
- 
-
     let imageUrl = res.data.data.body.roomsAndRates.rooms[0].images[0].fullSizeUrl;
     let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
+
+    console.log("hello");
+    let local = await readLocalReview(match.params.hotelId, token);
+    setLocalReviews(local.data);
     } catch(error) {
       console.log(error);
     }

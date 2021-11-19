@@ -1,4 +1,4 @@
-import {countReviewService, newReviewService, readReviewService, readUserReviewService, editReviewService} from '../../Business/review/ReviewBusinessService';
+import {countReviewService, newReviewService, readReviewService, readUserReviewService, editReviewService, readLocalReviewsService} from '../../Business/review/ReviewBusinessService';
 /**
  * @description
  * @author Cyrus Duncan
@@ -102,7 +102,7 @@ export const editReviews = async(req, res) => {
  * @param {*} res
  * @returns {*} 
  */
-const readLocalReviews = async (req, res) => {
+export const readLocalReviews = async (req, res) => {
     try {
         // create variable that calls read in review business service
         let readReview = readLocalReviewsService(req, res);
