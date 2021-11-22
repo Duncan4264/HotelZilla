@@ -5,7 +5,7 @@ import { getSessionId } from "../actions/stripe";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import { readReviews, readLocalReview } from '../actions/review';
+import { readReviews } from '../actions/review';
 import ReviewCard from "../components/cards/ReviewCard";
 import { Card } from 'antd';
 import { useAuth0 } from '@auth0/auth0-react';

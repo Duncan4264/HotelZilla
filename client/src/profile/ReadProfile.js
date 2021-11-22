@@ -213,18 +213,18 @@ const countProfileReviews = async() => {
    }
     return (
         <>
-<section class="profile">
-  <header class="header">
-    <div class="details mt-3">
-      <img src={profile.image || image} alt="Profile" class="profile-pic"/>
-      <h1 class="heading">{profile.name}</h1>
-      <div class="location">
+<section className="profile">
+  <header className="header">
+    <div className="details mt-3">
+      <img src={profile.image || image} alt="Profile" className="profile-pic"/>
+      <h1 className="heading">{profile.name}</h1>
+      <div className="location">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
   <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12 ,2Z"></path>
 </svg>
         <p>{profile.location}</p>
       </div>
-      <div class="aboutme">
+      <div className="aboutme">
         <h2 className="text-white"> About Us: </h2>
         <h2 className="text-white">{profile.content}</h2>
         </div>
@@ -250,7 +250,7 @@ const countProfileReviews = async() => {
           <h4 className="text-white">{hotelCount}</h4>
           <p>Hotel Posts</p>
         </div>
-        <div class="col-4">
+        <div className="col-4">
           {owner &&
           <div className="mb-3">
            <Link to={`/profile/edit/${auth._id}`}>

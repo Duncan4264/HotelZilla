@@ -22,7 +22,6 @@ import CreateReview from './review/CreateReview';
 import readReviews from './review/ReadReviews';
 import ViewLocalHotel from './hotel/ViewLocalHotel';
 import "bootswatch/dist/lux/bootstrap.min.css";
-import "antd/dist/antd";
 import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
 
 
@@ -33,7 +32,6 @@ import Footer from './components/Footer';
 function App() {
 
   return (
-    <body>
     <div className="App">
 
     <div className="page-container">
@@ -72,7 +70,6 @@ function App() {
     </BrowserRouter>
     </div>
     </div>
-    </body>
   );
 }
 

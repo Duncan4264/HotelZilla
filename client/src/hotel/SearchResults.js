@@ -59,7 +59,7 @@ const defaultOptions1 = {
         <>
     { loading ? 
     <>
-    <div class="h-100 row align-items-center">
+    <div className="h-100 row align-items-center">
     <Lottie options={defaultOptions1} height={600} width={600} />
   </div> 
   </>: (

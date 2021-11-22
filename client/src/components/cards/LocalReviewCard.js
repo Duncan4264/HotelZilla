@@ -1,44 +1,24 @@
 import { useEffect, useState } from "react"
-import {read} from "../../actions/profile";
-
-import EditReviewModal from "../modals/EditReviewModal";
 import CreateCommentModal from '../modals/CommentModal';
 import {readComments} from '../../actions/comment';
 
-import CommentCard from '../cards/CommentCard';
+import CommentCard from './CommentCard';
 import { useAuth0 } from '@auth0/auth0-react';
-import moment from 'moment';
 const ReviewCard = ({
     r,
     handleReviewDelete = (f) => f,
     owner = false,
 }) => {
     const {getAccessTokenSilently } = useAuth0();
-    const [profile, setProfile] = useState({});
-    const [image, setImage] = useState("");
-    const [editReviewModal, setReviewModal] = useState(false);
     const [comments, setComments] = useState([]);
     const [CommentModal, setCommentModal] = useState(false);
 
        
     
     useEffect(() => {
-        loadUser();
         loadComment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    const loadUser = async () => {
-        try {
-            let res = await read(r.user);
-            // set the profile state with the data returend
-            setProfile(res.data);
-            // image 
-            setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
-        } catch (error) {
-            // log an error in the console
-         console.log(error);   
-        }     
-    }
+    }, []) 
     const loadComment = async() => {
         try {
             const token = await getAccessTokenSilently();
@@ -61,9 +41,9 @@ const ReviewCard = ({
 	    <div className="card-body">
 	        <div className="row">
         	    <div className="col-sm-2 text-center">
-        	        <img src={profile.image || image} alt="Profile" className="rounded img-fluid mx-auto d-block"/>
-                  <a className="fs-4 card-title" href={`/user/${r.user}`}><strong>{profile.name}</strong></a>
-        	        <p className="text-secondary text-center">{moment (new Date(r.createdAt)).format("MMMM Do YYYY, h:mm:ss a")}</p>
+        	        <img src={`https://st.depositphotos.com/1052233/2815/v/600/depositphotos_28158459-stock-illustration-male-default-profile-picture.jpg`} alt="Profile" className="rounded img-fluid mx-auto d-block"/>
+                  <a className="fs-4 card-title" href="/"><strong>{r.reviewer.name}</strong></a>
+        	        <p className="text-secondary text-center">{r.reviewDate}</p>
 
         	    </div>
         	    <div className="col-sm-10">
@@ -74,18 +54,9 @@ const ReviewCard = ({
                 <u>Create a review</u>
                 </button> 
               </p>
-              {editReviewModal && <EditReviewModal hotel={r.hotel} editReviewModal={editReviewModal} setReviewModal={setReviewModal} review={r} />}
-                  {owner &&
-       <p className="pull-right"><button onClick={() => setReviewModal(!editReviewModal)}
-                   className="btn btn-secondary">
-                <u>Edit a review</u>
-                </button> 
-                </p>
-       }
-
-                  <h2>{r.title}</h2> 
+                  <h2>{r.summary}</h2> 
         	       <div className="clearfix"></div>
-        	        <p className="fs-4">{r.content}</p>
+        	        <p className="fs-4">{r.description}</p>
         	    </div>
 	        </div>
           {comments.length === 0 ?
@@ -102,5 +73,5 @@ const ReviewCard = ({
         </div>
       </div>
     )
-}
+        }
 export default ReviewCard;

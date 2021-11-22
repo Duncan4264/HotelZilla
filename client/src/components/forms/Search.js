@@ -39,15 +39,15 @@ const history  = useHistory()
     }
     return (
         <>
-        <section class="search-sec">
-    <div class="container">
+        <section className="search-sec">
+    <div className="container">
     <h1 className="text-white">Find your perfect room</h1>
     <br/>
-        <form action="#" method="post" novalidate="novalidate">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+        <form action="#" method="post" noValidate="novalidate">
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="row">
+                        <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                             {/* <input type="text" class="form-control search-slt" placeholder="Enter Pickup City"/> */}
                               <ReactGoogleAutocomplete
                           placeholder="Location"
@@ -59,14 +59,14 @@ const history  = useHistory()
                           }}
                          />
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                        <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                             {/* <input type="text" class="form-control search-slt" placeholder="Enter Drop City"/> */}
                             <RangePicker onChange={(value) => setDate(value)} className="w-100 h-100"
                             disabledDate={(current) =>
                             current && current.valueOf() < moment().subtract(1, "days")
                           } />
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                        <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                             <Select
             onChange={(value) => setBed(value)}
             className="w-100 h-100"
@@ -79,8 +79,8 @@ const history  = useHistory()
             <Option key={4}>{4}</Option>
           </Select>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                            <button type="button" onClick={handleSubmit} class="btn btn-danger wrn-btn w-100 h-100">Search</button>
+                        <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <button type="button" onClick={handleSubmit} className="btn btn-danger wrn-btn w-100 h-100">Search</button>
                         </div>
                     </div>
                 </div>

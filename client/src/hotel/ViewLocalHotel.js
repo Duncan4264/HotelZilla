@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { readLocalHotel } from "../actions/hotel";
 import { getLocalSessionId } from "../actions/stripe";
 import { readLocalReview } from "../actions/review";
+import LocalReviewCard from "../components/cards/LocalReviewCard";
+import { Card } from 'antd';
 import * as location from "../assets/9013-hotel.json";
 
 import Lottie from "react-lottie";
@@ -38,7 +40,8 @@ const ViewLocalHotel = ({ match, history }) => {
     try{
       const timer = setTimeout(() => {
         loadSellerHotel();
-      }, 5000);
+        loadSellerReviews();
+      }, 10000);
     
       return () => clearTimeout(timer);
 
@@ -69,19 +72,29 @@ const ViewLocalHotel = ({ match, history }) => {
     setHotelInfo(res.data.data.body);
     // set hotel state to response data
     setHotel(res.data.data.body.roomsAndRates.rooms[0]);
-    console.log(res.data.data.body);
     let imageUrl = res.data.data.body.roomsAndRates.rooms[0].images[0].fullSizeUrl;
     let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
 
-    console.log("hello");
-    let local = await readLocalReview(match.params.hotelId, token);
-    setLocalReviews(local.data);
     } catch(error) {
       console.log(error);
     }
     
   };
+// method to load seller reviews
+  const loadSellerReviews = async () => {
+    try {
+    // Method to grab user token
+    const token = await getAccessTokenSilently();
+    // method to set token state
+
+    let local = await readLocalReview(match.params.hotelId, token);
+    console.log(local.data);
+    setLocalReviews(local.data);
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
   
 /*
@@ -115,9 +128,9 @@ const ViewLocalHotel = ({ match, history }) => {
 
   return (   
     <>
-    { !hotel ? 
+    { !hotel || !LocalReviews ? 
     <>
-    <div class="h-100 row align-items-center">
+    <div className="h-100 row align-items-center">
     <Lottie options={defaultOptions1} height={600} width={600} />
   </div> 
   </>: (
@@ -139,17 +152,11 @@ const ViewLocalHotel = ({ match, history }) => {
                     {hotel.ratePlans[0].features[0].title}
                   </span>
                 </p>
-                <p>
-                {/* <b>{hotel.bedChoices.mainOptions}</b><br/> */}
-
-                </p>
-                <p>
                 <p>Max Occupancy: {hotel.maxOccupancy.total}</p>
                 <p>Address: {hotelInfo.propertyDescription.address.fullAddress}</p>
                 <p>Reviews: {hotelInfo.guestReviews.brands.rating} out of {hotelInfo.guestReviews.brands.scale}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[0]}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[1]}</p>
-                </p>
                 {/* <i>Posted by {hotel.postedBy && hotel.postedBy.name}</i> */}
                 <br />
                 <button
@@ -166,8 +173,14 @@ const ViewLocalHotel = ({ match, history }) => {
                         : "Login to Book"}
                 </button>
               </div>
+
             </div>
           </div>
+          <Card className="mt-5" title={`Reviews`}>
+      {LocalReviews.map((r) => (
+          <LocalReviewCard key={r._id} r={r}/>
+        ))}
+    </Card>
           </>
              )
           }

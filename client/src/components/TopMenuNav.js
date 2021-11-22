@@ -23,20 +23,20 @@ const TopMenuNav = () => {
   return (
     <div>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style={NavbarStyle}>
-        <div class="container-fluid"><a class="navbar-brand text-white" href="/"><i class="fa fa-home"/> HotelZilla</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/"><i class="fa fa-home"></i> Home</a></li>
+    <nav className="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style={NavbarStyle}>
+        <div className="container-fluid"><a className="navbar-brand text-white" href="/"><i className="fa fa-home"/> HotelZilla</a><button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-1"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
+            <div className="collapse navbar-collapse" id="navcol-1">
+                <ul className="navbar-nav ms-auto">
+                    <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/"><i className="fa fa-home"></i> Home</a></li>
                     {auth === null && <>
                     
                       <li><AuthNav /></li>
                     </>
                     }
                     {auth && <>
-                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href={`/user/${auth._id}`}><i class="fa fa-user-circle-o"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/dashboard"><i class="fa fa-wpexplorer"></i> Dashboard</a></li>
-                      {/* <li class="nav-item"><a class="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i class="fa fa-sign-in"></i>Logout</a></li> */}
+                    <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href={`/user/${auth._id}`}><i className="fa fa-user-circle-o"></i> Profile</a></li>
+                    <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/dashboard"><i className="fa fa-wpexplorer"></i> Dashboard</a></li>
+                      {/* <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i className="fa fa-sign-in"></i>Logout</a></li> */}
                       <li><AuthNav /></li>
                     </>}
                 </ul>
