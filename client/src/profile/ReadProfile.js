@@ -61,7 +61,7 @@ const readuserReview  =  async()  => {
       // set reviews state to api response
       setReviews(res.data);
       // check to see if the user is owner of these reviews
-      if(auth.user._id === match.params.userId) {
+      if(auth._id === match.params.userId) {
           // set owner state to true
           setOwner(true);
         }
@@ -97,7 +97,7 @@ const readuserReview  =  async()  => {
             if(auth._id === match.params.userId) {
               setOwner(true);
             }
-            
+            console.log(res.data);
             // set profile to user state
             setProfile(res.data);
             console.log(res.data);
@@ -247,7 +247,10 @@ const countProfileReviews = async() => {
           <ProfileOutlined className="text-white"/>
           </a>
           </div>}
+          {hotelCount > 0 ?
           <h4 className="text-white">{hotelCount}</h4>
+          : ""
+          }
           <p>Hotel Posts</p>
         </div>
         <div className="col-4">

@@ -3,7 +3,6 @@ const Footer = () => (
     <div className="row">
         <div class="col-sm-6 col-md-4 footer-navigation">
             <h1 className="text-white">Hotelzilla</h1>
-            <p className="links"><a href="/">Home</a><strong> · </strong><a href="/login">Login</a><strong> · </strong><a href="/register">Register</a></p>
             <p className="company-name">HotelZilla © 2021 </p>
         </div>
         <div className="col-sm-6 col-md-4 footer-contacts">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { readLocalHotel } from "../actions/hotel";
 import { getLocalSessionId } from "../actions/stripe";
 import { readLocalReview } from "../actions/review";
+import {readUserAuth0, checkEmail, register} from '../actions/auth';
 import LocalReviewCard from "../components/cards/LocalReviewCard";
 import { Card } from 'antd';
 import * as location from "../assets/9013-hotel.json";
@@ -35,6 +36,8 @@ const ViewLocalHotel = ({ match, history }) => {
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
 
+
+
 // constructor to load seller hotels and check if it's already booked when compontent is loaded
   useEffect(() => {
     try{
@@ -65,6 +68,25 @@ const ViewLocalHotel = ({ match, history }) => {
     try {
     // Method to grab user token
     const token = await getAccessTokenSilently();
+    if(auth == null){
+        // Read user from Auth0
+        let user = await readUserAuth0(token);
+        const name = user.data.nickname;
+        const email = user.data.email;
+          let res = await checkEmail(token, user.data.email);
+        if(res.data) {
+          window.localStorage.setItem("auth", JSON.stringify(res.data));
+          window.location.reload(false);
+        } else {
+        await register({name, email});
+        let res = await checkEmail(token, user.data.email);
+        if(res.data) {
+          window.localStorage.setItem("auth", JSON.stringify(res.data));
+          window.location.reload(false);
+        }
+        window.location.reload(false);
+      }
+    }
     // method to set token state
     setToken(token);
     // call backed with response variable
@@ -161,7 +183,7 @@ const ViewLocalHotel = ({ match, history }) => {
                 <br />
                 <button
                   onClick={handleClick}
-                  className="btn btn-block btn-lg btn-primary"
+                  className="btn btn-lg btn-primary"
                   disabled={loading || alreadyBooked}
                 >
                   {loading

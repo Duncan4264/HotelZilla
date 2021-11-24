@@ -128,25 +128,26 @@ export const edit = async (req, res) => {
 */
 export const readLocalReviews = async (req, res) => {
     try {
-        var req = unirest("GET", "https://hotels4.p.rapidapi.com/reviews/v2/list");
+        var request = unirest("GET", "https://hotels4.p.rapidapi.com/reviews/v2/list");
 
-req.query({
-	"hotelId": "1053457920",
+request.query({
+	"hotelId": req.params.hotelId,
 	"reviewOrder": "date_newest_first",
 	"tripTypeFilter": "all"
 });
 
-req.headers({
+request.headers({
 	"x-rapidapi-host": process.env.RAPID_API_HOST,
 	"x-rapidapi-key": process.env.RAPID_API_KEY,
 	"useQueryString": true
 });
 
 
-req.end(function (res) {
-	if (res.error) throw new Error(res.error);
-
-	console.log(res.body);
+request.end(function (response) {
+	if (response.error) throw new Error(response.error);
+    // console.log(response.body.data.reviews.body.reviewContent.reviews.hermes.groups[0].items);
+    // console.log(response.body.data.reviews.body.reviewContent.reviews.hermes.groups[1].items);
+	res.json(response.body.data.reviews.body.reviewContent.reviews.hermes.groups[0].items.slice(0,5));
 });
     } catch(error) {
     // log an error to the console

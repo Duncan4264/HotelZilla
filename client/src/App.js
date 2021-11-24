@@ -23,6 +23,7 @@ import readReviews from './review/ReadReviews';
 import ViewLocalHotel from './hotel/ViewLocalHotel';
 import "bootswatch/dist/lux/bootstrap.min.css";
 import Auth0ProviderWithHistory from './auth/auth0-provider-with-history';
+import PageNotFound from './components/PageNotFound';
 
 
 import StripeSuccess from './stripe/StripeSuccess';
@@ -39,9 +40,10 @@ function App() {
 
     <div className="content-wrap">
     <ToastContainer position="top-center"/>
-    <Switch>
+  
     <Auth0ProviderWithHistory>
     <TopMenuNav/>
+    <Switch>
     <Route exact path="/" component={Home}/>
     <Route exact path="/login" component={Login}/>
 
@@ -60,8 +62,11 @@ function App() {
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
     <PrivateRoute exact path="/local/hotel/:hotelId" component={ViewLocalHotel} />
-    </Auth0ProviderWithHistory>
+    <Route component={PageNotFound} />
     </Switch>
+    </Auth0ProviderWithHistory>
+  
+    
     </div>
     <div className="footer">
     <Footer/>

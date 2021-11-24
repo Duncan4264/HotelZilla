@@ -7,7 +7,8 @@ import LocalHotelSmallCard from "../components/cards/LocalHotelSmallCard";
 import Search from "../components/forms/Search";
 import Lottie from "react-lottie";
 import * as animationLocation from "../assets/9013-hotel.json";
-
+import { useSelector } from "react-redux";
+import {readUserAuth0, checkEmail, register} from '../actions/auth';
 const SearchResult = () => {
     // state
     const [hotels, setHotels] = useState();
@@ -16,10 +17,32 @@ const SearchResult = () => {
     // eslint-disable-next-line no-unused-vars
     const [localHotels, setLocalHotels] = useState([]);
     const {getAccessTokenSilently } = useAuth0();
+      // deconstruct auth from state
+  const { auth } = useSelector((state) => ({ ...state }));
+
  // create query string with location date and bed
  const {location, date, bed} = QueryString.parse(window.location.search);
 const getHotels= async () => {
     const token = await getAccessTokenSilently();
+    if(auth == null){
+        // Read user from Auth0
+        let user = await readUserAuth0(token);
+        const name = user.data.nickname;
+        const email = user.data.email;
+          let res = await checkEmail(token, user.data.email);
+        if(res.data) {
+          window.localStorage.setItem("auth", JSON.stringify(res.data));
+          window.location.reload(false);
+        } else {
+        await register({name, email});
+        let res = await checkEmail(token, user.data.email);
+        if(res.data) {
+          window.localStorage.setItem("auth", JSON.stringify(res.data));
+          window.location.reload(false);
+        }
+        window.location.reload(false);
+      }
+    }
             // call search lists with location, date and bed parameters
             await searchLists({location, date, bed}, token).then(res => {
                 // set hotels to response data
