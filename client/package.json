@@ -55,9 +55,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.16.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.0"
   }
 }
