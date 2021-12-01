@@ -95,7 +95,7 @@ const ReviewCard = ({
           : 
           
           comments.map((c) => (
-            <CommentCard comment={c}/>
+            <CommentCard key={c.id} comment={c}/>
           ))
          }
           </div>

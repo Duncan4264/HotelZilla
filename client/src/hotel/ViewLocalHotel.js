@@ -16,12 +16,14 @@ import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 
 import { useAuth0 } from '@auth0/auth0-react';
+import { toast } from "react-toastify";
 
 /*
 * Method to view a single hotel
 * Parameters: match hotel Object and history Object
 */
 const ViewLocalHotel = ({ match, history }) => {
+  
   const {getAccessTokenSilently } = useAuth0();
   // state
   const [hotel, setHotel] = useState();
@@ -85,10 +87,12 @@ const ViewLocalHotel = ({ match, history }) => {
           window.location.reload(false);
         }
         window.location.reload(false);
+
       }
     }
     // method to set token state
     setToken(token);
+    
     // call backed with response variable
     let res  = await readLocalHotel(token, match.params.hotelId);
     setHotelInfo(res.data.data.body);
@@ -145,18 +149,29 @@ const ViewLocalHotel = ({ match, history }) => {
       .redirectToCheckout({
         sessionId: res.data.sessionId,
       })
-      .then((result) => console.log(result));
+      .then((result) => console.log(result)).catch(err => console.log(err));
   };
+
+  let handleError = () => {
+    toast.error("Error loading hotel");
+    history.push("/");
+  };
+
 
   return (   
     <>
+
     { !hotel || !LocalReviews ? 
     <>
     <div className="h-100 row align-items-center">
     <Lottie options={defaultOptions1} height={600} width={600} />
+
   </div> 
-  </>: (
+  </>: 
+  hotel.ratePlans[0].features[0] ? (
+
       <>
+      
     <div className="container-fluid bg-secondary p-5 text-center">
           <h1>{hotel.name}</h1>
         </div><div className="container-fluid">
@@ -171,7 +186,7 @@ const ViewLocalHotel = ({ match, history }) => {
                 <p className="alert alert-info mt-3">{hotel.ratePlans[0].price.current}</p>
                 <p className="card-text">
                   <span className="float-right text-primary">
-                    {hotel.ratePlans[0].features[0].title}
+                  {hotel.ratePlans[0].features[0].title}
                   </span>
                 </p>
                 <p>Max Occupancy: {hotel.maxOccupancy.total}</p>
@@ -179,7 +194,6 @@ const ViewLocalHotel = ({ match, history }) => {
                 <p>Reviews: {hotelInfo.guestReviews.brands.rating} out of {hotelInfo.guestReviews.brands.scale}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[0]}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[1]}</p>
-                {/* <i>Posted by {hotel.postedBy && hotel.postedBy.name}</i> */}
                 <br />
                 <button
                   onClick={handleClick}
@@ -203,11 +217,13 @@ const ViewLocalHotel = ({ match, history }) => {
           <LocalReviewCard key={r._id} r={r}/>
         ))}
     </Card>
-          </>
-             )
-          }
     </>
-  );
+  ): <>
+  {handleError()}
+  </>
+    }
+    </>
+  )
 }
 ;
 

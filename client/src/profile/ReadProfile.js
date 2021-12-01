@@ -159,13 +159,15 @@ const countProfileReviews = async() => {
   const handleHotelDelete = async (hotelId) => {
     const token = await getAccessTokenSilently();
     // if not canceled return
-    if (!window.confirm("Are you sure?")) return;
-      // Delete hotel method with token and hotel id  
+    if (!window.confirm("Are you sure?")) return;    // Delete hotel method with token and hotel id  
     deleteHotel(token, hotelId).then((res) => {
       // log the client hotel deleted meesage
       toast.success("Hotel Deleted");
       // call message to load seller hotels
       loadSellersHotels();
+    }).catch((err) => {
+      // log an error to the console
+      console.log(err);
     });
   };
     /*
@@ -228,12 +230,12 @@ const countProfileReviews = async() => {
         <h2 className="text-white"> About Us: </h2>
         <h2 className="text-white">{profile.content}</h2>
         </div>
-      <div class="stats">
-        <div class="col-4">
+      <div className="stats">
+        <div className="col-4">
         {owner && 
           <div className="mb-3">
           <DeleteOutlined
-          onClick={() => handleProfileDelete(profile._id)}
+          onClick={() => handleProfileDelete()}
           className="text-danger"
           />
           </div>
@@ -241,7 +243,7 @@ const countProfileReviews = async() => {
           <h4 className="text-white">{reviewCount}</h4>
           <p>Reviews</p>
         </div>
-        <div class="col-4">
+        <div className="col-4">
           {owner && <div className="mb-3">
           <a href={`/user/reviews/${auth._id}`}>
           <ProfileOutlined className="text-white"/>

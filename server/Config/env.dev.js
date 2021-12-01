@@ -3,7 +3,9 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const audience = process.env.AUTH0_AUDIENCE;
+console.log(audience);
 const domain = process.env.AUTH0_DOMAIN;
+console.log(domain);
 const clientOriginUrl = process.env.CLIENT_ORIGIN_URL;
 
 if (!audience) {

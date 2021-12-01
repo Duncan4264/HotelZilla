@@ -144,8 +144,6 @@ const CreateProfile = ({match, history}) => {
                 alt="preview_image"
                 className="img img-fluid m-2"
               />
-              <pre>{JSON.stringify(values, null, 4)}</pre>
-              {JSON.stringify(location)}
             </div>
           </div>
         </div>

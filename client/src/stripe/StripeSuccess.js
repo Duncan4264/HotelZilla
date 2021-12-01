@@ -41,7 +41,10 @@ const StripeSuccess = ({match}) => {
                     } else {
                         history.push("/stripe/cancel")
                     }
-                })
+                }).catch(err => {
+                    console.log(err)
+                }
+                )
     }
     return (
         <div className="container">

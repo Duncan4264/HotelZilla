@@ -47,10 +47,14 @@ const getHotels= async () => {
             await searchLists({location, date, bed}, token).then(res => {
                 // set hotels to response data
                 setHotels(res.data);
+            }).catch(err => {
+                console.log(err);
             });
             await listLocalHotels({location, date, bed}, token).then(res => {
                 // set hotels to response data
                 setLocalHotels(res.data);
+            }).catch(err => {
+                console.log(err);
             });
 
             setLoading(false);

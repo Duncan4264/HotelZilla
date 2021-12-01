@@ -35,15 +35,14 @@ const ViewHotel = ({ match, history }) => {
     loadSellerHotel();
     // if authorized
     if(auth && token) {
-      // check to see if user is already booked
-      isAlreadyBooked(token, match.params.hotelId)
-      // then if response
+        const newLocal = isAlreadyBooked(token, match.params.hotelId);
+      newLocal
       .then((res) => {
         // set hotel objects to already booked
         setAlreadyBooked(res.data.ok);
-        readAllReview(match.params.hotelId, token);
-      });
-    }
+        readAllReview();
+      }).catch((err) => { console.log(err); });
+  }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -96,12 +95,11 @@ const ViewHotel = ({ match, history }) => {
     console.log(res);
     // let stripe await load stripe with stripe API key
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
-    // stripe redirect to
     stripe
       .redirectToCheckout({
         sessionId: res.data.sessionId,
       })
-      .then((result) => console.log(result));
+      .then((result) => console.log(result)).catch((error) => console.log(error));
   };
 
   return (

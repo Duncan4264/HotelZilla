@@ -39,9 +39,8 @@ const history  = useHistory()
     }
     return (
         <>
-        <section className="search-sec">
-    <div className="container">
-    <h1 className="text-white">Find your perfect room</h1>
+    <div className="container mb-5">
+    <h1 className="mt-5">Find your perfect room</h1>
     <br/>
         <form action="#" method="post" noValidate="novalidate">
             <div className="row">
@@ -86,8 +85,7 @@ const history  = useHistory()
                 </div>
             </div>
         </form>
-    </div>
-</section>
+    </div>  
         </>
       
       );

@@ -1,0 +1,4 @@
+{
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/196a4fd4-86fb-404f-b3ee-848bfceeeb59/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/Hotelzilla"
+}

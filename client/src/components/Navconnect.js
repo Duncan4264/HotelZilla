@@ -60,6 +60,11 @@ const NavConnect = () => {
             getAccountBalance(token, auth._id).then(response => {
                 // set account balance with response data
                 setBalance(response.data);
+            }).catch(error => {
+                // log the error to the console
+                console.log(error);
+                // push an update to the client with error
+                toast('Unable to access settings. Try again');
             });
             console.log(balance);
         } catch (error) {

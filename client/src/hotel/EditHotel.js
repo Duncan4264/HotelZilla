@@ -135,7 +135,6 @@ const EditHotel = ({ match }) => {
               alt="preview_image"
               className="img img-fluid m-2"
             />
-            <pre>{JSON.stringify(values, null, 4)}</pre>
           </div>
         </div>
       </div>

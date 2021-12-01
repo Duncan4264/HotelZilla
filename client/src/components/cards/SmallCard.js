@@ -53,14 +53,15 @@ const SmallCard = ({
                 </span>{" "}
               </h3>
               <p className="alert alert-info">{h.location}</p>
-              <p className="card-text">{`${h.content.substring(1, 200)}...`}</p>
+              <p className="card-text">{`${h.content.substring(0, 200)}...`}</p>
               <p className="card-text">
+              {diffDays(h.from, h.to) > 0 ?
                 <span className="float-right text-primary">
                   for {diffDays(h.from, h.to)}{" "}
                   {diffDays(h.from, h.to) <= 1 ? " day" : " days"}
                 </span>
+              : null}
               </p>
-              <p className="card-text">{h.bed} bed</p>
               <p className="card-text">
                 Available from {new Date(h.from).toLocaleDateString()}
               </p>

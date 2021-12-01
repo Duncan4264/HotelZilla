@@ -74,6 +74,11 @@ const DashboardSeller = () => {
       toast.success("Hotel Deleted");
       // call message to load seller hotels
       loadSellersHotels();
+    }).catch((err) => {
+      // log error to console
+      console.log(err);
+      // display an error in client
+      toast.error("Hotel Delete Failed");
     });
   };
 
