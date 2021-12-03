@@ -17,8 +17,7 @@ const CreateProfile = ({match, history}) => {
     // create the state variables
     // eslint-disable-next-line no-unused-vars
     const [profile, setProfile] = useState({});
-    let profileId = "";
-
+    const [setProfileId] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [user, setUser] = useState(false);
     // set the values of the projectin the state
@@ -51,9 +50,7 @@ const CreateProfile = ({match, history}) => {
         let res = await readUser(match.params.userId);
         // set the profile state with the data returend
         setProfile(res.data._id);
-        profileId = res.data._id;
-
-        console.log(profileId);
+        setProfileId(res.data._id);
     }
     /*
     * Method to handle submit of form creation
@@ -68,7 +65,7 @@ const CreateProfile = ({match, history}) => {
         profileData.append("content", aboutme);
         profileData.append("location", location);
         image && profileData.append("image", image);
-        
+        console.log(image);
         
         try {
           const token = await getAccessTokenSilently();
@@ -106,6 +103,7 @@ const CreateProfile = ({match, history}) => {
 
       return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
                 .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
+                .catch(err => console.log(err));
       }
     /*
     * Method to handle a change in state 

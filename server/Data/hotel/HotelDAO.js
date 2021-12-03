@@ -1,6 +1,5 @@
 // import dependices 
 import Hotel from "../../Models/hotel"
-import fs from "fs";
 import { response } from "express";
 import Order from "../../Models/order"
 import unirest from "unirest";
@@ -141,7 +140,7 @@ export const readHotel = async (req, res) => {
   // create variable that finds a hotel by it's hotelID
   let hotel = await Hotel.findById(req.params.hotelId)
     .populate("postedBy")
-    .select("-image.data-_id")
+    .select("-image.data_id")
     .exec();
   // Return hotel to frontend 
   res.json(hotel);

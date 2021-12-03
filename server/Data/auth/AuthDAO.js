@@ -46,7 +46,7 @@ export const LoginDAO = async (req, res) => {
       // grab email from password with request body 
       const { email, password } = req.body;
       // check if user with that email exist
-      let user = await User.findOne({ email }).exec();
+      let user = await User.findOne({ email }).select("-password").exec();
       // if user return status 400 message user with that email
       if (!user) return res.status(400).send("User with that email not found");
       // compare password
@@ -88,7 +88,7 @@ export const LoginDAO = async (req, res) => {
       console.log(req.params.userId);
       let user = await User.findById(req.params.userId)
       .populate("User")
-      .select("-stripe_account_id")
+      .select("-stripe_account_id, -password")
       .exec();
       return res.json(user);
     } catch (error) {
@@ -103,7 +103,7 @@ export const LoginDAO = async (req, res) => {
     try {
       let user = await User.find({email: req.params.userId})
       .populate("User")
-      .select("-stripe_account_id")
+      .select("-stripe_account_id, -password")
       .exec();
       console.log(user[0]);
       return res.json(user[0]);

@@ -52,6 +52,7 @@ export const createProfile = async(req, res) => {
         // set profile user variable equal to request user id
         profile.user = req.params.userId
         profile.imageurl = fields.image;
+        console.log(profile.imageurl);
         // if the files have an image
         // if(files.image) {
         //     // set the profile image data to the file path of the image
@@ -121,9 +122,6 @@ export const updateProfile = async (req, res) => {
         // grab fields and files from request
         let fields = req.fields;
         let files = req.files;
-        console.log(req.files.image);
-        console.log(req.fields.image);
-
         // deconstruct fields
         let data = {...fields}
         

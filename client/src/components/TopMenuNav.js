@@ -34,6 +34,7 @@ const TopMenuNav = () => {
                     </>
                     }
                     {auth && <>
+                    {auth.admin && <li className="nav-item"><a className="nav-link" style={NavItemStyle} href="/admin"><i className="fa fa-user-secret"></i> Admin</a></li>}
                     <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href={`/user/${auth._id}`}><i className="fa fa-user-circle-o"></i> Profile</a></li>
                     <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/dashboard"><i className="fa fa-wpexplorer"></i> Dashboard</a></li>
                       {/* <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i className="fa fa-sign-in"></i>Logout</a></li> */}

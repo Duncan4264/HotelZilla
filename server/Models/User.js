@@ -23,11 +23,6 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
-    // admin field boolean to see if user is an admin
-    admin: {
-      type: Boolean,
-      required: true,
-    },
     // Empty string field to be attached as a foreign key to the model if the user creates or links a Stripe Account
     stripe_account_id: "",
     // Stripe Seller empty object to reference stripe seller object

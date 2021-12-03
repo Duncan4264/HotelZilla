@@ -97,11 +97,9 @@ const readuserReview  =  async()  => {
             if(auth._id === match.params.userId) {
               setOwner(true);
             }
-            console.log(res.data);
-            // set profile to user state
+        // set profile to user state
             setProfile(res.data);
-            console.log(res.data);
-            // // set image to user state
+            // // set image to user state   
             setImage(`${process.env.REACT_APP_API}/profile/image/${res.data._id}`) 
         } catch (error) {
             // log an error to the console.
@@ -215,10 +213,11 @@ const countProfileReviews = async() => {
    }
     return (
         <>
+             {console.log(profile)}
 <section className="profile">
   <header className="header">
     <div className="details mt-3">
-      <img src={profile.image || image} alt="Profile" className="profile-pic"/>
+      <img src={profile.imageurl || image|| profile.image} alt="Profile" className="profile-pic"/>
       <h1 className="heading">{profile.name}</h1>
       <div className="location">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

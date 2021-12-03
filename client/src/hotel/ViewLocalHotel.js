@@ -98,10 +98,10 @@ const ViewLocalHotel = ({ match, history }) => {
     setHotelInfo(res.data.data.body);
     // set hotel state to response data
     setHotel(res.data.data.body.roomsAndRates.rooms[0]);
+    console.log(res.data.data.body);
     let imageUrl = res.data.data.body.roomsAndRates.rooms[0].images[0].fullSizeUrl;
     let images = imageUrl.slice(0, -5) + 'z.jpg';
     setImage(images);
-
     } catch(error) {
       console.log(error);
     }
@@ -158,10 +158,11 @@ const ViewLocalHotel = ({ match, history }) => {
   };
 
 
-  return (   
-    <>
+  return ( 
 
+    <>
     { !hotel || !LocalReviews ? 
+
     <>
     <div className="h-100 row align-items-center">
     <Lottie options={defaultOptions1} height={600} width={600} />
@@ -169,7 +170,7 @@ const ViewLocalHotel = ({ match, history }) => {
   </div> 
   </>: 
   hotel.ratePlans[0].features[0] ? (
-
+    
       <>
       
     <div className="container-fluid bg-secondary p-5 text-center">
@@ -194,6 +195,7 @@ const ViewLocalHotel = ({ match, history }) => {
                 <p>Reviews: {hotelInfo.guestReviews.brands.rating} out of {hotelInfo.guestReviews.brands.scale}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[0]}</p>
                 <p>{hotelInfo.atAGlance.keyFacts.arrivingLeaving[1]}</p>
+                
                 <br />
                 <button
                   onClick={handleClick}

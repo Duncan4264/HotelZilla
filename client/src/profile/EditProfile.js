@@ -73,7 +73,7 @@ const EditProfile = ({match}) => {
         profileData.append("content", content)
         profileData.append("location", location)
         profileData.append("user", auth._id)
-        image && profileData.append("image", image);
+        image && profileData.append("imageurl", image);
         
         try{
           const token = await getAccessTokenSilently();

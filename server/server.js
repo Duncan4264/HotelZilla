@@ -2,9 +2,6 @@ import express from "express";
 import {readdirSync} from "fs";
 import cors from "cors";
 import mongoose from 'mongoose'; 
-const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
-const jwksRsa = require('jwks-rsa');
 const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require('compression');
@@ -14,6 +11,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 dotenv.config({ path: './.env' });
 
+// deepcode ignore NoRateLimitingForExpensiveWebOperation: False Postiive using rate limiting, deepcode ignore UseCsurfForExpress: Handled by Auth0
 const app = express();
 
 //db connect
@@ -35,7 +33,7 @@ const limiter = rateLimit({
   });
 
 //middlewares
-// app.use(helmet());
+app.use(helmet());
 app.use(cors({
     origin: 'http://localhost:3000'
   }));

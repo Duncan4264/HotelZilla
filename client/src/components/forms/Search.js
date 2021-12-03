@@ -47,12 +47,11 @@ const history  = useHistory()
                 <div className="col-lg-12">
                     <div className="row">
                         <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                            {/* <input type="text" class="form-control search-slt" placeholder="Enter Pickup City"/> */}
                               <ReactGoogleAutocomplete
                           placeholder="Location"
                           apiKey={config}
                           style={{ height: "60px" }}
-                          className="form-control search-slt w-100 h-100"
+                          className="w-100 h-100"
                           onPlaceSelected={(place) => {
                           setLocation(place.formatted_address);
                           }}

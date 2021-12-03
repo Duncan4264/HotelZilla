@@ -1,6 +1,7 @@
 // import dependencys 
 import Home from './booking/Home';
 import Login from './auth/Login';
+import {useSelector} from 'react-redux';
 
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import TopMenuNav from './components/TopMenuNav';
@@ -28,11 +29,14 @@ import PageNotFound from './components/PageNotFound';
 
 import StripeSuccess from './stripe/StripeSuccess';
 import Footer from './components/Footer';
+import Admin from './user/Admin';
 
 // Main function to handle app rendering and routing
 function App() {
-
+  // deconsturct auth from state
+  const {auth} = useSelector((state) => ({...state}));
   return (
+    auth !== null && auth.isSuspended ? <div>Your account has been suspended</div> :
     <div className="App">
 
     <div className="page-container">
@@ -62,6 +66,7 @@ function App() {
     <PrivateRoute exact path="/review/create/:hotelId" component={CreateReview} />
     <PrivateRoute exact path="/user/reviews/:userId" component={readReviews} />
     <PrivateRoute exact path="/local/hotel/:hotelId" component={ViewLocalHotel} />
+    <PrivateRoute exact path="/admin" component={Admin} />
     <Route component={PageNotFound} />
     </Switch>
     </Auth0ProviderWithHistory>

@@ -31,11 +31,19 @@ const ProfileSchema = new Schema(
             data: Buffer,
             contentType: String,    
         },
+        imageurl: {
+            type: String,
+        },
         // User boject type user Object required
         user: {
             type: ObjectId,
             ref: "User",
             required: "User ID is required"
+        },
+        // is suspended 
+        isSuspended: {
+            type: Boolean,
+            default: false
         }
     }
 )
