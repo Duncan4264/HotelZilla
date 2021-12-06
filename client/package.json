@@ -13,6 +13,7 @@
     "bootswatch": "^5.1.0",
     "cloudinary": "^1.27.1",
     "env-cmd": "^10.1.0",
+    "eslint": "^7.32.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.5.1",
     "helmet": "^4.6.0",
@@ -62,5 +63,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
+    "pretty-quick": "^3.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx pretty-quick --staged ng lint ng test",
+      "pre-push": "ng build --aot true"
+    }
   }
 }

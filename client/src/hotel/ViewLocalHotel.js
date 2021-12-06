@@ -214,7 +214,7 @@ const ViewLocalHotel = ({ match, history }) => {
 
             </div>
           </div>
-          <Card className="mt-5" title={`Reviews`}>
+          <Card className="mt-5" title={`Review's`}>
       {LocalReviews.map((r) => (
           <LocalReviewCard key={r._id} r={r}/>
         ))}
