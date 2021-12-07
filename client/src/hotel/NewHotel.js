@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { CreateHotel } from "../actions/hotel";
-import { useSelector } from "react-redux";
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { CreateHotel } from '../actions/hotel';
+import { useSelector } from 'react-redux';
 
-import HotelCreateForm from "../components/forms/HotelCreateForm";
+import HotelCreateForm from '../components/forms/HotelCreateForm';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NewHotel = () => {
-  const {getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const { auth } = useSelector((state) => ({ ...state }));
   // state
   const [values, setValues] = useState({
-    title: "",
-    content: "",
-    image: "",
-    price: "",
-    from: "",
-    to: "",
-    bed: "",
+    title: '',
+    content: '',
+    image: '',
+    price: '',
+    from: '',
+    to: '',
+    bed: ''
   });
   const [preview, setPreview] = useState(
-    "https://via.placeholder.com/100x100.png?text=PREVIEW"
+    'https://via.placeholder.com/100x100.png?text=PREVIEW'
   );
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState('');
   // destructuring variables from state
   const { title, content, image, price, from, to, bed } = values;
 
@@ -32,24 +32,23 @@ const NewHotel = () => {
     // console.log(location);
 
     let hotelData = new FormData();
-    hotelData.append("title", title);
-    hotelData.append("content", content);
-    hotelData.append("location", location);
-    hotelData.append("price", price);
-    image && hotelData.append("image", image);
-    hotelData.append("from", from);
-    hotelData.append("to", to);
-    hotelData.append("bed", bed);
-    hotelData.append("postedBy", auth._id);
-
+    hotelData.append('title', title);
+    hotelData.append('content', content);
+    hotelData.append('location', location);
+    hotelData.append('price', price);
+    image && hotelData.append('image', image);
+    hotelData.append('from', from);
+    hotelData.append('to', to);
+    hotelData.append('bed', bed);
+    hotelData.append('postedBy', auth._id);
 
     try {
       const token = await getAccessTokenSilently();
       // await create hotel in backend
       await CreateHotel(token, hotelData);
-      // send a sucess request to client 
-      toast.success("New hotel is posted");
-      // reload the window after 1000 seconds 
+      // send a sucess request to client
+      toast.success('New hotel is posted');
+      // reload the window after 1000 seconds
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -59,9 +58,9 @@ const NewHotel = () => {
     }
   };
   /*
-  * Method to handle Image Change
-  * Post request to cloudinary
-  */
+   * Method to handle Image Change
+   * Post request to cloudinary
+   */
   const handleImageChange = (e) => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
@@ -69,21 +68,27 @@ const NewHotel = () => {
     // replace this with your upload preset name
     formData.append('upload_preset', 'Hotelzilla');
     const options = {
-    method: 'POST',
-    body: formData,
-      };
+      method: 'POST',
+      body: formData
+    };
 
-    return fetch('https://api.Cloudinary.com/v1_1/hotelzilla/image/upload', options)
-              .then(resp => resp.json()).then(data => {setValues({...values, image: data.url})})
-    }
- /*
- * Method to handle Change
- * Parameters: Event Object 
- */
+    return fetch(
+      'https://api.Cloudinary.com/v1_1/hotelzilla/image/upload',
+      options
+    )
+      .then((resp) => resp.json())
+      .then((data) => {
+        setValues({ ...values, image: data.url });
+      });
+  };
+  /*
+   * Method to handle Change
+   * Parameters: Event Object
+   */
   const handleChange = (e) => {
-    if(e.target.value.match("^[a-zA-Z 0-9]*$") != null){
+    if (e.target.value.match('^[a-zA-Z 0-9]*$') != null) {
       setValues({ ...values, [e.target.name]: e.target.value });
-  }
+    }
     // setValues({ ...values, [e.target.name]: e.target.value });
   };
 

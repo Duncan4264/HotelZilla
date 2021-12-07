@@ -1,6 +1,6 @@
-import { DatePicker, Select } from "antd";
-import moment from "moment";
-import ReactGoogleAutocomplete  from 'react-google-autocomplete'
+import { DatePicker, Select } from 'antd';
+import moment from 'moment';
+import ReactGoogleAutocomplete from 'react-google-autocomplete';
 
 // Deconstruct Option from select
 const { Option } = Select;
@@ -9,16 +9,15 @@ const { Option } = Select;
 const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
 
 /*
-* Method to create and handle hotel edit form
-* Parameters: Values, setValues, handleChange, handleImageChange, handleSubmit
-*/ 
+ * Method to create and handle hotel edit form
+ * Parameters: Values, setValues, handleChange, handleImageChange, handleSubmit
+ */
 const HotelEditForm = ({
   values,
   setValues,
   handleChange,
   handleImageChange,
-  handleSubmit,
-
+  handleSubmit
 }) => {
   // deconstruct the fields from the values parameter
   const { title, content, location, price, bed, from, to } = values;
@@ -53,18 +52,18 @@ const HotelEditForm = ({
           className="form-control m-2"
           value={content}
         />
-{ location && location.length &&
-        <ReactGoogleAutocomplete
-          className="form-control m-2"
-          placeholder="Location"
-          defaultValue={location}
-          apiKey={config}
-          onPlaceSelected={(place) => {
-            setValues({location: place})
-          }
-        }
-        style={{height: "50px"}}
-          />}
+        {location && location.length && (
+          <ReactGoogleAutocomplete
+            className="form-control m-2"
+            placeholder="Location"
+            defaultValue={location}
+            apiKey={config}
+            onPlaceSelected={(place) => {
+              setValues({ location: place });
+            }}
+            style={{ height: '50px' }}
+          />
+        )}
 
         <input
           type="number"
@@ -89,30 +88,33 @@ const HotelEditForm = ({
         </Select>
       </div>
 
-      {from && <DatePicker
-        placeholder="From date"
-        className="form-control m-2"
-        defaultValue={moment(from, "YYYY-MM-DD")}
-        onChange={(date, dateString) =>
-          setValues({ ...values, from: dateString })
-        }
-        disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
-        }
-      />}
+      {from && (
+        <DatePicker
+          placeholder="From date"
+          className="form-control m-2"
+          defaultValue={moment(from, 'YYYY-MM-DD')}
+          onChange={(date, dateString) =>
+            setValues({ ...values, from: dateString })
+          }
+          disabledDate={(current) =>
+            current && current.valueOf() < moment().subtract(1, 'days')
+          }
+        />
+      )}
 
-{ to &&  <DatePicker
-        placeholder="To date"
-        className="form-control m-2"
-        defaultValue={moment(to, "YYYY-MM-DD")}
-        onChange={(date, dateString) =>
-          setValues({ ...values, to: dateString })
-        }
-        disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
-        }
-      />
-}
+      {to && (
+        <DatePicker
+          placeholder="To date"
+          className="form-control m-2"
+          defaultValue={moment(to, 'YYYY-MM-DD')}
+          onChange={(date, dateString) =>
+            setValues({ ...values, to: dateString })
+          }
+          disabledDate={(current) =>
+            current && current.valueOf() < moment().subtract(1, 'days')
+          }
+        />
+      )}
       <button className="btn btn-outline-primary m-2">Save</button>
     </form>
   );

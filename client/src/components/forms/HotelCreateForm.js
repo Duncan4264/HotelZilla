@@ -1,6 +1,6 @@
-import { DatePicker, Select } from "antd";
-import moment from "moment";
-import ReactGoogleAutocomplete  from 'react-google-autocomplete'
+import { DatePicker, Select } from 'antd';
+import moment from 'moment';
+import ReactGoogleAutocomplete from 'react-google-autocomplete';
 
 // Deconstruct option from select
 const { Option } = Select;
@@ -21,7 +21,7 @@ const config = process.env.REACT_APP_GOOGLEPLACES_API_KEY;
  *   location,
  *   setLocation,
  * }
- * @returns {*} 
+ * @returns {*}
  */
 const HotelCreateForm = ({
   values,
@@ -30,7 +30,7 @@ const HotelCreateForm = ({
   handleImageChange,
   handleSubmit,
   location,
-  setLocation,
+  setLocation
 }) => {
   // Desconstruct title, content and price from values
   const { title, content, price } = values;
@@ -73,7 +73,7 @@ const HotelCreateForm = ({
           onPlaceSelected={(place) => {
             setLocation(place.formatted_address);
           }}
-          />
+        />
 
         <input
           type="number"
@@ -104,7 +104,7 @@ const HotelCreateForm = ({
           setValues({ ...values, from: dateString })
         }
         disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
+          current && current.valueOf() < moment().subtract(1, 'days')
         }
       />
 
@@ -115,7 +115,7 @@ const HotelCreateForm = ({
           setValues({ ...values, to: dateString })
         }
         disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
+          current && current.valueOf() < moment().subtract(1, 'days')
         }
       />
 

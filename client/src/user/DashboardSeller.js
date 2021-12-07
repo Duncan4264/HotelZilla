@@ -1,47 +1,46 @@
 // Import dependices
-import { useState, useEffect } from "react";
-import DashboardNav from "../components/DashboardNav";
-import Navconnect from "../components/Navconnect";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { HomeOutlined } from "@ant-design/icons";
-import { createConnectionAccount } from "../actions/stripe";
-import { sellerHotels } from "../actions/hotel";
-import { toast } from "react-toastify";
+import { useState, useEffect } from 'react';
+import DashboardNav from '../components/DashboardNav';
+import Navconnect from '../components/Navconnect';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { HomeOutlined } from '@ant-design/icons';
+import { createConnectionAccount } from '../actions/stripe';
+import { sellerHotels } from '../actions/hotel';
+import { toast } from 'react-toastify';
 import { useAuth0 } from '@auth0/auth0-react';
-import SmallCard from "../components/cards/SmallCard";
+import SmallCard from '../components/cards/SmallCard';
 
-import { deleteHotel } from "../actions/hotel";
+import { deleteHotel } from '../actions/hotel';
 
 // class to handle dashboard seller state and rendering
 const DashboardSeller = () => {
-  const {getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   // deconstruct token from state
   const { auth } = useSelector((state) => ({ ...state }));
   // state varaibles
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   // Constructor to load seller hostels
   useEffect(() => {
     loadSellersHotels();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Method to load seller hotels
   const loadSellersHotels = async () => {
     try {
       const token = await getAccessTokenSilently();
-    // deconstruct data from calling seller hotels from back end
-    let { data }  = await sellerHotels(token, auth._id);
-    // set hotels state to that data
-    setHotels(data);
-    } catch(error) {
+      // deconstruct data from calling seller hotels from back end
+      let { data } = await sellerHotels(token, auth._id);
+      // set hotels state to that data
+      setHotels(data);
+    } catch (error) {
       console.log(error);
     }
   };
- // Method to handle button click
+  // Method to handle button click
   const handleClick = async () => {
     // set loading state to true
     setLoading(true);
@@ -55,33 +54,34 @@ const DashboardSeller = () => {
       // log error to console
       console.log(err);
       // display an error in client
-      toast.error("Stripe connect failed, Try again.");
+      toast.error('Stripe connect failed, Try again.');
       // set loading state to false
       setLoading(false);
     }
   };
 
-/*
-* Handle hotel delete method
-* Parameters: Hotel ID String
-*/
+  /*
+   * Handle hotel delete method
+   * Parameters: Hotel ID String
+   */
   const handleHotelDelete = async (hotelId) => {
     // if not canceled return
-    if (!window.confirm("Are you sure?")) return;
-      // Delete hotel method with token and hotel id  
-    deleteHotel(auth.token, hotelId).then((res) => {
-      // log the client hotel deleted meesage
-      toast.success("Hotel Deleted");
-      // call message to load seller hotels
-      loadSellersHotels();
-    }).catch((err) => {
-      // log error to console
-      console.log(err);
-      // display an error in client
-      toast.error("Hotel Delete Failed");
-    });
+    if (!window.confirm('Are you sure?')) return;
+    // Delete hotel method with token and hotel id
+    deleteHotel(auth.token, hotelId)
+      .then((res) => {
+        // log the client hotel deleted meesage
+        toast.success('Hotel Deleted');
+        // call message to load seller hotels
+        loadSellersHotels();
+      })
+      .catch((err) => {
+        // log error to console
+        console.log(err);
+        // display an error in client
+        toast.error('Hotel Delete Failed');
+      });
   };
-
 
   const connected = () => (
     <div className="container-fluid">
@@ -109,7 +109,7 @@ const DashboardSeller = () => {
       </div>
     </div>
   );
-    // Method to render not connected component
+  // Method to render not connected component
   const notConnected = () => (
     <div className="container-fluid">
       <div className="row">
@@ -126,7 +126,7 @@ const DashboardSeller = () => {
               onClick={handleClick}
               className="btn btn-primary mb-3"
             >
-              {loading ? "Processing..." : "Setup Payouts"}
+              {loading ? 'Processing...' : 'Setup Payouts'}
             </button>
             <p className="text-muted">
               <small>
@@ -150,9 +150,7 @@ const DashboardSeller = () => {
         <DashboardNav />
       </div>
 
-      {auth &&
-      auth.stripe_seller &&
-      auth.stripe_seller.charges_enabled
+      {auth && auth.stripe_seller && auth.stripe_seller.charges_enabled
         ? connected()
         : notConnected()}
     </>

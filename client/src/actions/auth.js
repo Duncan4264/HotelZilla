@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-
 /**
  * @description
  * @author Cyrus Duncan
@@ -12,98 +11,101 @@ import { toast } from 'react-toastify';
 export const register = async (user) => {
   try {
     // axios post to register URI with user paramater
-   let register = await axios.post(`${process.env.REACT_APP_API}/register/`, user);
-   // return response status
-   return register;
+    let register = await axios.post(
+      `${process.env.REACT_APP_API}/register/`,
+      user
+    );
+    // return response status
+    return register;
   } catch (error) {
     // log errors
     console.log(error);
   }
-}
+};
 
 /*
-* Method used to post login request to backend with user paramater
-*  @Post method
-*/
+ * Method used to post login request to backend with user paramater
+ *  @Post method
+ */
 export const login = async (user) => {
   try {
     console.log(user);
     // axios post request to login URI with user paramater
-    let login = await axios.post(`${process.env.REACT_APP_API}/login`, user)
-    .catch(function (error) {
-      if(error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        console.log(error.request)
-      } else {
-        console.log('Error', error.message);
-      }
-      toast.error(error.response.data);
-      return error;
-    });
+    let login = await axios
+      .post(`${process.env.REACT_APP_API}/login`, user)
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        toast.error(error.response.data);
+        return error;
+      });
     return login;
   } catch (error) {
     // log any errors to the console
     console.log(error);
   }
-}
+};
 
-
- 
 /*
-* Added method to update user in local storage
-* @ Local storage
-*/
-  export const updateUser = async (user, next) => {
-    // Get local stoarge has auth token
-    if(window.localStorage.getItem('auth')) {
-      // let JSON parse auth token
-      let auth = JSON.parse(localStorage.getItem('auth'));
-      // Set token to user 
-      auth.user = user;
-      // save token auth in JSON
-      localStorage.setItem('auth', JSON.stringify(auth));
-      next();
-    }
-  };
+ * Added method to update user in local storage
+ * @ Local storage
+ */
+export const updateUser = async (user, next) => {
+  // Get local stoarge has auth token
+  if (window.localStorage.getItem('auth')) {
+    // let JSON parse auth token
+    let auth = JSON.parse(localStorage.getItem('auth'));
+    // Set token to user
+    auth.user = user;
+    // save token auth in JSON
+    localStorage.setItem('auth', JSON.stringify(auth));
+    next();
+  }
+};
 
-  export const readUserAuth0 = async(token) => {
-    try {
+export const readUserAuth0 = async (token) => {
+  try {
     let user = await axios.get(`https://dev-w3d00qd3.us.auth0.com/userinfo`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+        Authorization: `Bearer ${token}`
+      }
+    });
     return user;
-    } catch(error) {
-      console.log(error);
-    }
+  } catch (error) {
+    console.log(error);
   }
-  
-  export const readUser = async(userId) => {
-    try {
-      console.log(userId);
-    let user = await axios.get(`${process.env.REACT_APP_API}/user/${userId}`)
+};
+
+export const readUser = async (userId) => {
+  try {
+    console.log(userId);
+    let user = await axios.get(`${process.env.REACT_APP_API}/user/${userId}`);
     console.log(user);
     return user;
-    } catch(error) {
-      console.log(error);
-    }
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  export const checkEmail = async(token, email) => {
-    try {
-      let user = await axios.get(`${process.env.REACT_APP_API}/user/email/${email}`, {
+export const checkEmail = async (token, email) => {
+  try {
+    let user = await axios.get(
+      `${process.env.REACT_APP_API}/user/email/${email}`,
+      {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return user;
-    } catch (error) {
-      console.log(error);
-    }
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return user;
+  } catch (error) {
+    console.log(error);
   }
-
-
+};

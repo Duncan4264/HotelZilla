@@ -3,9 +3,9 @@ import AuthenticationButton from './authentication-button';
 
 const AuthNav = () => {
   return (
-  <div className="navbar-nav ml-auto">
-    <AuthenticationButton />
-  </div>
+    <div className="navbar-nav ml-auto">
+      <AuthenticationButton />
+    </div>
   );
 };
 

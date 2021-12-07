@@ -1,7 +1,7 @@
-import { currencyFormatter } from "../../actions/stripe";
-import { diffDays } from "../../actions/hotel";
-import { useHistory, Link } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { currencyFormatter } from '../../actions/stripe';
+import { diffDays } from '../../actions/hotel';
+import { useHistory, Link } from 'react-router-dom';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 /**
  * @description Method to render the small card component and handle the hotel delete and edit, check if the user is the owener, render the hotel and show view single hotel
  * @author Cyrus Duncan
@@ -18,7 +18,7 @@ const SmallCard = ({
   h,
   handleHotelDelete = (f) => f,
   owner = false,
-  showViewMoreButton = true,
+  showViewMoreButton = true
 }) => {
   const history = useHistory();
   console.log(h);
@@ -44,32 +44,32 @@ const SmallCard = ({
           <div className="col-md-8">
             <div className="card-body">
               <h3 className="card-title">
-                {h.title}{" "}
+                {h.title}{' '}
                 <span className="float-right text-primary">
                   {currencyFormatter({
                     amount: h.price * 100,
-                    currency: "usd",
+                    currency: 'usd'
                   })}
-                </span>{" "}
+                </span>{' '}
               </h3>
               <p className="alert alert-info">{h.location}</p>
               <p className="card-text">{`${h.content.substring(0, 200)}...`}</p>
               <p className="card-text">
-              {diffDays(h.from, h.to) > 0 ?
-                <span className="float-right text-primary">
-                  for {diffDays(h.from, h.to)}{" "}
-                  {diffDays(h.from, h.to) <= 1 ? " day" : " days"}
-                </span>
-              : null}
+                {diffDays(h.from, h.to) > 0 ? (
+                  <span className="float-right text-primary">
+                    for {diffDays(h.from, h.to)}{' '}
+                    {diffDays(h.from, h.to) <= 1 ? ' day' : ' days'}
+                  </span>
+                ) : null}
               </p>
               <p className="card-text">
                 Available from {new Date(h.from).toLocaleDateString()}
               </p>
               {
                 <>
-                <Link to={`/user/${h.postedBy._id}`}>
-                  <h3>{h.postedBy.name}</h3>
-                </Link>
+                  <Link to={`/user/${h.postedBy._id}`}>
+                    <h3>{h.postedBy.name}</h3>
+                  </Link>
                 </>
               }
 

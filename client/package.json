@@ -45,7 +45,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:staging": "env-cmd -f .env.staging npm run build",
-    "heroku-postbuild": "react-scripts build"
+    "heroku-postbuild": "react-scripts build",
+    "code:check": "yarn code:lint; yarn code:format --check",
+    "code:clean": "yarn code:lint --fix; yarn code:format --write",
+    "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
+    "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
+    "code:check:rules": "npx eslint-config-prettier .eslintrc.js"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +71,7 @@
   },
   "devDependencies": {
     "husky": "^7.0.4",
+    "poetic": "^1.7.0",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.2"
   },
