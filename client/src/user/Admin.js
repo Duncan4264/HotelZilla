@@ -133,7 +133,7 @@ const Admin = () => {
           <div className="side-bar-icons">
             <div className="side-bar-logo text-center py-3">
               <img
-                src={profile.image || image}
+                src={profile.imageurl || image}
                 className="img-fluid rounded-circle border bg-secoundry mb-3 "
                 alt="Profile"
               />

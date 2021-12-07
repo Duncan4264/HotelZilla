@@ -1,5 +1,5 @@
 
-import {readUsers, suspendService, unSuspendService} from '../../Business/admin/AdminBusiness';
+import {readUsers, suspendService, unSuspendService} from '../../Business/admin/adminBusiness';
 /**
  * @description Method to read all users
  * @author Cyrus Duncan

@@ -1,5 +1,5 @@
-import Profile from '../../models/Profile';
-import User from '../../models/User';
+import Profile from '../../Models/profile';
+import User from '../../Models/User';
 /**
  * @description Method to read all users
  * @author Cyrus Duncan
