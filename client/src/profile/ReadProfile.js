@@ -261,17 +261,22 @@ const ReadProfile = ({ match, history }) => {
               <div className="col-4">
                 {owner && (
                   <div className="mb-3">
+                  { reviewCount > 0 && (
                     <a href={`/user/reviews/${auth._id}`}>
                       <ProfileOutlined className="text-white" />
                     </a>
+                  )}
                   </div>
                 )}
                 {hotelCount > 0 ? (
+                  <>
                   <h4 className="text-white">{hotelCount}</h4>
+                  <p>Hotel Posts</p>
+                  </>
                 ) : (
-                  <h4 className="text-white mb-2.5">0</h4>
+                ""
                 )}
-                <p>Hotel Posts</p>
+                
               </div>
               <div className="col-4">
                 {owner && (
