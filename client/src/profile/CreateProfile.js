@@ -16,7 +16,7 @@ const CreateProfile = ({ match, history }) => {
   // create the state variables
   // eslint-disable-next-line no-unused-vars
   const [profile, setProfile] = useState({});
-  const [setProfileId] = useState(null);
+  // const [setProfileId] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(false);
   // set the values of the projectin the state
@@ -49,7 +49,8 @@ const CreateProfile = ({ match, history }) => {
     let res = await readUser(match.params.userId);
     // set the profile state with the data returend
     setProfile(res.data._id);
-    setProfileId(res.data._id);
+
+    // setProfileId(res.data._id);
   };
   /*
    * Method to handle submit of form creation
@@ -75,7 +76,7 @@ const CreateProfile = ({ match, history }) => {
       // set a timeout for 1000 seconds
       setTimeout(() => {
         // reload the window
-        window.location.reload();
+        window.location.href = '/';
       }, 1000);
       // return the profile object
       return profile;

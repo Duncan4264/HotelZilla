@@ -42,7 +42,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "yarn code:check",
     "eject": "react-scripts eject",
     "build:staging": "env-cmd -f .env.staging npm run build",
     "heroku-postbuild": "react-scripts build",

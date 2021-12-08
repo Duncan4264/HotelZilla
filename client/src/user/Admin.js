@@ -170,8 +170,8 @@ const Admin = () => {
                     <td>{user.location}</td>
                     <td>
                       <img
-                        src={user.image}
-                        alt="hotel"
+                        src={user.image || user.imageurl}
+                        alt="profile"
                         width="100"
                         height="100"
                         className="img-fluid"

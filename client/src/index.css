@@ -545,6 +545,10 @@ h1.page-header {
   color: #8ac1f6;
   text-decoration: none;
 }
+.bookingError {
+  margin-bottom: 150px;
+  margin-top: 60px;
+}
 
 
 

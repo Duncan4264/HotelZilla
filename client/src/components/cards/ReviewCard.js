@@ -53,7 +53,7 @@ const ReviewCard = ({ r, handleReviewDelete = (f) => f, owner = false }) => {
           <div className="row">
             <div className="col-sm-2 text-center">
               <img
-                src={profile.image || image}
+                src={profile.imageurl || image|| profile}
                 alt="Profile"
                 className="rounded img-fluid mx-auto d-block"
               />

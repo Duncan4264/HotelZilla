@@ -89,7 +89,7 @@ const ViewLocalHotel = ({ match, history }) => {
       // call backed with response variable
       let res = await readLocalHotel(token, match.params.hotelId);
       setHotelInfo(res.data.data.body);
-     
+
       // set hotel state to response data
       setHotel(res.data.data.body.roomsAndRates.rooms[0]);
       // console.log(res.data.data.body.propertyDescription.name);
@@ -163,7 +163,7 @@ const ViewLocalHotel = ({ match, history }) => {
       ) : hotel.ratePlans[0].features[0] ? (
         <>
           <div className="container-fluid bg-secondary p-5 text-center">
-          <h1>{hotelInfo.title}</h1>
+            <h1>{hotelInfo.title}</h1>
             <h1>{name}</h1>
             <h2>{hotel.name}</h2>
           </div>

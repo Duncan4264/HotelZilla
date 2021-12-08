@@ -221,7 +221,6 @@ const ReadProfile = ({ match, history }) => {
   };
   return (
     <>
-      {console.log(profile)}
       <section className="profile">
         <header className="header">
           <div className="details mt-3">
@@ -270,7 +269,7 @@ const ReadProfile = ({ match, history }) => {
                 {hotelCount > 0 ? (
                   <h4 className="text-white">{hotelCount}</h4>
                 ) : (
-                  ''
+                  <h4 className="text-white mb-2.5">0</h4>
                 )}
                 <p>Hotel Posts</p>
               </div>
@@ -296,6 +295,11 @@ const ReadProfile = ({ match, history }) => {
             <h2>{profile.name}'s Reviews</h2>
           </div>
           <Card title={`${profile.name}'s Reviews`}>
+            {reviewCount === 0 && (
+              <div className="bookingError">
+                <h1 className="text-center">No Reviews Found</h1>
+              </div>
+            )}
             {owner
               ? reviews.map((r) => (
                   <ReviewCard key={r._id} r={r} owner={owner} />

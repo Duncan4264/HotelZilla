@@ -30,7 +30,6 @@ const Dashboard = () => {
   };
   return (
     <>
-      {console.log(booking)}
       <div className="container-fluid bg-secondary p-5">
         <NavConnect />
       </div>
@@ -51,8 +50,10 @@ const Dashboard = () => {
         </div>
         <div className="row">
           {booking.length === 0 ? (
-            <div className="col-md-12 mb-20">
-              <h1 className="text-center">No Hotel Bookings Found</h1>
+            <div className="col-md-12">
+              <div className="bookingError">
+                <h1 className="text-center">No Hotel Bookings Found</h1>
+              </div>
             </div>
           ) : null}
           {booking.map((b) => (

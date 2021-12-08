@@ -29,7 +29,7 @@ const CommentCard = ({ comment }) => {
           <div className="col-md-2">
             <img
               alt="Profile"
-              src={profile.image || image}
+              src={profile.imageurl|| image || profile.image}
               className="img img-rounded img-fluid"
             />
             <p className="text-center mt-2">
