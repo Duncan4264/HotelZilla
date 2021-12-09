@@ -50,7 +50,7 @@ const NewHotel = () => {
       toast.success('New hotel is posted');
       // reload the window after 1000 seconds
       setTimeout(() => {
-        window.location.reload();
+        window.location.href='/dashboard';
       }, 1000);
     } catch (err) {
       // log the error to the console
