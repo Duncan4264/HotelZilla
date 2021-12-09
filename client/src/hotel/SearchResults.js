@@ -9,6 +9,7 @@ import Lottie from 'react-lottie';
 import * as animationLocation from '../assets/9013-hotel.json';
 import { useSelector } from 'react-redux';
 import { readUserAuth0, checkEmail, register } from '../actions/auth';
+import { useHistory } from 'react-router-dom';
 const SearchResult = () => {
   // state
   const [hotels, setHotels] = useState();
@@ -19,6 +20,7 @@ const SearchResult = () => {
   const { getAccessTokenSilently } = useAuth0();
   // deconstruct auth from state
   const { auth } = useSelector((state) => ({ ...state }));
+  const history = useHistory();
 
   // create query string with location date and bed
   const { location, date, bed } = QueryString.parse(window.location.search);
@@ -51,6 +53,7 @@ const SearchResult = () => {
       })
       .catch((err) => {
         console.log(err);
+        history.push('/');
       });
     await listLocalHotels({ location, date, bed }, token)
       .then((res) => {
@@ -59,6 +62,7 @@ const SearchResult = () => {
       })
       .catch((err) => {
         console.log(err);
+        history.push('/');
       });
 
     setLoading(false);

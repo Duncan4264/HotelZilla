@@ -392,10 +392,10 @@ req.headers({
 	"useQueryString": true
 });
 req.end(function (response) {
+ if(response.body.suggestions[0]) {
 	if (response.error) throw new Error(response.error);
 	let Id = response.body.suggestions[0].entities[0].destinationId
   let test = Number(bed);
-  console.log(test);
   let request = unirest("GET", process.env.RAPID_API_URL);
   let theDate = moment().format('YYYY-MM-DD');
   let theDate2 = moment().add('7','days').format('YYYY-MM-DD');
@@ -420,6 +420,7 @@ if (response.error) throw new Error(response.error);
 let hotels = response.body.data.body.searchResults.results;
 res.json(hotels);
 }); 
+ }
 });
   } catch (error) {
     console.log(error);

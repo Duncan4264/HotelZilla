@@ -77,6 +77,15 @@ const TopMenuNav = () => {
                     </a>
                   </li>
                   <li className="nav-item">
+                  { auth.stripe_seller && auth.stripe_seller.charges_enabled ? (
+                    <a
+                      className="nav-link active"
+                      style={NavItemStyle}
+                      href="/dashboard"
+                    >
+                      <i class="fa fa-money" aria-hidden="true"></i> Dashboard
+                    </a>
+                  ) : (
                     <a
                       className="nav-link active"
                       style={NavItemStyle}
@@ -84,8 +93,9 @@ const TopMenuNav = () => {
                     >
                       <i className="fa fa-wpexplorer"></i> Dashboard
                     </a>
+                  )
+                  }
                   </li>
-                  {/* <li className="nav-item"><a className="nav-link active" style={NavItemStyle} href="/login" onClick={logout}><i className="fa fa-sign-in"></i>Logout</a></li> */}
                   <li>
                     <AuthNav />
                   </li>
